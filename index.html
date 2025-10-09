@@ -137,7 +137,7 @@
             <!-- LOGIN -->
             <div class="tab-pane fade show active" id="login" role="tabpanel">
               <div class="d-grid gap-2 mb-3">
-                <button class="btn btn-danger"><i class="bi bi-google"></i> Iniciar sesión con Google</button>
+                <button class="btn btn-danger" id="googleLogin"><i class="bi bi-google"></i> Iniciar sesión con Google</button>
               </div>
               <form class="mx-auto" style="max-width: 350px;">
                 <div class="mb-3">
@@ -183,10 +183,79 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Firebase Modular SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyArS6xpIackJu-MlN_StQ6oaftd-HIEHpI",
+      authDomain: "tiendaonline-232fd.firebaseapp.com",
+      projectId: "tiendaonline-232fd",
+      storageBucket: "tiendaonline-232fd.appspot.com",
+      messagingSenderId: "766983652415",
+      appId: "1:766983652415:web:1029784384e8528214248a"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // REGISTRO
+    const registerForm = document.querySelector("#register form");
+    registerForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const nombre = document.getElementById("regNombre").value;
+      const email = document.getElementById("regEmail").value;
+      const password = document.getElementById("regPassword").value;
+
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          sendEmailVerification(user)
+            .then(() => {
+              alert("Se ha enviado un correo de verificación a " + email);
+              bootstrap.Modal.getInstance(document.getElementById('authmodal')).hide();
+              registerForm.reset();
+            });
+        })
+        .catch((error) => alert(error.message));
+    });
+
+    // LOGIN
+    const loginForm = document.querySelector("#login form");
+    loginForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const email = document.getElementById("loginEmail").value;
+      const password = document.getElementById("loginPassword").value;
+
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          if (user.emailVerified) {
+            alert("¡Bienvenido " + email + "!");
+            bootstrap.Modal.getInstance(document.getElementById('authmodal')).hide();
+            loginForm.reset();
+          } else {
+            alert("Por favor, verifica tu correo antes de iniciar sesión.");
+          }
+        })
+        .catch((error) => alert(error.message));
+    });
+
+    // LOGIN GOOGLE
+    const googleBtn = document.getElementById("googleLogin");
+    googleBtn.addEventListener("click", () => {
+      const provider = new GoogleAuthProvider();
+      signInWithPopup(auth, provider)
+        .then((result) => {
+          const user = result.user;
+          alert("¡Bienvenido " + user.email + "!");
+          bootstrap.Modal.getInstance(document.getElementById('authmodal')).hide();
+        })
+        .catch((error) => alert(error.message));
+    });
+  </script>
+
 </body>
 </html>
-
-
-
-
-
