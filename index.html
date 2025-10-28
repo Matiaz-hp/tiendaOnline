@@ -219,31 +219,33 @@
     }
   });
 
-  // ---------------- LOGIN CON GOOGLE ----------------
-  const googleBtn = document.getElementById("googleLogin");
-  googleBtn.addEventListener("click", async () => {
-    const provider = new GoogleAuthProvider();
-    // 🔹 Forzar selector de cuenta de Google SIEMPRE
-    provider.setCustomParameters({
-      prompt: 'select_account'
-    });
-
-    try {
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
-
-      await setDoc(doc(db, "usuarios", user.uid), {
-        nombre: user.displayName || "",
-        email: user.email,
-        fechaRegistro: new Date().toISOString()
-      }, { merge: true });
-
-      alert("👋 Bienvenido, " + user.email);
-      bootstrap.Modal.getInstance(document.getElementById('authmodal')).hide();
-    } catch (error) {
-      alert("⚠️ Error con Google: " + error.message);
-    }
+// ---------------- LOGIN CON GOOGLE ----------------
+const googleBtn = document.getElementById("googleLogin");
+googleBtn.addEventListener("click", async () => {
+  const provider = new GoogleAuthProvider();
+  // 🔹 Mostrar selector de cuenta, pero sin pedir contraseña
+  provider.setCustomParameters({
+    prompt: 'select_account', // muestra el selector de cuentas
+    login_hint: '',            // no sugiere una cuenta específica
   });
+
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+
+    await setDoc(doc(db, "usuarios", user.uid), {
+      nombre: user.displayName || "",
+      email: user.email,
+      fechaRegistro: new Date().toISOString()
+    }, { merge: true });
+
+    alert("👋 Bienvenido, " + user.email);
+    bootstrap.Modal.getInstance(document.getElementById('authmodal')).hide();
+  } catch (error) {
+    alert("⚠️ Error con Google: " + error.message);
+  }
+});
+
 
   // ---------------- CONTROLAR SESIÓN ----------------
   onAuthStateChanged(auth, (user) => {
