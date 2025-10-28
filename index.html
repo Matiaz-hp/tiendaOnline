@@ -36,7 +36,6 @@
     <div class="container">
       <h2 class="text-center mb-4">NUESTROS PRODUCTOS</h2>
       <div class="row g-4">
-        <!-- Producto 1 -->
         <div class="col-12 col-sm-6 col-lg-3">
           <div class="card h-100 shadow-sm text-center">
             <img src="imagenes/audifono.jpg" class="card-img-top img-fluid mx-auto d-block w-75" alt="Audífono Gamer">
@@ -48,7 +47,6 @@
             </div>
           </div>
         </div>
-        <!-- Producto 2 -->
         <div class="col-12 col-sm-6 col-lg-3">
           <div class="card h-100 shadow-sm text-center">
             <img src="imagenes/camiseta.jpeg" class="card-img-top img-fluid mx-auto d-block w-75" alt="Camiseta">
@@ -60,7 +58,6 @@
             </div>
           </div>
         </div>
-        <!-- Producto 3 -->
         <div class="col-12 col-sm-6 col-lg-3">
           <div class="card h-100 shadow-sm text-center">
             <img src="imagenes/tenis.jpeg" class="card-img-top img-fluid mx-auto d-block w-75" alt="Tenis">
@@ -72,49 +69,13 @@
             </div>
           </div>
         </div>
-        <!-- Producto 4 -->
-        <div class="col-12 col-sm-6 col-lg-3">
-          <div class="card h-100 shadow-sm text-center">
-            <img src="imagenes/tenispuma.jpeg" class="card-img-top img-fluid mx-auto d-block w-75" alt="Tenis Puma">
-            <div class="card-body">
-              <h5 class="card-title">Tenis Puma</h5>
-              <p class="card-text">Tenis Puma original</p>
-              <p class="card-text fw-bold">S/ 39.90</p>
-              <button class="btn btn-primary">Comprar</button>
-            </div>
-          </div>
-        </div>
-        <!-- Producto 5 -->
-        <div class="col-12 col-sm-6 col-lg-3">
-          <div class="card h-100 shadow-sm text-center">
-            <img src="imagenes/azul.jpeg" class="card-img-top img-fluid mx-auto d-block w-75" alt="Polo Azul">
-            <div class="card-body">
-              <h5 class="card-title">Polo Azul</h5>
-              <p class="card-text">Polo de algodón</p>
-              <p class="card-text fw-bold">S/ 25.00</p>
-              <button class="btn btn-primary">Comprar</button>
-            </div>
-          </div>
-        </div>
-        <!-- Producto 6 -->
-        <div class="col-12 col-sm-6 col-lg-3">
-          <div class="card h-100 shadow-sm text-center">
-            <img src="imagenes/telefono.jpeg" class="card-img-top img-fluid mx-auto d-block w-75" alt="Teléfono Inteligente">
-            <div class="card-body">
-              <h5 class="card-title">Teléfono Inteligente</h5>
-              <p class="card-text">Alta gama</p>
-              <p class="card-text fw-bold">S/ 790.90</p>
-              <button class="btn btn-primary">Comprar</button>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </section>
 
   <!-- MODAL LOGIN / REGISTRO -->
   <div class="modal fade" id="authmodal" tabindex="-1" aria-labelledby="authmodallabel1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered ">
+    <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
 
         <div class="modal-header bg-dark text-white">
@@ -138,7 +99,7 @@
               <div class="d-grid gap-2 mb-3">
                 <button class="btn btn-danger w-100" id="googleLogin">Iniciar sesión con Google</button>
               </div>
-              <form form class="mx-auto" style="max-width: 350px;">
+              <form class="mx-auto" style="max-width: 350px;">
                 <div class="mb-3">
                   <label for="loginEmail" class="form-label">Correo electrónico</label>
                   <input type="email" class="form-control" id="loginEmail" required>
@@ -153,7 +114,7 @@
 
             <!-- REGISTRO -->
             <div class="tab-pane fade" id="register" role="tabpanel">
-              <form form class="mx-auto" style="max-width: 350px;">
+              <form class="mx-auto" style="max-width: 350px;">
                 <div class="mb-3">
                   <label class="form-label">Nombre completo</label>
                   <input type="text" class="form-control" id="regNombre" required>
@@ -183,147 +144,148 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
+  <!-- FIREBASE -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
+    import {
+      getAuth, setPersistence, browserSessionPersistence,
+      createUserWithEmailAndPassword, signInWithEmailAndPassword,
+      sendEmailVerification, GoogleAuthProvider, signInWithPopup,
+      signOut, onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
+    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
 
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
-  import {
-    getAuth,
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    sendEmailVerification,
-    GoogleAuthProvider,
-    signInWithPopup,
-    signOut,
-    onAuthStateChanged
-  } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
-  import {
-    getFirestore,
-    doc,
-    setDoc
-  } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
+    const firebaseConfig = {
+      apiKey: "AIzaSyArS6xpIackJu-MlN_StQ6oaftd-HIEHpI",
+      authDomain: "tiendaonline-232fd.firebaseapp.com",
+      projectId: "tiendaonline-232fd",
+      storageBucket: "tiendaonline-232fd.appspot.com",
+      messagingSenderId: "766983652415",
+      appId: "1:766983652415:web:1029784384e8528214248a"
+    };
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyArS6xpIackJu-MlN_StQ6oaftd-HIEHpI",
-    authDomain: "tiendaonline-232fd.firebaseapp.com",
-    projectId: "tiendaonline-232fd",
-    storageBucket: "tiendaonline-232fd.appspot.com",
-    messagingSenderId: "766983652415",
-    appId: "1:766983652415:web:1029784384e8528214248a"
-  };
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
+    // Sesión solo durante navegación (se borra al recargar)
+    await setPersistence(auth, browserSessionPersistence);
 
-  const authButtons = document.getElementById("authButtons");
+    const authButtons = document.getElementById("authButtons");
 
-  // ---------------- REGISTRO ----------------
-  const registerForm = document.querySelector("#register form");
-  registerForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const nombre = document.getElementById("regNombre").value;
-    const email = document.getElementById("regEmail").value;
-    const password = document.getElementById("regPassword").value;
+    // ---------------- REGISTRO ----------------
+    const registerForm = document.querySelector("#register form");
+    registerForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const nombre = document.getElementById("regNombre").value;
+      const email = document.getElementById("regEmail").value;
+      const password = document.getElementById("regPassword").value;
 
-    try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
-      await sendEmailVerification(user);
-      await setDoc(doc(db, "usuarios", user.uid), {
-        nombre: nombre,
-        email: email,
-        fechaRegistro: new Date().toISOString()
-      });
-      alert("✅ Cuenta creada correctamente. Se envió un correo de verificación a " + email);
-      bootstrap.Modal.getInstance(document.getElementById('authmodal')).hide();
-      registerForm.reset();
-    } catch (error) {
-      alert("⚠️ Error al registrarse: " + error.message);
-    }
-  });
-
-  // ---------------- LOGIN ----------------
-  const loginForm = document.querySelector("#login form");
-  loginForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const email = document.getElementById("loginEmail").value;
-    const password = document.getElementById("loginPassword").value;
-    try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
-      if (!user.emailVerified) {
-        alert("⚠️ Verifica tu correo electrónico antes de iniciar sesión.");
-        return;
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+        await sendEmailVerification(user);
+        await setDoc(doc(db, "usuarios", user.uid), {
+          nombre: nombre,
+          email: email,
+          fechaRegistro: new Date().toISOString()
+        });
+        alert("✅ Cuenta creada correctamente. Se envió un correo de verificación a " + email);
+        bootstrap.Modal.getInstance(document.getElementById('authmodal')).hide();
+        registerForm.reset();
+      } catch (error) {
+        alert("⚠️ Error al registrarse: " + error.message);
       }
-      alert("👋 Bienvenido, " + user.email);
-      bootstrap.Modal.getInstance(document.getElementById('authmodal')).hide();
-      loginForm.reset();
-    } catch (error) {
-      if (error.code === "auth/invalid-credential" || error.code === "auth/wrong-password" || error.code === "auth/user-not-found") {
-        alert("❌ Error de inicio de sesión. Verifica tus credenciales.");
+    });
+
+    // ---------------- LOGIN ----------------
+    const loginForm = document.querySelector("#login form");
+    loginForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("loginEmail").value;
+      const password = document.getElementById("loginPassword").value;
+      try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+        if (!user.emailVerified) {
+          alert("⚠️ Verifica tu correo electrónico antes de iniciar sesión.");
+          return;
+        }
+        alert("👋 Bienvenido, " + user.email);
+        bootstrap.Modal.getInstance(document.getElementById('authmodal')).hide();
+        loginForm.reset();
+      } catch (error) {
+        alert("❌ Error de inicio de sesión. Verifica tu correo o contraseña.");
+      }
+    });
+
+    // ---------------- LOGIN CON GOOGLE ----------------
+    const googleBtn = document.getElementById("googleLogin");
+    googleBtn.addEventListener("click", async () => {
+      const provider = new GoogleAuthProvider();
+      try {
+        const result = await signInWithPopup(auth, provider);
+        const user = result.user;
+        await setDoc(doc(db, "usuarios", user.uid), {
+          nombre: user.displayName || "",
+          email: user.email,
+          fechaRegistro: new Date().toISOString()
+        }, { merge: true });
+        alert("👋 Bienvenido, " + user.email);
+        bootstrap.Modal.getInstance(document.getElementById('authmodal')).hide();
+      } catch (error) {
+        alert("⚠️ Error con Google: " + error.message);
+      }
+    });
+
+    // ---------------- CONTROLAR SESIÓN ----------------
+    onAuthStateChanged(auth, (user) => {
+      authButtons.innerHTML = "";
+      if (user) {
+        // Perfil
+        const profileDiv = document.createElement("div");
+        profileDiv.className = "d-flex align-items-center gap-2 text-light";
+
+        const img = document.createElement("img");
+        img.src = user.photoURL || "https://cdn-icons-png.flaticon.com/512/1077/1077063.png";
+        img.width = 32;
+        img.height = 32;
+        img.className = "rounded-circle";
+
+        const nameSpan = document.createElement("span");
+        nameSpan.textContent = user.displayName || user.email.split("@")[0];
+
+        const logoutBtn = document.createElement("button");
+        logoutBtn.className = "btn btn-danger btn-sm";
+        logoutBtn.textContent = "Cerrar sesión";
+        logoutBtn.onclick = async () => {
+          await signOut(auth);
+          alert("👋 Sesión cerrada correctamente.");
+        };
+
+        profileDiv.appendChild(img);
+        profileDiv.appendChild(nameSpan);
+        profileDiv.appendChild(logoutBtn);
+        authButtons.appendChild(profileDiv);
       } else {
-        alert("⚠️ " + error.message);
+        // Botón de iniciar sesión
+        const loginBtn = document.createElement("button");
+        loginBtn.className = "btn border border-light text-light";
+        loginBtn.setAttribute("data-bs-toggle", "modal");
+        loginBtn.setAttribute("data-bs-target", "#authmodal");
+        loginBtn.textContent = "Iniciar sesión / Registrarse";
+        loginBtn.onmouseover = () => {
+          loginBtn.style.backgroundColor = 'white';
+          loginBtn.style.color = 'black';
+        };
+        loginBtn.onmouseout = () => {
+          loginBtn.style.backgroundColor = '';
+          loginBtn.style.color = 'white';
+        };
+        authButtons.appendChild(loginBtn);
       }
-    }
-  });
-
-  // ---------------- LOGIN CON GOOGLE ----------------
-  const googleBtn = document.getElementById("googleLogin");
-  googleBtn.addEventListener("click", async () => {
-    const provider = new GoogleAuthProvider();
-    try {
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
-      await setDoc(doc(db, "usuarios", user.uid), {
-        nombre: user.displayName || "",
-        email: user.email,
-        fechaRegistro: new Date().toISOString()
-      }, { merge: true });
-      alert("👋 Bienvenido, " + user.email);
-      bootstrap.Modal.getInstance(document.getElementById('authmodal')).hide();
-    } catch (error) {
-      alert("⚠️ Error con Google: " + error.message);
-    }
-  });
-
-  // ---------------- CONTROLAR SESIÓN ----------------
-  onAuthStateChanged(auth, (user) => {
-    authButtons.innerHTML = "";
-    if (user) {
-      // Mostrar perfil y botón de cerrar sesión
-      const userInfo = document.createElement("span");
-      userInfo.className = "text-light me-3";
-      userInfo.innerHTML = `👤 ${user.displayName || user.email}`;
-
-      const logoutBtn = document.createElement("button");
-      logoutBtn.className = "btn btn-danger";
-      logoutBtn.textContent = "Cerrar sesión";
-      logoutBtn.onclick = async () => {
-        await signOut(auth);
-        alert("👋 Sesión cerrada correctamente.");
-      };
-
-      authButtons.appendChild(userInfo);
-      authButtons.appendChild(logoutBtn);
-    } else {
-      // Mostrar botón de iniciar sesión
-      const loginBtn = document.createElement("button");
-      loginBtn.className = "btn border border-light text-light";
-      loginBtn.setAttribute("data-bs-toggle", "modal");
-      loginBtn.setAttribute("data-bs-target", "#authmodal");
-      loginBtn.textContent = "Iniciar sesión / Registrarse";
-      loginBtn.onmouseover = () => {
-        loginBtn.style.backgroundColor = 'white';
-        loginBtn.style.color = 'black';
-      };
-      loginBtn.onmouseout = () => {
-        loginBtn.style.backgroundColor = '';
-        loginBtn.style.color = 'white';
-      };
-      authButtons.appendChild(loginBtn);
-    }
-  });
-</script>
+    });
+  </script>
 
 </body>
 </html>
