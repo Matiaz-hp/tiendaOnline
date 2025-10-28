@@ -168,7 +168,7 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    // Sesión solo durante navegación (se borra al recargar)
+    // Sesión solo durante la navegación
     await setPersistence(auth, browserSessionPersistence);
 
     const authButtons = document.getElementById("authButtons");
@@ -224,6 +224,9 @@
     googleBtn.addEventListener("click", async () => {
       const provider = new GoogleAuthProvider();
       try {
+        // 🔹 Forzar que siempre muestre la ventana de selección de cuenta
+        await signOut(auth);
+
         const result = await signInWithPopup(auth, provider);
         const user = result.user;
         await setDoc(doc(db, "usuarios", user.uid), {
@@ -231,6 +234,7 @@
           email: user.email,
           fechaRegistro: new Date().toISOString()
         }, { merge: true });
+
         alert("👋 Bienvenido, " + user.email);
         bootstrap.Modal.getInstance(document.getElementById('authmodal')).hide();
       } catch (error) {
@@ -242,7 +246,6 @@
     onAuthStateChanged(auth, (user) => {
       authButtons.innerHTML = "";
       if (user) {
-        // Perfil
         const profileDiv = document.createElement("div");
         profileDiv.className = "d-flex align-items-center gap-2 text-light";
 
@@ -260,6 +263,12 @@
         logoutBtn.textContent = "Cerrar sesión";
         logoutBtn.onclick = async () => {
           await signOut(auth);
+          // 🔹 Limpiar sesión también del proveedor Google
+          const iframe = document.createElement("iframe");
+          iframe.src = "https://accounts.google.com/logout";
+          iframe.style.display = "none";
+          document.body.appendChild(iframe);
+          setTimeout(() => iframe.remove(), 1000);
           alert("👋 Sesión cerrada correctamente.");
         };
 
@@ -268,7 +277,6 @@
         profileDiv.appendChild(logoutBtn);
         authButtons.appendChild(profileDiv);
       } else {
-        // Botón de iniciar sesión
         const loginBtn = document.createElement("button");
         loginBtn.className = "btn border border-light text-light";
         loginBtn.setAttribute("data-bs-toggle", "modal");
