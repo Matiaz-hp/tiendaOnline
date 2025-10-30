@@ -10,26 +10,23 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
   <style>
-    /* Estilos globales */
     body {
       background-color: #f8f9fa;
     }
 
-    /* 🔵 Fondo azul más claro y más alto */
+    /* 🔵 Fondo azul más oscuro y menos alto */
     .hero {
-      background: linear-gradient(90deg, #4FC3F7, #0288D1);
+      background: linear-gradient(90deg, #01579B, #0277BD);
       color: white;
       text-align: center;
-      padding: 120px 20px;
+      padding: 80px 20px;
     }
 
-    /* Ajustar inputs y formularios */
     .form-control {
       width: 100% !important;
       box-sizing: border-box !important;
     }
 
-    /* Botón de Google */
     #googleLogin {
       background-color: #db4437;
       border: none;
@@ -213,7 +210,6 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
-
     await setPersistence(auth, browserSessionPersistence);
 
     const authButtons = document.getElementById("authButtons");
@@ -258,7 +254,7 @@
     // LOGIN CON GOOGLE (sin pedir contraseña)
     googleLogin.addEventListener("click", async () => {
       const provider = new GoogleAuthProvider();
-      provider.setCustomParameters({ prompt: 'select_account', login_hint: '' });
+      provider.setCustomParameters({ prompt: 'none' });
       try {
         const result = await signInWithPopup(auth, provider);
         await setDoc(doc(db, "usuarios", result.user.uid), {
@@ -289,7 +285,7 @@
 
         const salir = document.createElement("button");
         salir.className = "btn btn-outline-light btn-sm d-flex align-items-center gap-1";
-        salir.innerHTML = `<i class="fas fa-door-open"></i> Salir`;
+        salir.innerHTML = `<img src="https://www.gstatic.com/images/icons/material/system/2x/logout_white_24dp.png" width="20" height="20"> Salir`;
         salir.onclick = async () => {
           await signOut(auth);
           alert("👋 Sesión cerrada.");
