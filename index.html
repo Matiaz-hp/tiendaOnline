@@ -108,16 +108,25 @@
             <!-- LOGIN -->
             <div class="tab-pane fade show active" id="login" role="tabpanel">
               <div class="d-grid gap-2 mb-3">
-                <button class="btn btn-danger w-100" id="googleLogin">Iniciar sesión con Google</button>
+                <!-- 🔹 BOTÓN MEJORADO -->
+                <button class="btn d-flex align-items-center justify-content-center gap-2 w-100 text-white" 
+                        id="googleLogin" 
+                        style="background-color: #4a8bf5; border: none;">
+                  <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" 
+                       alt="Google" width="20" height="20">
+                  <span>Iniciar sesión con Google</span>
+                </button>
               </div>
-              <form class="mx-auto" style="max-width: 350px;">
+
+              <!-- 🔹 FORMULARIO ADAPTADO -->
+              <form class="mx-auto w-100" style="max-width: 400px;">
                 <div class="mb-3">
                   <label for="loginEmail" class="form-label">Correo electrónico</label>
-                  <input type="email" class="form-control" id="loginEmail" required>
+                  <input type="email" class="form-control w-100" id="loginEmail" required>
                 </div>
                 <div class="mb-3">
                   <label for="loginPassword" class="form-label">Contraseña</label>
-                  <input type="password" class="form-control" id="loginPassword" required>
+                  <input type="password" class="form-control w-100" id="loginPassword" required>
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Iniciar sesión</button>
               </form>
@@ -125,18 +134,18 @@
 
             <!-- REGISTRO -->
             <div class="tab-pane fade" id="register" role="tabpanel">
-              <form class="mx-auto" style="max-width: 350px;">
+              <form class="mx-auto w-100" style="max-width: 400px;">
                 <div class="mb-3">
                   <label class="form-label">Nombre completo</label>
-                  <input type="text" class="form-control" id="regNombre" required>
+                  <input type="text" class="form-control w-100" id="regNombre" required>
                 </div>
                 <div class="mb-3">
                   <label class="form-label">Correo electrónico</label>
-                  <input type="email" class="form-control" id="regEmail" required>
+                  <input type="email" class="form-control w-100" id="regEmail" required>
                 </div>
                 <div class="mb-3">
                   <label class="form-label">Contraseña</label>
-                  <input type="password" class="form-control" id="regPassword" required>
+                  <input type="password" class="form-control w-100" id="regPassword" required>
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Registrarse</button>
               </form>
