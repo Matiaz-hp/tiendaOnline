@@ -27,7 +27,7 @@
   </nav>
 
   <!-- SECCIÓN DE BIENVENIDA -->
-  <div class="text-center text-white py-5" style="background: linear-gradient(90deg, #2196F3, #42A5F5);">
+  <div class="text-center text-white py-5" style="background: linear-gradient(90deg, #1565C0, #42A5F5);">
     <h1 class="fw-bold">Bienvenido a Tienda Online</h1>
     <p class="mb-0">Tu tienda de equipos informáticos tecnológicos al mejor y súper precio</p>
   </div>
@@ -245,18 +245,15 @@
     const googleBtn = document.getElementById("googleLogin");
     googleBtn.addEventListener("click", async () => {
       const provider = new GoogleAuthProvider();
-      provider.setCustomParameters({ prompt: 'select_account', login_hint: '' });
-
+      provider.setCustomParameters({ prompt: 'select_account' });
       try {
         const result = await signInWithPopup(auth, provider);
         const user = result.user;
-
         await setDoc(doc(db, "usuarios", user.uid), {
           nombre: user.displayName || "",
           email: user.email,
           fechaRegistro: new Date().toISOString()
         }, { merge: true });
-
         alert("👋 Bienvenido, " + user.email);
         bootstrap.Modal.getInstance(document.getElementById('authmodal')).hide();
       } catch (error) {
@@ -323,4 +320,5 @@
 
 </body>
 </html>
+
 
