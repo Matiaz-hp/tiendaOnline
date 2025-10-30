@@ -311,5 +311,317 @@
   </script>
 
 </body>
-</html>
+</html> <!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tienda Online</title>
 
+  <link rel="icon" href="imagenes/favicon.png" type="image/x-icon">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    /* Estilos globales */
+    body {
+      background-color: #f8f9fa;
+    }
+
+    /* 🔵 Fondo azul más claro y más alto */
+    .hero {
+      background: linear-gradient(90deg, #4FC3F7, #0288D1);
+      color: white;
+      text-align: center;
+      padding: 120px 20px;
+    }
+
+    /* Ajustar inputs y formularios */
+    .form-control {
+      width: 100% !important;
+      box-sizing: border-box !important;
+    }
+
+    /* Botón de Google */
+    #googleLogin {
+      background-color: #db4437;
+      border: none;
+      transition: background-color 0.3s;
+    }
+    #googleLogin:hover {
+      background-color: #c23321;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-dark bg-dark px-4 py-3">
+    <div class="container-fluid d-flex justify-content-between align-items-center">
+      <span class="navbar-brand fw-bold fs-4">TiendaOnline</span>
+      <div id="authButtons">
+        <button class="btn border border-light text-light"
+          data-bs-toggle="modal" data-bs-target="#authmodal"
+          onmouseover="this.style.backgroundColor='white'; this.style.color='black';"
+          onmouseout="this.style.backgroundColor=''; this.style.color='white';">
+          Iniciar sesión / Registrarse
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 🔵 SECCIÓN DE BIENVENIDA -->
+  <div class="hero">
+    <h1 class="fw-bold">Bienvenido a Tienda Online</h1>
+    <p class="mb-0">Tu tienda de equipos informáticos tecnológicos al mejor precio 💻</p>
+  </div>
+
+  <!-- PRODUCTOS -->
+  <section class="py-5">
+    <div class="container">
+      <h2 class="text-center mb-4">NUESTROS PRODUCTOS</h2>
+      <div class="row g-4">
+        <div class="col-12 col-sm-6 col-lg-3">
+          <div class="card h-100 shadow-sm text-center">
+            <img src="imagenes/audifono.jpg" alt="Audífono Gamer" class="card-img-top">
+            <div class="card-body">
+              <h5 class="card-title">Audífono Gamer</h5>
+              <p class="card-text">Luces LED</p>
+              <p class="card-text fw-bold">S/ 26.90</p>
+              <button class="btn btn-primary">Comprar</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-lg-3">
+          <div class="card h-100 shadow-sm text-center">
+            <img src="imagenes/camiseta.jpeg" class="card-img-top img-fluid mx-auto d-block w-75" alt="Camiseta">
+            <div class="card-body">
+              <h5 class="card-title">Camiseta</h5>
+              <p class="card-text">Mejor camiseta</p>
+              <p class="card-text fw-bold">S/ 19.00</p>
+              <button class="btn btn-primary">Comprar</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-lg-3">
+          <div class="card h-100 shadow-sm text-center">
+            <img src="imagenes/camiseta.jpeg" class="card-img-top img-fluid mx-auto d-block w-75" alt="Camiseta">
+            <div class="card-body">
+              <h5 class="card-title">Camiseta</h5>
+              <p class="card-text">Mejor camiseta</p>
+              <p class="card-text fw-bold">S/ 19.00</p>
+              <button class="btn btn-primary">Comprar</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-lg-3">
+          <div class="card h-100 shadow-sm text-center">
+            <img src="imagenes/tenis.jpeg" class="card-img-top img-fluid mx-auto d-block w-75" alt="Tenis">
+            <div class="card-body">
+              <h5 class="card-title">Tenis</h5>
+              <p class="card-text">El mejor tenis</p>
+              <p class="card-text fw-bold">S/ 90.90</p>
+              <button class="btn btn-primary">Comprar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODAL LOGIN / REGISTRO -->
+  <div class="modal fade" id="authmodal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+
+        <div class="modal-header bg-dark text-white">
+          <h5 class="modal-title">Accede a Tienda Online</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+
+        <div class="modal-body">
+          <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#login" type="button">Iniciar sesión</button></li>
+            <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#register" type="button">Registrarse</button></li>
+          </ul>
+
+          <div class="tab-content mt-3">
+            <!-- LOGIN -->
+            <div class="tab-pane fade show active" id="login">
+              <div class="d-grid gap-2 mb-3">
+                <button class="btn d-flex align-items-center justify-content-center gap-2 w-100 text-white" id="googleLogin">
+                  <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20" height="20">
+                  <span>Iniciar sesión con Google</span>
+                </button>
+              </div>
+
+              <form class="mx-auto w-100" style="max-width: 400px;">
+                <div class="mb-3">
+                  <label for="loginEmail" class="form-label">Correo electrónico</label>
+                  <input type="email" id="loginEmail" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                  <label for="loginPassword" class="form-label">Contraseña</label>
+                  <input type="password" id="loginPassword" class="form-control" required>
+                </div>
+                <button type="submit" class="btn w-100 text-white" style="background-color:#007bff;border:none;">Iniciar sesión</button>
+              </form>
+            </div>
+
+            <!-- REGISTRO -->
+            <div class="tab-pane fade" id="register">
+              <form class="mx-auto w-100" style="max-width: 400px;">
+                <div class="mb-3">
+                  <label class="form-label">Nombre completo</label>
+                  <input type="text" id="regNombre" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Correo electrónico</label>
+                  <input type="email" id="regEmail" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Contraseña</label>
+                  <input type="password" id="regPassword" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Registrarse</button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-dark text-white text-center py-3 mt-5">
+    <p class="mb-0">&copy; Todos los derechos reservados JM - Huanuiri Palla 2025 😊</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- FIREBASE -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
+    import {
+      getAuth, setPersistence, browserSessionPersistence,
+      createUserWithEmailAndPassword, signInWithEmailAndPassword,
+      sendEmailVerification, GoogleAuthProvider, signInWithPopup,
+      signOut, onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
+    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyArS6xpIackJu-MlN_StQ6oaftd-HIEHpI",
+      authDomain: "tiendaonline-232fd.firebaseapp.com",
+      projectId: "tiendaonline-232fd",
+      storageBucket: "tiendaonline-232fd.appspot.com",
+      messagingSenderId: "766983652415",
+      appId: "1:766983652415:web:1029784384e8528214248a"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    await setPersistence(auth, browserSessionPersistence);
+
+    const authButtons = document.getElementById("authButtons");
+
+    // REGISTRO
+    document.querySelector("#register form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const nombre = regNombre.value;
+      const email = regEmail.value;
+      const password = regPassword.value;
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        await sendEmailVerification(userCredential.user);
+        await setDoc(doc(db, "usuarios", userCredential.user.uid), {
+          nombre, email, fechaRegistro: new Date().toISOString()
+        });
+        alert("✅ Cuenta creada. Revisa tu correo.");
+        bootstrap.Modal.getInstance(document.getElementById('authmodal')).hide();
+      } catch (error) {
+        alert("⚠️ " + error.message);
+      }
+    });
+
+    // LOGIN NORMAL
+    document.querySelector("#login form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = loginEmail.value;
+      const password = loginPassword.value;
+      try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        if (!userCredential.user.emailVerified) {
+          alert("⚠️ Verifica tu correo antes de entrar.");
+          return;
+        }
+        alert("👋 Bienvenido, " + userCredential.user.email);
+        bootstrap.Modal.getInstance(document.getElementById('authmodal')).hide();
+      } catch {
+        alert("❌ Credenciales incorrectas.");
+      }
+    });
+
+    // LOGIN CON GOOGLE (sin pedir contraseña)
+    googleLogin.addEventListener("click", async () => {
+      const provider = new GoogleAuthProvider();
+      provider.setCustomParameters({ prompt: 'select_account', login_hint: '' });
+      try {
+        const result = await signInWithPopup(auth, provider);
+        await setDoc(doc(db, "usuarios", result.user.uid), {
+          nombre: result.user.displayName || "",
+          email: result.user.email,
+          fechaRegistro: new Date().toISOString()
+        }, { merge: true });
+        bootstrap.Modal.getInstance(document.getElementById('authmodal')).hide();
+        alert("👋 Bienvenido, " + result.user.email);
+      } catch (err) {
+        alert("⚠️ Error con Google: " + err.message);
+      }
+    });
+
+    // CONTROL DE SESIÓN
+    onAuthStateChanged(auth, (user) => {
+      authButtons.innerHTML = "";
+      if (user) {
+        const div = document.createElement("div");
+        div.className = "d-flex align-items-center gap-2 text-light";
+
+        const img = document.createElement("img");
+        img.src = user.photoURL || "https://cdn-icons-png.flaticon.com/512/1077/1077063.png";
+        img.width = 32; img.height = 32; img.className = "rounded-circle";
+
+        const span = document.createElement("span");
+        span.textContent = user.displayName || user.email.split("@")[0];
+
+        const salir = document.createElement("button");
+        salir.className = "btn btn-outline-light btn-sm d-flex align-items-center gap-1";
+        salir.innerHTML = `<i class="fas fa-door-open"></i> Salir`;
+        salir.onclick = async () => {
+          await signOut(auth);
+          alert("👋 Sesión cerrada.");
+        };
+
+        div.append(img, span, salir);
+        authButtons.append(div);
+      } else {
+        const btn = document.createElement("button");
+        btn.className = "btn border border-light text-light";
+        btn.dataset.bsToggle = "modal";
+        btn.dataset.bsTarget = "#authmodal";
+        btn.textContent = "Iniciar sesión / Registrarse";
+        btn.onmouseover = () => { btn.style.backgroundColor='white';btn.style.color='black'; };
+        btn.onmouseout = () => { btn.style.backgroundColor='';btn.style.color='white'; };
+        authButtons.append(btn);
+      }
+    });
+  </script>
+
+</body>
+</html>
