@@ -108,17 +108,16 @@
             <!-- LOGIN -->
             <div class="tab-pane fade show active" id="login" role="tabpanel">
               <div class="d-grid gap-2 mb-3">
-                <!-- 🔹 BOTÓN MEJORADO -->
-                <button class="btn d-flex align-items-center justify-content-center gap-2 w-100 text-white" 
-                        id="googleLogin" 
+                <!-- ✅ Botón Google mejorado -->
+                <button class="btn d-flex align-items-center justify-content-center gap-2 w-100 text-white"
+                        id="googleLogin"
                         style="background-color: #4a8bf5; border: none;">
-                  <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" 
-                       alt="Google" width="20" height="20">
+                  <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" width="20" height="20">
                   <span>Iniciar sesión con Google</span>
                 </button>
               </div>
 
-              <!-- 🔹 FORMULARIO ADAPTADO -->
+              <!-- ✅ Formularios adaptados -->
               <form class="mx-auto w-100" style="max-width: 400px;">
                 <div class="mb-3">
                   <label for="loginEmail" class="form-label">Correo electrónico</label>
@@ -188,7 +187,6 @@
   const auth = getAuth(app);
   const db = getFirestore(app);
 
-  // Sesión solo durante la navegación
   await setPersistence(auth, browserSessionPersistence);
 
   const authButtons = document.getElementById("authButtons");
@@ -239,33 +237,31 @@
     }
   });
 
-// ---------------- LOGIN CON GOOGLE ----------------
-const googleBtn = document.getElementById("googleLogin");
-googleBtn.addEventListener("click", async () => {
-  const provider = new GoogleAuthProvider();
-  // 🔹 Mostrar selector de cuenta, pero sin pedir contraseña
-  provider.setCustomParameters({
-    prompt: 'select_account', // muestra el selector de cuentas
-    login_hint: '',            // no sugiere una cuenta específica
+  // ---------------- LOGIN CON GOOGLE ----------------
+  const googleBtn = document.getElementById("googleLogin");
+  googleBtn.addEventListener("click", async () => {
+    const provider = new GoogleAuthProvider();
+    provider.setCustomParameters({
+      prompt: 'select_account',
+      login_hint: '',
+    });
+
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+
+      await setDoc(doc(db, "usuarios", user.uid), {
+        nombre: user.displayName || "",
+        email: user.email,
+        fechaRegistro: new Date().toISOString()
+      }, { merge: true });
+
+      alert("👋 Bienvenido, " + user.email);
+      bootstrap.Modal.getInstance(document.getElementById('authmodal')).hide();
+    } catch (error) {
+      alert("⚠️ Error con Google: " + error.message);
+    }
   });
-
-  try {
-    const result = await signInWithPopup(auth, provider);
-    const user = result.user;
-
-    await setDoc(doc(db, "usuarios", user.uid), {
-      nombre: user.displayName || "",
-      email: user.email,
-      fechaRegistro: new Date().toISOString()
-    }, { merge: true });
-
-    alert("👋 Bienvenido, " + user.email);
-    bootstrap.Modal.getInstance(document.getElementById('authmodal')).hide();
-  } catch (error) {
-    alert("⚠️ Error con Google: " + error.message);
-  }
-});
-
 
   // ---------------- CONTROLAR SESIÓN ----------------
   onAuthStateChanged(auth, (user) => {
@@ -287,11 +283,9 @@ googleBtn.addEventListener("click", async () => {
       logoutBtn.className = "btn btn-danger btn-sm";
       logoutBtn.textContent = "Cerrar sesión";
 
-      // 🔹 Cierre completo: Firebase + Google
       logoutBtn.onclick = async () => {
         try {
           await signOut(auth);
-          // Cierra sesión del proveedor Google (desvincula cookies)
           const iframe = document.createElement("iframe");
           iframe.src = "https://accounts.google.com/logout";
           iframe.style.display = "none";
@@ -326,7 +320,5 @@ googleBtn.addEventListener("click", async () => {
   });
 </script>
 
-
 </body>
 </html>
-
