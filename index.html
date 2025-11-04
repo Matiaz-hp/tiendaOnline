@@ -35,51 +35,8 @@
   <section class="py-5">
     <div class="container">
       <h2 class="text-center mb-4">NUESTROS PRODUCTOS</h2>
-      <div class="row g-4">
-        <div class="col-12 col-sm-6 col-lg-3">
-          <div class="card h-100 shadow-sm text-center">
-            <img src="imagenes/audifono.jpg" alt="Audífono Gamer">
-            <div class="card-body">
-              <h5 class="card-title">Audífono Gamer</h5>
-              <p class="card-text">Luces LED</p>
-              <p class="card-text fw-bold">S/ 26.90</p>
-              <button class="btn btn-primary">Comprar</button>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-sm-6 col-lg-3">
-          <div class="card h-100 shadow-sm text-center">
-            <img src="imagenes/camiseta.jpeg" class="card-img-top img-fluid mx-auto d-block w-75" alt="Camiseta">
-            <div class="card-body">
-              <h5 class="card-title">Camiseta</h5>
-              <p class="card-text">Mejor camiseta</p>
-              <p class="card-text fw-bold">S/ 19.00</p>
-              <button class="btn btn-primary">Comprar</button>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-sm-6 col-lg-3">
-          <div class="card h-100 shadow-sm text-center">
-            <img src="imagenes/camiseta.jpeg" class="card-img-top img-fluid mx-auto d-block w-75" alt="Camiseta">
-            <div class="card-body">
-              <h5 class="card-title">Camiseta</h5>
-              <p class="card-text">Mejor camiseta</p>
-              <p class="card-text fw-bold">S/ 19.00</p>
-              <button class="btn btn-primary">Comprar</button>
-          </div>
-          </div>
-        </div>
-        <div class="col-12 col-sm-6 col-lg-3">
-          <div class="card h-100 shadow-sm text-center">
-            <img src="imagenes/tenis.jpeg" class="card-img-top img-fluid mx-auto d-block w-75" alt="Tenis">
-            <div class="card-body">
-              <h5 class="card-title">Tenis</h5>
-              <p class="card-text">El mejor tenis</p>
-              <p class="card-text fw-bold">S/ 90.90</p>
-              <button class="btn btn-primary">Comprar</button>
-            </div>
-          </div>
-        </div>
+      <div class="row g-4" id="productosContainer">
+        <!-- 🔥 Aquí se cargarán los productos desde Firestore -->
       </div>
     </div>
   </section>
@@ -156,7 +113,6 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
   <!-- FIREBASE -->
-
   <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
   import {
@@ -165,7 +121,9 @@
     sendEmailVerification, GoogleAuthProvider, signInWithPopup,
     signOut, onAuthStateChanged
   } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
-  import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
+  import {
+    getFirestore, doc, setDoc, collection, onSnapshot
+  } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyArS6xpIackJu-MlN_StQ6oaftd-HIEHpI",
@@ -203,9 +161,7 @@
         fechaRegistro: new Date().toISOString()
       });
 
-      // ❗Cerrar sesión para evitar que entre automático
       await signOut(auth);
-
       alert("✅ Cuenta creada. Revisa tu correo y luego inicia sesión.");
       bootstrap.Modal.getInstance(document.getElementById('authmodal')).hide();
       registerForm.reset();
@@ -226,7 +182,7 @@
       const user = userCredential.user;
 
       if (!user.emailVerified) {
-        await signOut(auth); // ❗Forzar salida si no verificó
+        await signOut(auth);
         alert("⚠️ Verifica tu correo antes de iniciar sesión.");
         return;
       }
@@ -267,7 +223,7 @@
     authButtons.innerHTML = "";
 
     if (user && !user.emailVerified) {
-      await signOut(auth); // ❗Expulsa si intenta entrar sin verificar
+      await signOut(auth);
       return;
     }
 
@@ -317,6 +273,30 @@
       authButtons.appendChild(loginBtn);
     }
   });
-    </script>
+
+  // 🔥 CARGAR PRODUCTOS EN TIEMPO REAL DESDE FIRESTORE
+  import { collection, onSnapshot } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
+
+  const productosContainer = document.getElementById("productosContainer");
+
+  onSnapshot(collection(db, "Productos"), (snapshot) => {
+    productosContainer.innerHTML = "";
+    snapshot.forEach((doc) => {
+      const p = doc.data();
+      productosContainer.innerHTML += `
+        <div class="col-12 col-sm-6 col-lg-3">
+          <div class="card h-100 shadow-sm text-center">
+            <img src="${p.imagen || 'imagenes/no-image.png'}" class="card-img-top img-fluid mx-auto d-block w-75" alt="${p.nombre}">
+            <div class="card-body">
+              <h5 class="card-title">${p.nombre}</h5>
+              <p class="card-text">${p.descripcion || ''}</p>
+              <p class="card-text fw-bold">S/ ${p.precio?.toFixed ? p.precio.toFixed(2) : p.precio}</p>
+              <button class="btn btn-primary">Comprar</button>
+            </div>
+          </div>
+        </div>`;
+    });
+  });
+  </script>
 </body>
 </html>
