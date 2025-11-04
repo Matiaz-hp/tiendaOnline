@@ -156,7 +156,8 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
   <!-- FIREBASE -->
-<script type="module">
+
+  <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
   import {
     getAuth, setPersistence, browserSessionPersistence,
@@ -179,7 +180,6 @@
   const auth = getAuth(app);
   const db = getFirestore(app);
 
-  // Sesión solo durante la navegación
   await setPersistence(auth, browserSessionPersistence);
 
   const authButtons = document.getElementById("authButtons");
@@ -195,13 +195,18 @@
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
+
       await sendEmailVerification(user);
       await setDoc(doc(db, "usuarios", user.uid), {
         nombre: nombre,
         email: email,
         fechaRegistro: new Date().toISOString()
       });
-      alert("✅ Cuenta creada correctamente. Se envió un correo de verificación a " + email);
+
+      // ❗Cerrar sesión para evitar que entre automático
+      await signOut(auth);
+
+      alert("✅ Cuenta creada. Revisa tu correo y luego inicia sesión.");
       bootstrap.Modal.getInstance(document.getElementById('authmodal')).hide();
       registerForm.reset();
     } catch (error) {
@@ -215,52 +220,57 @@
     e.preventDefault();
     const email = document.getElementById("loginEmail").value;
     const password = document.getElementById("loginPassword").value;
+
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
+
       if (!user.emailVerified) {
-        alert("⚠️ Verifica tu correo electrónico antes de iniciar sesión.");
+        await signOut(auth); // ❗Forzar salida si no verificó
+        alert("⚠️ Verifica tu correo antes de iniciar sesión.");
         return;
       }
+
       alert("👋 Bienvenido, " + user.email);
       bootstrap.Modal.getInstance(document.getElementById('authmodal')).hide();
       loginForm.reset();
     } catch (error) {
-      alert("❌ Error de inicio de sesión. Verifica tu correo o contraseña.");
+      alert("❌ Error: correo o contraseña incorrectos.");
     }
   });
 
-// ---------------- LOGIN CON GOOGLE ----------------
-const googleBtn = document.getElementById("googleLogin");
-googleBtn.addEventListener("click", async () => {
-  const provider = new GoogleAuthProvider();
-  // 🔹 Mostrar selector de cuenta, pero sin pedir contraseña
-  provider.setCustomParameters({
-    prompt: 'select_account', // muestra el selector de cuentas
-    login_hint: '',            // no sugiere una cuenta específica
+  // ---------------- LOGIN CON GOOGLE ----------------
+  const googleBtn = document.getElementById("googleLogin");
+  googleBtn.addEventListener("click", async () => {
+    const provider = new GoogleAuthProvider();
+    provider.setCustomParameters({ prompt: 'select_account', login_hint: "" });
+
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+
+      await setDoc(doc(db, "usuarios", user.uid), {
+        nombre: user.displayName || "",
+        email: user.email,
+        fechaRegistro: new Date().toISOString()
+      }, { merge: true });
+
+      alert("👋 Bienvenido, " + user.email);
+      bootstrap.Modal.getInstance(document.getElementById('authmodal')).hide();
+    } catch (error) {
+      alert("⚠️ Error con Google: " + error.message);
+    }
   });
 
-  try {
-    const result = await signInWithPopup(auth, provider);
-    const user = result.user;
-
-    await setDoc(doc(db, "usuarios", user.uid), {
-      nombre: user.displayName || "",
-      email: user.email,
-      fechaRegistro: new Date().toISOString()
-    }, { merge: true });
-
-    alert("👋 Bienvenido, " + user.email);
-    bootstrap.Modal.getInstance(document.getElementById('authmodal')).hide();
-  } catch (error) {
-    alert("⚠️ Error con Google: " + error.message);
-  }
-});
-
-
   // ---------------- CONTROLAR SESIÓN ----------------
-  onAuthStateChanged(auth, (user) => {
+  onAuthStateChanged(auth, async (user) => {
     authButtons.innerHTML = "";
+
+    if (user && !user.emailVerified) {
+      await signOut(auth); // ❗Expulsa si intenta entrar sin verificar
+      return;
+    }
+
     if (user) {
       const profileDiv = document.createElement("div");
       profileDiv.className = "d-flex align-items-center gap-2 text-light";
@@ -278,25 +288,17 @@ googleBtn.addEventListener("click", async () => {
       logoutBtn.className = "btn btn-danger btn-sm";
       logoutBtn.textContent = "Cerrar sesión";
 
-      // 🔹 Cierre completo: Firebase + Google
       logoutBtn.onclick = async () => {
-        try {
-          await signOut(auth);
-          // Cierra sesión del proveedor Google (desvincula cookies)
-          const iframe = document.createElement("iframe");
-          iframe.src = "https://accounts.google.com/logout";
-          iframe.style.display = "none";
-          document.body.appendChild(iframe);
-          setTimeout(() => iframe.remove(), 1500);
-          alert("👋 Sesión cerrada completamente.");
-        } catch (error) {
-          alert("⚠️ Error al cerrar sesión: " + error.message);
-        }
+        await signOut(auth);
+        const iframe = document.createElement("iframe");
+        iframe.src = "https://accounts.google.com/logout";
+        iframe.style.display = "none";
+        document.body.appendChild(iframe);
+        setTimeout(() => iframe.remove(), 1500);
+        alert("👋 Sesión cerrada.");
       };
 
-      profileDiv.appendChild(img);
-      profileDiv.appendChild(nameSpan);
-      profileDiv.appendChild(logoutBtn);
+      profileDiv.append(img, nameSpan, logoutBtn);
       authButtons.appendChild(profileDiv);
     } else {
       const loginBtn = document.createElement("button");
@@ -315,6 +317,6 @@ googleBtn.addEventListener("click", async () => {
       authButtons.appendChild(loginBtn);
     }
   });
-</script>
+    </script>
 </body>
 </html>
