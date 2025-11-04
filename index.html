@@ -36,7 +36,7 @@
     <div class="container">
       <h2 class="text-center mb-4">NUESTROS PRODUCTOS</h2>
       <div class="row g-4" id="productosContainer">
-        <!-- 🔥 Aquí se cargarán los productos desde Firestore -->
+        <!-- Aquí se cargarán los productos desde Firestore -->
       </div>
     </div>
   </section>
@@ -122,7 +122,7 @@
     signOut, onAuthStateChanged
   } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
   import {
-    getFirestore, doc, setDoc, collection, onSnapshot
+    getFirestore, doc, setDoc, collection, onSnapshot, addDoc
   } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
 
   const firebaseConfig = {
@@ -190,7 +190,7 @@
       alert("👋 Bienvenido, " + user.email);
       bootstrap.Modal.getInstance(document.getElementById('authmodal')).hide();
       loginForm.reset();
-    } catch (error) {
+    } catch {
       alert("❌ Error: correo o contraseña incorrectos.");
     }
   });
@@ -199,7 +199,7 @@
   const googleBtn = document.getElementById("googleLogin");
   googleBtn.addEventListener("click", async () => {
     const provider = new GoogleAuthProvider();
-    provider.setCustomParameters({ prompt: 'select_account', login_hint: "" });
+    provider.setCustomParameters({ prompt: 'select_account' });
 
     try {
       const result = await signInWithPopup(auth, provider);
@@ -246,11 +246,6 @@
 
       logoutBtn.onclick = async () => {
         await signOut(auth);
-        const iframe = document.createElement("iframe");
-        iframe.src = "https://accounts.google.com/logout";
-        iframe.style.display = "none";
-        document.body.appendChild(iframe);
-        setTimeout(() => iframe.remove(), 1500);
         alert("👋 Sesión cerrada.");
       };
 
@@ -274,27 +269,49 @@
     }
   });
 
-  // 🔥 CARGAR PRODUCTOS EN TIEMPO REAL DESDE FIRESTORE
-  import { collection, onSnapshot } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
+  // ---------------- CARGAR PRODUCTOS DESDE FIRESTORE ----------------
+  const contenedor = document.getElementById("productosContainer");
+  const productosRef = collection(db, "Productos");
 
-  const productosContainer = document.getElementById("productosContainer");
-
-  onSnapshot(collection(db, "Productos"), (snapshot) => {
-    productosContainer.innerHTML = "";
-    snapshot.forEach((doc) => {
-      const p = doc.data();
-      productosContainer.innerHTML += `
+  onSnapshot(productosRef, (snapshot) => {
+    contenedor.innerHTML = "";
+    snapshot.forEach((docSnap) => {
+      const p = docSnap.data();
+      contenedor.innerHTML += `
         <div class="col-12 col-sm-6 col-lg-3">
           <div class="card h-100 shadow-sm text-center">
-            <img src="${p.imagen || 'imagenes/no-image.png'}" class="card-img-top img-fluid mx-auto d-block w-75" alt="${p.nombre}">
+            <img src="${p.Imagen}" class="card-img-top img-fluid mx-auto d-block w-75" alt="${p.Nombre}">
             <div class="card-body">
-              <h5 class="card-title">${p.nombre}</h5>
-              <p class="card-text">${p.descripcion || ''}</p>
-              <p class="card-text fw-bold">S/ ${p.precio?.toFixed ? p.precio.toFixed(2) : p.precio}</p>
-              <button class="btn btn-primary">Comprar</button>
+              <h5 class="card-title">${p.Nombre}</h5>
+              <p class="card-text">${p.Descripción}</p>
+              <p class="card-text fw-bold">S/ ${p.Precio}</p>
+              <button class="btn btn-primary comprar-btn" data-nombre="${p.Nombre}" data-precio="${p.Precio}">Comprar</button>
             </div>
           </div>
         </div>`;
+    });
+
+    // activar botones de compra
+    document.querySelectorAll(".comprar-btn").forEach(btn => {
+      btn.addEventListener("click", async () => {
+        const user = auth.currentUser;
+        if (!user) {
+          alert("⚠️ Debes iniciar sesión para hacer un pedido.");
+          return;
+        }
+
+        try {
+          await addDoc(collection(db, "Pedidos"), {
+            uid: user.uid,
+            producto: btn.dataset.nombre,
+            precio: parseFloat(btn.dataset.precio),
+            fecha: new Date().toISOString()
+          });
+          alert("✅ Pedido registrado correctamente.");
+        } catch (error) {
+          alert("⚠️ Error al registrar el pedido: " + error.message);
+        }
+      });
     });
   });
   </script>
