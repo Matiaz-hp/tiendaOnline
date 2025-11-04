@@ -176,7 +176,7 @@
     sendEmailVerification, GoogleAuthProvider, signInWithPopup,
     signOut, onAuthStateChanged
   } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
-  import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
+  import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyArS6xpIackJu-MlN_StQ6oaftd-HIEHpI",
@@ -241,7 +241,7 @@
         return;
       }
 
-      alert("👋 Bienvenido, " + user.email);
+      alert("👋 Bienvenido, " + email);
       bootstrap.Modal.getInstance(document.getElementById('authmodal')).hide();
       loginForm.reset();
     } catch (error) {
@@ -282,6 +282,14 @@
     }
 
     if (user) {
+      let displayName = user.displayName;
+
+      // Si inició sesión con email/password, obtenemos el nombre de Firestore
+      if (!displayName) {
+        const userDoc = await getDoc(doc(db, "usuarios", user.uid));
+        if (userDoc.exists()) displayName = userDoc.data().nombre || user.email.split("@")[0];
+      }
+
       const profileDiv = document.createElement("div");
       profileDiv.className = "d-flex align-items-center gap-2 text-light";
 
@@ -292,7 +300,7 @@
       img.className = "rounded-circle";
 
       const nameSpan = document.createElement("span");
-      nameSpan.textContent = user.displayName || user.email.split("@")[0];
+      nameSpan.textContent = displayName;
 
       const logoutBtn = document.createElement("button");
       logoutBtn.className = "btn btn-danger btn-sm";
