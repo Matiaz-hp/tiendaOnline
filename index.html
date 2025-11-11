@@ -168,31 +168,32 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
   <!-- FIREBASE -->
+
   <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
-  import {
-    getAuth, setPersistence, browserSessionPersistence,
-    createUserWithEmailAndPassword, signInWithEmailAndPassword,
-    sendEmailVerification, GoogleAuthProvider, signInWithPopup,
-    signOut, onAuthStateChanged
-  } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
-  import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
+import {
+  getAuth, setPersistence, browserSessionPersistence,
+  createUserWithEmailAndPassword, signInWithEmailAndPassword,
+  sendEmailVerification, GoogleAuthProvider, signInWithPopup,
+  signOut, onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
+import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyArS6xpIackJu-MlN_StQ6oaftd-HIEHpI",
-    authDomain: "tiendaonline-232fd.firebaseapp.com",
-    projectId: "tiendaonline-232fd",
-    storageBucket: "tiendaonline-232fd.appspot.com",
-    messagingSenderId: "766983652415",
-    appId: "1:766983652415:web:1029784384e8528214248a"
-  };
+const firebaseConfig = {
+  apiKey: "AIzaSyArS6xpIackJu-MlN_StQ6oaftd-HIEHpI",
+  authDomain: "tiendaonline-232fd.firebaseapp.com",
+  projectId: "tiendaonline-232fd",
+  storageBucket: "tiendaonline-232fd.appspot.com",
+  messagingSenderId: "766983652415",
+  appId: "1:766983652415:web:1029784384e8528214248a"
+};
 
+async function initFirebase() {
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const db = getFirestore(app);
 
   await setPersistence(auth, browserSessionPersistence);
-
   const authButtons = document.getElementById("authButtons");
 
   // ---------------- REGISTRO ----------------
@@ -207,19 +208,21 @@
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      await sendEmailVerification(user);
+      // Guardar usuario en Firestore
       await setDoc(doc(db, "usuarios", user.uid), {
-        nombre: nombre,
-        email: email,
+        nombre,
+        email,
         fechaRegistro: new Date().toISOString()
       });
 
+      await sendEmailVerification(user);
       await signOut(auth);
 
       alert("✅ Cuenta creada. Revisa tu correo y luego inicia sesión.");
       bootstrap.Modal.getInstance(document.getElementById('authmodal')).hide();
       registerForm.reset();
     } catch (error) {
+      console.error(error);
       alert("⚠️ Error al registrarse: " + error.message);
     }
   });
@@ -282,19 +285,28 @@
     }
 
     if (user) {
-      let displayName = user.displayName;
+      let displayName = user.displayName || "";
+      let photoURL = user.photoURL || "https://cdn-icons-png.flaticon.com/512/1077/1077063.png";
 
-      // Si inició sesión con email/password, obtenemos el nombre de Firestore
+      // Obtener nombre desde Firestore si no está en Auth
       if (!displayName) {
-        const userDoc = await getDoc(doc(db, "usuarios", user.uid));
-        if (userDoc.exists()) displayName = userDoc.data().nombre || user.email.split("@")[0];
+        try {
+          const userDoc = await getDoc(doc(db, "usuarios", user.uid));
+          if (userDoc.exists()) {
+            displayName = userDoc.data().nombre || user.email.split("@")[0];
+          } else {
+            displayName = user.email.split("@")[0];
+          }
+        } catch (err) {
+          console.error("Error al cargar datos del usuario:", err);
+        }
       }
 
       const profileDiv = document.createElement("div");
       profileDiv.className = "d-flex align-items-center gap-2 text-light";
 
       const img = document.createElement("img");
-      img.src = user.photoURL || "https://cdn-icons-png.flaticon.com/512/1077/1077063.png";
+      img.src = photoURL;
       img.width = 32;
       img.height = 32;
       img.className = "rounded-circle";
@@ -334,6 +346,10 @@
       authButtons.appendChild(loginBtn);
     }
   });
-  </script>
+}
+
+initFirebase();
+</script>
+
 </body>
 </html>
