@@ -169,13 +169,13 @@
 
   <!-- FIREBASE -->
 
-  <script type="module">
+<script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
 import {
   getAuth, setPersistence, browserSessionPersistence,
   createUserWithEmailAndPassword, signInWithEmailAndPassword,
   sendEmailVerification, GoogleAuthProvider, signInWithPopup,
-  signOut, onAuthStateChanged
+  signOut, onAuthStateChanged, updateProfile
 } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
 import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
 
@@ -192,33 +192,41 @@ async function initFirebase() {
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const db = getFirestore(app);
-
   await setPersistence(auth, browserSessionPersistence);
+
   const authButtons = document.getElementById("authButtons");
 
   // ---------------- REGISTRO ----------------
   const registerForm = document.querySelector("#register form");
   registerForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const nombre = document.getElementById("regNombre").value;
-    const email = document.getElementById("regEmail").value;
-    const password = document.getElementById("regPassword").value;
+    const nombre = document.getElementById("regNombre").value.trim();
+    const email = document.getElementById("regEmail").value.trim();
+    const password = document.getElementById("regPassword").value.trim();
 
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      // Guardar usuario en Firestore
+      // Asignar nombre y foto por defecto en Auth
+      const defaultPhoto = "https://cdn-icons-png.flaticon.com/512/1077/1077063.png";
+      await updateProfile(user, {
+        displayName: nombre,
+        photoURL: defaultPhoto
+      });
+
+      // Guardar en Firestore
       await setDoc(doc(db, "usuarios", user.uid), {
         nombre,
         email,
+        photoURL: defaultPhoto,
         fechaRegistro: new Date().toISOString()
       });
 
       await sendEmailVerification(user);
       await signOut(auth);
 
-      alert("✅ Cuenta creada. Revisa tu correo y luego inicia sesión.");
+      alert("✅ Cuenta creada correctamente. Revisa tu correo y luego inicia sesión.");
       bootstrap.Modal.getInstance(document.getElementById('authmodal')).hide();
       registerForm.reset();
     } catch (error) {
@@ -231,8 +239,8 @@ async function initFirebase() {
   const loginForm = document.querySelector("#login form");
   loginForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const email = document.getElementById("loginEmail").value;
-    const password = document.getElementById("loginPassword").value;
+    const email = document.getElementById("loginEmail").value.trim();
+    const password = document.getElementById("loginPassword").value.trim();
 
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
@@ -247,7 +255,7 @@ async function initFirebase() {
       alert("👋 Bienvenido, " + email);
       bootstrap.Modal.getInstance(document.getElementById('authmodal')).hide();
       loginForm.reset();
-    } catch (error) {
+    } catch {
       alert("❌ Error: correo o contraseña incorrectos.");
     }
   });
@@ -265,6 +273,7 @@ async function initFirebase() {
       await setDoc(doc(db, "usuarios", user.uid), {
         nombre: user.displayName || "",
         email: user.email,
+        photoURL: user.photoURL || "",
         fechaRegistro: new Date().toISOString()
       }, { merge: true });
 
@@ -275,7 +284,7 @@ async function initFirebase() {
     }
   });
 
-  // ---------------- CONTROLAR SESIÓN ----------------
+  // ---------------- CONTROL DE SESIÓN ----------------
   onAuthStateChanged(auth, async (user) => {
     authButtons.innerHTML = "";
 
@@ -285,23 +294,23 @@ async function initFirebase() {
     }
 
     if (user) {
+      // Nombre y foto
       let displayName = user.displayName || "";
-      let photoURL = user.photoURL || "https://cdn-icons-png.flaticon.com/512/1077/1077063.png";
+      let photoURL = user.photoURL || "";
 
-      // Obtener nombre desde Firestore si no está en Auth
-      if (!displayName) {
-        try {
-          const userDoc = await getDoc(doc(db, "usuarios", user.uid));
-          if (userDoc.exists()) {
-            displayName = userDoc.data().nombre || user.email.split("@")[0];
-          } else {
-            displayName = user.email.split("@")[0];
-          }
-        } catch (err) {
-          console.error("Error al cargar datos del usuario:", err);
+      // Verificar si hay datos en Firestore
+      try {
+        const userDoc = await getDoc(doc(db, "usuarios", user.uid));
+        if (userDoc.exists()) {
+          const data = userDoc.data();
+          displayName = data.nombre || displayName || user.email.split("@")[0];
+          photoURL = data.photoURL || photoURL || "https://cdn-icons-png.flaticon.com/512/1077/1077063.png";
         }
+      } catch (err) {
+        console.error("Error al obtener datos del usuario:", err);
       }
 
+      // Mostrar perfil
       const profileDiv = document.createElement("div");
       profileDiv.className = "d-flex align-items-center gap-2 text-light";
 
@@ -330,6 +339,7 @@ async function initFirebase() {
       profileDiv.append(img, nameSpan, logoutBtn);
       authButtons.appendChild(profileDiv);
     } else {
+      // Botón para abrir el modal
       const loginBtn = document.createElement("button");
       loginBtn.className = "btn border border-light text-light";
       loginBtn.setAttribute("data-bs-toggle", "modal");
@@ -350,6 +360,7 @@ async function initFirebase() {
 
 initFirebase();
 </script>
+
 
 </body>
 </html>
