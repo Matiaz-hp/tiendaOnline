@@ -57,51 +57,8 @@
   <section class="py-5">
     <div class="container">
       <h2 class="text-center mb-4">NUESTROS PRODUCTOS</h2>
-      <div class="row g-4">
-        <div class="col-12 col-sm-6 col-lg-3">
-          <div class="card h-100 shadow-sm text-center">
-            <img src="imagenes/audifono.jpg" alt="Audífono Gamer" class="card-img-top mx-auto d-block w-75">
-            <div class="card-body">
-              <h5 class="card-title">Audífono Gamer</h5>
-              <p class="card-text">Luces LED</p>
-              <p class="card-text fw-bold">S/ 26.90</p>
-              <button class="btn btn-primary">Comprar</button>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-sm-6 col-lg-3">
-          <div class="card h-100 shadow-sm text-center">
-            <img src="imagenes/camiseta.jpeg" alt="Camiseta" class="card-img-top mx-auto d-block w-75">
-            <div class="card-body">
-              <h5 class="card-title">Camiseta</h5>
-              <p class="card-text">Mejor camiseta</p>
-              <p class="card-text fw-bold">S/ 19.00</p>
-              <button class="btn btn-primary">Comprar</button>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-sm-6 col-lg-3">
-          <div class="card h-100 shadow-sm text-center">
-            <img src="imagenes/camiseta.jpeg" alt="Camiseta" class="card-img-top mx-auto d-block w-75">
-            <div class="card-body">
-              <h5 class="card-title">Camiseta</h5>
-              <p class="card-text">Mejor camiseta</p>
-              <p class="card-text fw-bold">S/ 19.00</p>
-              <button class="btn btn-primary">Comprar</button>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-sm-6 col-lg-3">
-          <div class="card h-100 shadow-sm text-center">
-            <img src="imagenes/tenis.jpeg" alt="Tenis" class="card-img-top mx-auto d-block w-75">
-            <div class="card-body">
-              <h5 class="card-title">Tenis</h5>
-              <p class="card-text">El mejor tenis</p>
-              <p class="card-text fw-bold">S/ 90.90</p>
-              <button class="btn btn-primary">Comprar</button>
-            </div>
-          </div>
-        </div>
+      <div class="row g-4" id="productosContainer">
+        <!-- Productos dinámicos desde Firestore -->
       </div>
     </div>
   </section>
@@ -187,7 +144,10 @@ import {
   sendEmailVerification, GoogleAuthProvider, signInWithPopup,
   signOut, onAuthStateChanged, updateProfile
 } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
+
+import {
+  getFirestore, doc, setDoc, getDoc, collection, getDocs
+} from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyArS6xpIackJu-MlN_StQ6oaftd-HIEHpI",
@@ -205,6 +165,7 @@ async function initFirebase() {
   await setPersistence(auth, browserSessionPersistence);
 
   const authButtons = document.getElementById("authButtons");
+  const productosContainer = document.getElementById("productosContainer");
 
   // ---------------- REGISTRO ----------------
   const registerForm = document.getElementById("registerForm");
@@ -218,16 +179,13 @@ async function initFirebase() {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      const defaultPhoto = ""; // deja vacío si vas a subir la foto manualmente
+      await updateProfile(user, { displayName: nombre });
 
-      await updateProfile(user, { displayName: nombre, photoURL: defaultPhoto });
-
-      // 🔹 Guardar usuario en Firestore
       await setDoc(doc(db, "usuarios", user.uid), {
         uid: user.uid,
         nombre: nombre,
         email: email,
-        photoURL: defaultPhoto
+        photoURL: ""
       });
 
       await sendEmailVerification(user);
@@ -291,9 +249,57 @@ async function initFirebase() {
     }
   });
 
+  // ---------------- FUNCIONES PRODUCTOS ----------------
+  async function cargarProductos() {
+    productosContainer.innerHTML = "";
+    const productosSnap = await getDocs(collection(db, "productos"));
+    productosSnap.forEach(docSnap => {
+      const prod = docSnap.data();
+      const col = document.createElement("div");
+      col.className = "col-12 col-sm-6 col-lg-3";
+      col.innerHTML = `
+        <div class="card h-100 shadow-sm text-center">
+          <img src="${prod.imagenURL}" alt="${prod.nombre}" class="card-img-top mx-auto d-block w-75">
+          <div class="card-body">
+            <h5 class="card-title">${prod.nombre}</h5>
+            <p class="card-text">${prod.descripcion}</p>
+            <p class="card-text fw-bold">S/ ${prod.precio}</p>
+            <button class="btn btn-primary comprarBtn" data-id="${docSnap.id}">Comprar</button>
+          </div>
+        </div>
+      `;
+      productosContainer.appendChild(col);
+    });
+
+    document.querySelectorAll(".comprarBtn").forEach(btn => {
+      btn.addEventListener("click", async (e) => {
+        const prodId = e.target.dataset.id;
+        if (!auth.currentUser) { alert("⚠️ Debes iniciar sesión para comprar"); return; }
+
+        try {
+          const prodDoc = await getDoc(doc(db, "productos", prodId));
+          const prodData = prodDoc.data();
+          await setDoc(doc(db, "pedidos", `${auth.currentUser.uid}_${Date.now()}`), {
+            uid: auth.currentUser.uid,
+            productoId: prodId,
+            nombre: prodData.nombre,
+            precio: prodData.precio,
+            fecha: new Date().toISOString(),
+            estado: "pendiente"
+          });
+          alert("✅ Pedido realizado!");
+        } catch (err) {
+          console.error(err);
+          alert("⚠️ Error al realizar el pedido");
+        }
+      });
+    });
+  }
+
   // ---------------- CONTROL DE SESIÓN ----------------
   onAuthStateChanged(auth, async (user) => {
     authButtons.innerHTML = "";
+    await cargarProductos();
 
     if (user && !user.emailVerified) {
       await signOut(auth);
@@ -301,27 +307,17 @@ async function initFirebase() {
     }
 
     if (user) {
-      let displayName = user.displayName || "";
-      let photoURL = user.photoURL || "";
-
-      try {
-        const userDoc = await getDoc(doc(db, "usuarios", user.uid));
-        if (userDoc.exists()) {
-          const data = userDoc.data();
-          displayName = data.nombre || displayName || user.email.split("@")[0];
-          photoURL = data.photoURL || photoURL;
-        }
-      } catch (err) {
-        console.error("Error al obtener datos del usuario:", err);
-      }
+      const userDoc = await getDoc(doc(db, "usuarios", user.uid));
+      const data = userDoc.exists() ? userDoc.data() : {};
+      const displayName = data.nombre || user.displayName || user.email.split("@")[0];
+      const photoURL = data.photoURL || "";
 
       const profileDiv = document.createElement("div");
       profileDiv.className = "d-flex align-items-center gap-2 text-light";
 
       const img = document.createElement("img");
       img.src = photoURL;
-      img.width = 32;
-      img.height = 32;
+      img.width = 32; img.height = 32;
       img.className = "rounded-circle";
 
       const nameSpan = document.createElement("span");
