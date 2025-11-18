@@ -253,9 +253,8 @@ googleBtn.addEventListener("click", async () => {
     // Guardar en Firestore si no existe
     await setDoc(doc(db, "usuarios", user.uid), {
       nombre: user.displayName,
-      email: user.email,
       foto: user.photoURL
-    });
+    }, { merge: true }); // merge: true para no sobreescribir otros campos
     cerrarModalAuth();
   } catch (err) {
     alert("Error al iniciar sesión con Google. Revisa tu dominio autorizado en Firebase: matiaz-hp.github.io");
@@ -273,10 +272,10 @@ registerForm.addEventListener("submit", async e => {
     const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
     const user = userCredential.user;
 
-    // Guardar usuario en Firestore
+    // Guardar usuario en Firestore con nombre y avatar generado
     await setDoc(doc(db, "usuarios", user.uid), {
       nombre: nombre,
-      email: email
+      foto: "https://ui-avatars.com/api/?name=" + encodeURIComponent(nombre) + "&background=random"
     });
 
     alert("Registro exitoso");
