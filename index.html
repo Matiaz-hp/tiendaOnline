@@ -1,295 +1,248 @@
-
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tienda Online</title>
-  <link rel="icon" href="imagenes/favicon.png" type="image/x-icon">
+  <title>tienda online</title>
+  <!-- Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 </head>
-<body class="bg-white">
 
-  <!-- NAVBAR -->
-  <nav class="navbar navbar-dark bg-dark px-4 py-3">
-    <div class="container-fluid d-flex justify-content-between align-items-center">
-      <span class="navbar-brand fw-bold fs-3">🛒 TiendaOnline</span>
-      <div id="authButtons"></div>
+<body>
+  
+ <!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="#">TIENDA ONLINE</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu"
+      aria-controls="menu" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="menu">
+      <ul class="navbar-nav ms-auto align-items-center">
+        <li class="nav-item" id="loginItem">
+          <button class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#authModal">
+            Iniciar sesión / Registrarse
+          </button>
+        </li>
+        <li class="nav-item ms-3 d-none" id="userContainer"></li>
+      </ul>
     </div>
-  </nav>
+  </div>
+</nav>
 
-  <!-- HERO -->
-  <header class="text-white text-center py-5 bg-primary">
-    <h1 class="fw-bold">Bienvenido a Tienda Online</h1>
-    <p class="mb-0">Tu tienda de equipos tecnológicos al mejor precio ⚡</p>
-  </header>
+<!-- HEADER -->
+<header class="bg-primary text-white text-center py-5">
+  <div class="container">
+    <h1 class="display-4">Bienvenido a TIENDA ONLINE</h1>
+    <p class="lead">Tu tienda de confianza al mejor precio</p>
+  </div>
+</header>
 
-  <!-- PRODUCTOS -->
-  <section class="py-5">
-    <div class="container">
-      <h2 class="text-center mb-4 fw-bold text-dark">🧩 NUESTROS PRODUCTOS</h2>
-      <div class="row g-4" id="productosContainer"></div>
+<!-- PRODUCTOS -->
+<section class="py-5">
+  <div class="container">
+    <h2 class="text-center mb-4">NUESTROS PRODUCTOS</h2>
+    <div class="row g-4 justify-content-center" id="productosContainer">
+      <!-- Los productos se cargarán dinámicamente -->
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- MODAL LOGIN/REGISTRO -->
-  <div class="modal fade" id="authmodal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-
-        <div class="modal-header bg-dark text-white">
-          <h5 class="modal-title">Accede a Tienda Online</h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-        </div>
-
-        <div class="modal-body">
-
-          <!-- TABS -->
-          <ul class="nav nav-tabs justify-content-center" id="authTabs">
-            <li class="nav-item">
-              <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#login">Iniciar sesión</button>
-            </li>
-            <li class="nav-item">
-              <button class="nav-link" data-bs-toggle="tab" data-bs-target="#register">Registrarse</button>
-            </li>
-          </ul>
-
-          <div class="tab-content mt-3">
-
-            <!-- LOGIN -->
-            <div class="tab-pane fade show active" id="login">
-              <button id="googleLogin" class="btn btn-danger w-100 mb-3">
-                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" style="height:18px; margin-right:8px;">
-                Iniciar sesión con Google
+<!-- MODAL LOGIN/REGISTRO -->
+<div class="modal fade" id="authModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-dark text-white">
+        <h5 class="modal-title">Acceder a tu cuenta</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <ul class="nav nav-tabs mb-3" id="authTabs">
+          <li class="nav-item">
+            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#loginTab">Iniciar Sesión</button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#registerTab">Registrarse</button>
+          </li>
+        </ul>
+        <div class="tab-content mt-3">
+          <!-- LOGIN -->
+          <div class="tab-pane fade show active" id="loginTab">
+            <div class="d-grid mb-3">
+              <button id="googleLoginBtn" class="btn btn-danger">
+                <i class="bi bi-google"></i> Iniciar sesión con Google
               </button>
-
-              <form id="loginForm">
-                <label>Correo</label>
-                <input type="email" class="form-control" id="loginEmail" required>
-                <label class="mt-2">Contraseña</label>
-                <input type="password" class="form-control" id="loginPassword" required>
-                <button type="submit" class="btn btn-primary w-100 mt-3">Iniciar sesión</button>
-              </form>
             </div>
-
-            <!-- REGISTRO -->
-            <div class="tab-pane fade" id="register">
-              <form id="registerForm">
+            <form id="loginForm">
+              <div class="mb-3">
+                <label>Email</label>
+                <input type="email" id="loginEmail" class="form-control" required>
+              </div>
+              <div class="mb-3">
+                <label>Contraseña</label>
+                <input type="password" id="loginPassword" class="form-control" required minlength="6">
+              </div>
+              <button class="btn btn-primary w-100">Iniciar Sesión</button>
+            </form>
+          </div>
+          <!-- REGISTRO -->
+          <div class="tab-pane fade" id="registerTab">
+            <form id="registerForm">
+              <div class="mb-3">
                 <label>Nombre completo</label>
-                <input type="text" class="form-control" id="regNombre" required>
-                <label class="mt-2">Correo</label>
-                <input type="email" class="form-control" id="regEmail" required>
-                <label class="mt-2">Contraseña</label>
-                <input type="password" class="form-control" id="regPassword" required>
-                <button type="submit" class="btn btn-primary w-100 mt-3">Registrarse</button>
-              </form>
-            </div>
-
+                <input type="text" id="regNombre" class="form-control" required>
+              </div>
+              <div class="mb-3">
+                <label>Email</label>
+                <input type="email" id="regEmail" class="form-control" required>
+              </div>
+              <div class="mb-3">
+                <label>Contraseña</label>
+                <input type="password" id="regPassword" class="form-control" required minlength="6">
+              </div>
+              <button class="btn btn-primary w-100">Registrarse</button>
+            </form>
           </div>
         </div>
-
       </div>
     </div>
   </div>
+</div>
 
-  <!-- FOOTER -->
-  <footer class="bg-dark text-white text-center py-3">
-    © 2025 JM - Huanuiri Palla | Todos los derechos reservados 😊
-  </footer>
+<!-- FOOTER -->
+<footer class="bg-dark text-white text-center py-3 mt-5">
+  <p class="mb-0">&copy; 2025 TIENDA ONLINE - Todos los derechos reservados</p>
+</footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script type="module">
-  // ---------- IMPORTAR FIREBASE ----------
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
-  import {
-    getAuth, setPersistence, browserSessionPersistence,
-    createUserWithEmailAndPassword, signInWithEmailAndPassword,
-    sendEmailVerification, GoogleAuthProvider, signInWithPopup,
-    signOut, onAuthStateChanged, updateProfile
-  } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
-  import {
-    getFirestore, doc, setDoc, collection, addDoc
-  } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
+<!-- BOOTSTRAP JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-  // ---------- CONFIG FIREBASE ----------
-  const firebaseConfig = {
-    apiKey: "AIzaSyArS6xpIackJu-MlN_StQ6oaftd-HIEHpI",
-    authDomain: "tiendaonline-232fd.firebaseapp.com",
-    projectId: "tiendaonline-232fd",
-    storageBucket: "tiendaonline-232fd.appspot.com",
-    messagingSenderId: "766983652415",
-    appId: "1:766983652415:web:1029784384e8528214248a"
-  };
+<!-- FIREBASE -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
+import { getFirestore, collection, doc, setDoc, addDoc } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
+// --------- CONFIGURACIÓN DE TU FIREBASE ---------
+const firebaseConfig = {
+  apiKey: "AIzaSyArS6xpIackJu-MlN_StQ6oaftd-HIEHpI",
+  authDomain: "tiendaonline-232fd.firebaseapp.com",
+  projectId: "tiendaonline-232fd",
+  storageBucket: "tiendaonline-232fd.appspot.com",
+  messagingSenderId: "766983652415",
+  appId: "1:766983652415:web:1029784384e8528214248a"
+};
 
-  await setPersistence(auth, browserSessionPersistence);
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const provider = new GoogleAuthProvider();
 
-  const authButtons = document.getElementById("authButtons");
-  const productosContainer = document.getElementById("productosContainer");
+// ---------- PRODUCTOS ----------
+const productos = [
+  { nombre:"Ramo de flores eternas", descripcion:"Decoración natural y duradera", precio:30, imagen:"images/descarga (41).jpeg" },
+  { nombre:"Variedad de ramos de flores eternas", descripcion:"flores eternas", precio:45, imagen:"images/descarga (42).jpeg" },
+  { nombre:"Variedad de ramos de flores eternas", descripcion:"flores eternas", precio:45, imagen:"images/descarga (43).jpeg" },
+  { nombre:"Variedad de ramos de flores eternas", descripcion:"flores eternas", precio:45, imagen:"images/descarga (44).jpeg" },
+  { nombre:"Variedad de ramos de flores eternas", descripcion:"flores eternas", precio:50, imagen:"images/Rosas eternas amarillas.jpeg" },
+  { nombre:"Variedad de ramos de flores eternas", descripcion:"flores eternas", precio:35, imagen:"images/Rosas eternas.jpeg" }
+];
 
-  function mostrarAlerta(msg) { alert(msg); }
-
-  // ---------- REGISTRO ----------
-  registerForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const nombre = regNombre.value.trim();
-    const email = regEmail.value.trim();
-    const password = regPassword.value.trim();
-
-    try {
-      const cred = await createUserWithEmailAndPassword(auth, email, password);
-      const user = cred.user;
-
-      await updateProfile(user, { displayName: nombre });
-
-      await setDoc(doc(db, "usuarios", user.uid), {
-        uid: user.uid,
-        nombre,
-        email,
-        photoURL: ""
-      });
-
-      await sendEmailVerification(user);
-      mostrarAlerta("✅ Cuenta creada. Revisa tu correo para verificar.");
-      bootstrap.Modal.getInstance(authmodal).hide();
-      await signOut(auth);
-    } catch (e) {
-      mostrarAlerta("⚠️ Error al registrarse: " + e.message);
-    }
-  });
-
-  // ---------- LOGIN ----------
-  loginForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    try {
-      const cred = await signInWithEmailAndPassword(auth, loginEmail.value, loginPassword.value);
-      const user = cred.user;
-
-      if (!user.emailVerified) {
-        await signOut(auth);
-        mostrarAlerta("⚠️ Debes verificar tu correo antes de ingresar.");
-        return;
-      }
-
-      bootstrap.Modal.getInstance(authmodal).hide();
-      mostrarAlerta("👋 Bienvenido " + (user.displayName || user.email));
-    } catch {
-      mostrarAlerta("❌ Credenciales incorrectas.");
-    }
-  });
-
-  // ---------- LOGIN CON GOOGLE ----------
-  googleLogin.addEventListener("click", async () => {
-    const provider = new GoogleAuthProvider();
-    provider.setCustomParameters({ prompt: "select_account" });
-
-    try {
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
-
-      await setDoc(doc(db, "usuarios", user.uid), {
-        uid: user.uid,
-        nombre: user.displayName || "",
-        email: user.email,
-        photoURL: user.photoURL || ""
-      }, { merge: true });
-
-      bootstrap.Modal.getInstance(authmodal).hide();
-      mostrarAlerta("👋 Bienvenido " + (user.displayName || user.email));
-    } catch (e) {
-      mostrarAlerta("⚠️ Error con Google: " + e.message);
-    }
-  });
-
-  // ---------- CARGAR PRODUCTOS ----------
-  const productosEjemplo = [
-    { nombre: "Mouse Gamer", descripcion: "RGB Pro", precio: 120, imagenURL: "imagenes/mouse.jpg" },
-    { nombre: "Teclado Mecánico", descripcion: "Switch Blue", precio: 250, imagenURL: "imagenes/teclado.jpg" },
-    { nombre: "Monitor 24''", descripcion: "Full HD", precio: 800, imagenURL: "imagenes/monitor.jpg" },
-    { nombre: "Audífonos Pro", descripcion: "7.1 Surround", precio: 180, imagenURL: "imagenes/audifonos.jpg" }
-  ];
-
-  function agregarProductoCard(p) {
+const productosContainer = document.getElementById("productosContainer");
+function cargarProductos(){
+  productosContainer.innerHTML = "";
+  productos.forEach(p=>{
     const col = document.createElement("div");
-    col.className = "col-12 col-sm-6 col-lg-3"; // 4 columnas en desktop
-
+    col.className = "col-md-4";
     col.innerHTML = `
       <div class="card h-100 shadow-sm">
-        <img src="${p.imagenURL}" class="card-img-top" alt="${p.nombre}">
+        <img src="${p.imagen}" class="card-img-top">
         <div class="card-body text-center">
-          <h5>${p.nombre}</h5>
-          <p>${p.descripcion}</p>
-          <p class="fw-bold">S/ ${p.precio}</p>
-          <button class="btn btn-primary comprarBtn">Comprar</button>
+          <h5 class="card-title">${p.nombre}</h5>
+          <p class="card-text">${p.descripcion}</p>
+          <p class="fw-bold">s/${p.precio}.00</p>
+          <button class="btn btn-primary comprarBtn">AGREGAR AL CARRITO</button>
         </div>
       </div>
     `;
-
     col.querySelector(".comprarBtn").onclick = () => agregarCarrito(p);
     productosContainer.appendChild(col);
-  }
-
-  function cargarProductos() {
-    productosContainer.innerHTML = "";
-    productosEjemplo.forEach(p => agregarProductoCard(p));
-  }
-
-  async function agregarCarrito(producto) {
-    const user = auth.currentUser;
-    if (!user) {
-      mostrarAlerta("⚠️ Debes iniciar sesión para comprar.");
-      return;
-    }
-
-    try {
-      await addDoc(collection(db, "carrito", user.uid, "items"), producto);
-      mostrarAlerta("✅ Producto agregado al carrito.");
-    } catch (e) {
-      mostrarAlerta("⚠️ Error al agregar al carrito: " + e.message);
-    }
-  }
-
-  onAuthStateChanged(auth, async (user) => {
-    authButtons.innerHTML = "";
-    cargarProductos();
-
-    if (user && !user.emailVerified) {
-      await signOut(auth);
-      return;
-    }
-
-    if (user) {
-      const photo = user.photoURL || "https://cdn-icons-png.flaticon.com/512/149/149071.png";
-      const displayName = user.displayName || user.email;
-
-      authButtons.innerHTML = `
-        <div class="d-flex align-items-center gap-2 text-light">
-          <img src="${photo}" class="rounded-circle" width="34">
-          <span>${displayName}</span>
-          <button class="btn btn-danger btn-sm" id="logoutBtn">Salir</button>
-        </div>
-      `;
-
-      document.getElementById("logoutBtn").onclick = async () => {
-        await signOut(auth);
-        mostrarAlerta("👋 Sesión cerrada.");
-      };
-
-    } else {
-      authButtons.innerHTML = `
-        <button class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#authmodal">
-          Iniciar sesión / Registrarse
-        </button>
-      `;
-    }
   });
+}
+cargarProductos();
 
-  cargarProductos();
-  </script>
+async function agregarCarrito(producto){
+  const user = auth.currentUser;
+  if(!user){ alert("Debes iniciar sesión para agregar al carrito"); return; }
+  try{
+    await addDoc(collection(db,"carrito",user.uid,"items"), producto);
+    alert("Producto agregado al carrito");
+  } catch(e){ alert("Error: "+e.message); }
+}
+
+// ---------- AUTH ----------
+const loginForm = document.getElementById("loginForm");
+const registerForm = document.getElementById("registerForm");
+const googleBtn = document.getElementById("googleLoginBtn");
+
+// Registro
+registerForm.addEventListener("submit", async e=>{
+  e.preventDefault();
+  const nombre = document.getElementById("regNombre").value.trim();
+  const email = document.getElementById("regEmail").value.trim();
+  const pass = document.getElementById("regPassword").value;
+  try{
+    const cred = await createUserWithEmailAndPassword(auth,email,pass);
+    await updateProfile(cred.user, {displayName:nombre});
+    await setDoc(doc(db,"usuarios",cred.user.uid), {uid:cred.user.uid, nombre, email});
+    alert("Registro exitoso");
+    bootstrap.Modal.getInstance(document.getElementById("authModal")).hide();
+  } catch(e){ alert("Error al registrarse: "+e.message); }
+});
+
+// Login
+loginForm.addEventListener("submit", async e=>{
+  e.preventDefault();
+  try{
+    await signInWithEmailAndPassword(auth, document.getElementById("loginEmail").value, document.getElementById("loginPassword").value);
+    bootstrap.Modal.getInstance(document.getElementById("authModal")).hide();
+  } catch{ alert("Credenciales incorrectas"); }
+});
+
+// Login Google
+googleBtn.addEventListener("click", async ()=>{
+  try{
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+    await setDoc(doc(db,"usuarios",user.uid), {uid:user.uid, nombre:user.displayName, email:user.email}, {merge:true});
+    bootstrap.Modal.getInstance(document.getElementById("authModal")).hide();
+  } catch(e){ alert("Error con Google: "+e.message); }
+});
+
+// Estado de autenticación
+onAuthStateChanged(auth, user=>{
+  const loginItem = document.getElementById("loginItem");
+  const userContainer = document.getElementById("userContainer");
+  if(user){
+    loginItem.classList.add("d-none");
+    userContainer.classList.remove("d-none");
+    userContainer.innerHTML = `
+      <div class="d-flex align-items-center gap-2 text-white">
+        <img src="${user.photoURL||'https://cdn-icons-png.flaticon.com/512/149/149071.png'}" class="rounded-circle" width="34">
+        <span>${user.displayName||user.email}</span>
+        <button class="btn btn-danger btn-sm" id="logoutBtn">Salir</button>
+      </div>`;
+    document.getElementById("logoutBtn").onclick = async ()=>{ await signOut(auth); location.reload(); };
+  } else {
+    loginItem.classList.remove("d-none");
+    userContainer.classList.add("d-none");
+  }
+});
+</script>
+
 </body>
-  </html>
-  
+</html>
+
