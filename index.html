@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -7,7 +9,7 @@
   <link rel="icon" href="imagenes/favicon.png" type="image/x-icon">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body class="bg-primary">
+<body class="bg-white">
 
   <!-- NAVBAR -->
   <nav class="navbar navbar-dark bg-dark px-4 py-3">
@@ -18,7 +20,7 @@
   </nav>
 
   <!-- HERO -->
-  <header class="text-white text-center py-5">
+  <header class="text-white text-center py-5 bg-primary">
     <h1 class="fw-bold">Bienvenido a Tienda Online</h1>
     <p class="mb-0">Tu tienda de equipos tecnológicos al mejor precio ⚡</p>
   </header>
@@ -26,7 +28,7 @@
   <!-- PRODUCTOS -->
   <section class="py-5">
     <div class="container">
-      <h2 class="text-center mb-4 fw-bold text-white">🧩 NUESTROS PRODUCTOS</h2>
+      <h2 class="text-center mb-4 fw-bold text-dark">🧩 NUESTROS PRODUCTOS</h2>
       <div class="row g-4" id="productosContainer"></div>
     </div>
   </section>
@@ -107,7 +109,7 @@
     signOut, onAuthStateChanged, updateProfile
   } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
   import {
-    getFirestore, doc, setDoc, collection, addDoc, getDocs
+    getFirestore, doc, setDoc, collection, addDoc
   } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
 
   // ---------- CONFIG FIREBASE ----------
@@ -124,13 +126,11 @@
   const auth = getAuth(app);
   const db = getFirestore(app);
 
-  // Mantener sesión mientras dure la sesión del navegador
   await setPersistence(auth, browserSessionPersistence);
 
   const authButtons = document.getElementById("authButtons");
   const productosContainer = document.getElementById("productosContainer");
 
-  // ---------- FUNCIONES UTILES ----------
   function mostrarAlerta(msg) { alert(msg); }
 
   // ---------- REGISTRO ----------
@@ -146,7 +146,6 @@
 
       await updateProfile(user, { displayName: nombre });
 
-      // Guardar usuario en Firestore
       await setDoc(doc(db, "usuarios", user.uid), {
         uid: user.uid,
         nombre,
@@ -216,7 +215,7 @@
 
   function agregarProductoCard(p) {
     const col = document.createElement("div");
-    col.className = "col-12 col-sm-6 col-lg-3";
+    col.className = "col-12 col-sm-6 col-lg-3"; // 4 columnas en desktop
 
     col.innerHTML = `
       <div class="card h-100 shadow-sm">
@@ -239,7 +238,6 @@
     productosEjemplo.forEach(p => agregarProductoCard(p));
   }
 
-  // ---------- AGREGAR AL CARRITO ----------
   async function agregarCarrito(producto) {
     const user = auth.currentUser;
     if (!user) {
@@ -255,7 +253,6 @@
     }
   }
 
-  // ---------- GESTIÓN DE SESIÓN ----------
   onAuthStateChanged(auth, async (user) => {
     authButtons.innerHTML = "";
     cargarProductos();
@@ -291,8 +288,8 @@
     }
   });
 
-  // ---------- INICIAR CARGA ----------
   cargarProductos();
   </script>
 </body>
-</html>
+  </html>
+  
