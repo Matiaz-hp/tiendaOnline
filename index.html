@@ -250,14 +250,19 @@ googleBtn.addEventListener("click", async () => {
   try {
     const result = await signInWithPopup(auth, provider);
     const user = result.user;
-    // Guardar en Firestore si no existe
+
+    // Guardar usuario en Firestore
     await setDoc(doc(db, "usuarios", user.uid), {
+      uid: user.uid,
       nombre: user.displayName,
+      email: user.email,
       foto: user.photoURL
-    }, { merge: true }); // merge: true para no sobreescribir otros campos
+    }, { merge: true });
+
     cerrarModalAuth();
+    alert(`Bienvenido a tienda online, ${user.displayName || user.email}`);
   } catch (err) {
-    alert("Error al iniciar sesión con Google. Revisa tu dominio autorizado en Firebase: matiaz-hp.github.io");
+    alert("Error al iniciar sesión con Google. Revisa tu dominio autorizado en Firebase.");
     console.error(err);
   }
 });
@@ -268,21 +273,21 @@ registerForm.addEventListener("submit", async e => {
   const nombre = document.getElementById("regNombre").value.trim();
   const email = document.getElementById("regEmail").value.trim();
   const pass = document.getElementById("regPassword").value;
+
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
     const user = userCredential.user;
 
-    // Guardar usuario en Firestore con nombre y avatar generado
+    // Guardar usuario en Firestore con uid, email y avatar por defecto
     await setDoc(doc(db, "usuarios", user.uid), {
+      uid: user.uid,
       nombre: nombre,
-      foto: "https://ui-avatars.com/api/?name=" + encodeURIComponent(nombre) + "&background=random"
+      email: email,
+      foto: `https://ui-avatars.com/api/?name=${encodeURIComponent(nombre)}&background=random`
     });
 
-    alert("Registro exitoso");
-    cerrarModalAuth();
-
-    // Limpiar campos
-    registerForm.reset();
+    alert("Registro exitoso. Ahora puedes iniciar sesión.");
+    registerForm.reset(); // limpiar campos
   } catch (err) {
     alert("Error en el registro: " + err.message);
     console.error(err);
@@ -294,15 +299,20 @@ loginForm.addEventListener("submit", async e => {
   e.preventDefault();
   const email = document.getElementById("loginEmail").value.trim();
   const pass = document.getElementById("loginPassword").value;
+
   try {
-    await signInWithEmailAndPassword(auth, email, pass);
+    const userCredential = await signInWithEmailAndPassword(auth, email, pass);
+    const user = userCredential.user;
+
     cerrarModalAuth();
-    loginForm.reset();
+    loginForm.reset(); // limpiar campos
+    alert(`Bienvenido a tienda online, ${user.displayName || email}`);
   } catch (err) {
     alert("Credenciales inválidas");
     console.error(err);
   }
 });
+
 
 // FUNCIONES
 function cerrarModalAuth() {
