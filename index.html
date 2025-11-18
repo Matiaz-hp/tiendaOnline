@@ -45,7 +45,6 @@
   <div class="container">
     <h2 class="text-center mb-4">NUESTROS PRODUCTOS</h2>
     <div class="row g-4">
-      <!-- Producto ejemplo -->
       <div class="col-12 col-sm-6 col-md-3">
         <div class="card h-100 shadow-sm">
           <img src="imagenes/camiseta.jpeg" class="card-img-top" alt="blanco">
@@ -57,7 +56,6 @@
           </div>
         </div>
       </div>
-
       <div class="col-12 col-sm-6 col-md-3">
         <div class="card h-100 shadow-sm">
           <img src="imagenes/tenis.jpeg" class="card-img-top" alt="azul">
@@ -69,10 +67,9 @@
           </div>
         </div>
       </div>
-
       <div class="col-12 col-sm-6 col-md-3">
         <div class="card h-100 shadow-sm">
-          <img src="imagenes/azu.jpegl" class="card-img-top" alt="azul">
+          <img src="imagenes/azu.jpeg" class="card-img-top" alt="azul">
           <div class="card-body text-center">
             <h5 class="card-title">zapatillas</h5>
             <p class="card-text">sap</p>
@@ -81,7 +78,6 @@
           </div>
         </div>
       </div>
-
       <div class="col-12 col-sm-6 col-md-3">
         <div class="card h-100 shadow-sm">
           <img src="imagenes/audifono.jpg" class="card-img-top" alt="blanco">
@@ -93,8 +89,6 @@
           </div>
         </div>
       </div>
-
-      <!-- Agrega más productos repitiendo la estructura col-12 col-sm-6 col-md-3 -->
     </div>
   </div>
 </section>
@@ -183,6 +177,8 @@ import {
   signInWithEmailAndPassword
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
 
+import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+
 // Configuración Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyArS6xpIackJu-MlN_StQ6oaftd-HIEHpI",
@@ -195,6 +191,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore(app);
 const provider = new GoogleAuthProvider();
 provider.setCustomParameters({ prompt: 'select_account' }); // <- Forzar selección de correo
 
@@ -207,7 +204,14 @@ const loginItem = document.getElementById("loginItem");
 // LOGIN GOOGLE
 googleBtn.addEventListener("click", async () => {
   try {
-    await signInWithPopup(auth, provider);
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+    // Guardar en Firestore si no existe
+    await setDoc(doc(db, "usuarios", user.uid), {
+      nombre: user.displayName,
+      email: user.email,
+      foto: user.photoURL
+    });
     cerrarModalAuth();
   } catch (err) {
     alert("Error al iniciar sesión con Google. Revisa tu dominio autorizado en Firebase: matiaz-hp.github.io");
@@ -218,12 +222,24 @@ googleBtn.addEventListener("click", async () => {
 // REGISTRO EMAIL/PASS
 registerForm.addEventListener("submit", async e => {
   e.preventDefault();
+  const nombre = document.getElementById("regNombre").value.trim();
   const email = document.getElementById("regEmail").value.trim();
   const pass = document.getElementById("regPassword").value;
   try {
-    await createUserWithEmailAndPassword(auth, email, pass);
+    const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
+    const user = userCredential.user;
+
+    // Guardar usuario en Firestore
+    await setDoc(doc(db, "usuarios", user.uid), {
+      nombre: nombre,
+      email: email
+    });
+
     alert("Registro exitoso");
     cerrarModalAuth();
+
+    // Limpiar campos
+    registerForm.reset();
   } catch (err) {
     alert("Error en el registro: " + err.message);
     console.error(err);
@@ -238,6 +254,7 @@ loginForm.addEventListener("submit", async e => {
   try {
     await signInWithEmailAndPassword(auth, email, pass);
     cerrarModalAuth();
+    loginForm.reset();
   } catch (err) {
     alert("Credenciales inválidas");
     console.error(err);
