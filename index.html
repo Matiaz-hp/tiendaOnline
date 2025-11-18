@@ -1,24 +1,300 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tienda Online</title>
-  <link rel="icon" href="imagenes/favicon.png" type="image/x-icon" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="icon" href="imagenes/favicon.png" type="image/x-icon">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-primary">
 
-  <style>
-    body {
-      background-color: #f8f9fa;
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-dark bg-dark px-4 py-3">
+    <div class="container-fluid d-flex justify-content-between align-items-center">
+      <span class="navbar-brand fw-bold fs-3">🛒 TiendaOnline</span>
+      <div id="authButtons"></div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="text-white text-center py-5">
+    <h1 class="fw-bold">Bienvenido a Tienda Online</h1>
+    <p class="mb-0">Tu tienda de equipos tecnológicos al mejor precio ⚡</p>
+  </header>
+
+  <!-- PRODUCTOS -->
+  <section class="py-5">
+    <div class="container">
+      <h2 class="text-center mb-4 fw-bold text-white">🧩 NUESTROS PRODUCTOS</h2>
+      <div class="row g-4" id="productosContainer"></div>
+    </div>
+  </section>
+
+  <!-- MODAL LOGIN/REGISTRO -->
+  <div class="modal fade" id="authmodal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+
+        <div class="modal-header bg-dark text-white">
+          <h5 class="modal-title">Accede a Tienda Online</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+
+        <div class="modal-body">
+
+          <!-- TABS -->
+          <ul class="nav nav-tabs justify-content-center" id="authTabs">
+            <li class="nav-item">
+              <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#login">Iniciar sesión</button>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link" data-bs-toggle="tab" data-bs-target="#register">Registrarse</button>
+            </li>
+          </ul>
+
+          <div class="tab-content mt-3">
+
+            <!-- LOGIN -->
+            <div class="tab-pane fade show active" id="login">
+              <button id="googleLogin" class="btn btn-danger w-100 mb-3">
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" style="height:18px; margin-right:8px;">
+                Iniciar sesión con Google
+              </button>
+
+              <form id="loginForm">
+                <label>Correo</label>
+                <input type="email" class="form-control" id="loginEmail" required>
+                <label class="mt-2">Contraseña</label>
+                <input type="password" class="form-control" id="loginPassword" required>
+                <button type="submit" class="btn btn-primary w-100 mt-3">Iniciar sesión</button>
+              </form>
+            </div>
+
+            <!-- REGISTRO -->
+            <div class="tab-pane fade" id="register">
+              <form id="registerForm">
+                <label>Nombre completo</label>
+                <input type="text" class="form-control" id="regNombre" required>
+                <label class="mt-2">Correo</label>
+                <input type="email" class="form-control" id="regEmail" required>
+                <label class="mt-2">Contraseña</label>
+                <input type="password" class="form-control" id="regPassword" required>
+                <button type="submit" class="btn btn-primary w-100 mt-3">Registrarse</button>
+              </form>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-dark text-white text-center py-3">
+    © 2025 JM - Huanuiri Palla | Todos los derechos reservados 😊
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script type="module">
+  // ---------- IMPORTAR FIREBASE ----------
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
+  import {
+    getAuth, setPersistence, browserSessionPersistence,
+    createUserWithEmailAndPassword, signInWithEmailAndPassword,
+    sendEmailVerification, GoogleAuthProvider, signInWithPopup,
+    signOut, onAuthStateChanged, updateProfile
+  } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
+  import {
+    getFirestore, doc, setDoc, collection, addDoc, getDocs
+  } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
+
+  // ---------- CONFIG FIREBASE ----------
+  const firebaseConfig = {
+    apiKey: "AIzaSyArS6xpIackJu-MlN_StQ6oaftd-HIEHpI",
+    authDomain: "tiendaonline-232fd.firebaseapp.com",
+    projectId: "tiendaonline-232fd",
+    storageBucket: "tiendaonline-232fd.appspot.com",
+    messagingSenderId: "766983652415",
+    appId: "1:766983652415:web:1029784384e8528214248a"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  // Mantener sesión mientras dure la sesión del navegador
+  await setPersistence(auth, browserSessionPersistence);
+
+  const authButtons = document.getElementById("authButtons");
+  const productosContainer = document.getElementById("productosContainer");
+
+  // ---------- FUNCIONES UTILES ----------
+  function mostrarAlerta(msg) { alert(msg); }
+
+  // ---------- REGISTRO ----------
+  registerForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const nombre = regNombre.value.trim();
+    const email = regEmail.value.trim();
+    const password = regPassword.value.trim();
+
+    try {
+      const cred = await createUserWithEmailAndPassword(auth, email, password);
+      const user = cred.user;
+
+      await updateProfile(user, { displayName: nombre });
+
+      // Guardar usuario en Firestore
+      await setDoc(doc(db, "usuarios", user.uid), {
+        uid: user.uid,
+        nombre,
+        email,
+        photoURL: ""
+      });
+
+      await sendEmailVerification(user);
+      mostrarAlerta("✅ Cuenta creada. Revisa tu correo para verificar.");
+      bootstrap.Modal.getInstance(authmodal).hide();
+      await signOut(auth);
+    } catch (e) {
+      mostrarAlerta("⚠️ Error al registrarse: " + e.message);
+    }
+  });
+
+  // ---------- LOGIN ----------
+  loginForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    try {
+      const cred = await signInWithEmailAndPassword(auth, loginEmail.value, loginPassword.value);
+      const user = cred.user;
+
+      if (!user.emailVerified) {
+        await signOut(auth);
+        mostrarAlerta("⚠️ Debes verificar tu correo antes de ingresar.");
+        return;
+      }
+
+      bootstrap.Modal.getInstance(authmodal).hide();
+      mostrarAlerta("👋 Bienvenido " + (user.displayName || user.email));
+    } catch {
+      mostrarAlerta("❌ Credenciales incorrectas.");
+    }
+  });
+
+  // ---------- LOGIN CON GOOGLE ----------
+  googleLogin.addEventListener("click", async () => {
+    const provider = new GoogleAuthProvider();
+    provider.setCustomParameters({ prompt: "select_account" });
+
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+
+      await setDoc(doc(db, "usuarios", user.uid), {
+        uid: user.uid,
+        nombre: user.displayName || "",
+        email: user.email,
+        photoURL: user.photoURL || ""
+      }, { merge: true });
+
+      bootstrap.Modal.getInstance(authmodal).hide();
+      mostrarAlerta("👋 Bienvenido " + (user.displayName || user.email));
+    } catch (e) {
+      mostrarAlerta("⚠️ Error con Google: " + e.message);
+    }
+  });
+
+  // ---------- CARGAR PRODUCTOS ----------
+  const productosEjemplo = [
+    { nombre: "Mouse Gamer", descripcion: "RGB Pro", precio: 120, imagenURL: "imagenes/mouse.jpg" },
+    { nombre: "Teclado Mecánico", descripcion: "Switch Blue", precio: 250, imagenURL: "imagenes/teclado.jpg" },
+    { nombre: "Monitor 24''", descripcion: "Full HD", precio: 800, imagenURL: "imagenes/monitor.jpg" },
+    { nombre: "Audífonos Pro", descripcion: "7.1 Surround", precio: 180, imagenURL: "imagenes/audifonos.jpg" }
+  ];
+
+  function agregarProductoCard(p) {
+    const col = document.createElement("div");
+    col.className = "col-12 col-sm-6 col-lg-3";
+
+    col.innerHTML = `
+      <div class="card h-100 shadow-sm">
+        <img src="${p.imagenURL}" class="card-img-top" alt="${p.nombre}">
+        <div class="card-body text-center">
+          <h5>${p.nombre}</h5>
+          <p>${p.descripcion}</p>
+          <p class="fw-bold">S/ ${p.precio}</p>
+          <button class="btn btn-primary comprarBtn">Comprar</button>
+        </div>
+      </div>
+    `;
+
+    col.querySelector(".comprarBtn").onclick = () => agregarCarrito(p);
+    productosContainer.appendChild(col);
+  }
+
+  function cargarProductos() {
+    productosContainer.innerHTML = "";
+    productosEjemplo.forEach(p => agregarProductoCard(p));
+  }
+
+  // ---------- AGREGAR AL CARRITO ----------
+  async function agregarCarrito(producto) {
+    const user = auth.currentUser;
+    if (!user) {
+      mostrarAlerta("⚠️ Debes iniciar sesión para comprar.");
+      return;
     }
 
-    /* NAVBAR */
-    .navbar-brand {
-      font-size: 1.6rem;
-      font-weight: 700;
+    try {
+      await addDoc(collection(db, "carrito", user.uid, "items"), producto);
+      mostrarAlerta("✅ Producto agregado al carrito.");
+    } catch (e) {
+      mostrarAlerta("⚠️ Error al agregar al carrito: " + e.message);
+    }
+  }
+
+  // ---------- GESTIÓN DE SESIÓN ----------
+  onAuthStateChanged(auth, async (user) => {
+    authButtons.innerHTML = "";
+    cargarProductos();
+
+    if (user && !user.emailVerified) {
+      await signOut(auth);
+      return;
     }
 
-    /* HERO */
+    if (user) {
+      const photo = user.photoURL || "https://cdn-icons-png.flaticon.com/512/149/149071.png";
+      const displayName = user.displayName || user.email;
+
+      authButtons.innerHTML = `
+        <div class="d-flex align-items-center gap-2 text-light">
+          <img src="${photo}" class="rounded-circle" width="34">
+          <span>${displayName}</span>
+          <button class="btn btn-danger btn-sm" id="logoutBtn">Salir</button>
+        </div>
+      `;
+
+      document.getElementById("logoutBtn").onclick = async () => {
+        await signOut(auth);
+        mostrarAlerta("👋 Sesión cerrada.");
+      };
+
+    } else {
+      authButtons.innerHTML = `
+        <button class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#authmodal">
+          Iniciar sesión / Registrarse
+        </button>
+      `;
+    }
+  });
+
+  // ---------- INICIAR CARGA ----------
+  cargarProductos();
+    </script>
+  
     .hero {
       background: linear-gradient(90deg, #1976d2, #42a5f5);
       color: white;
@@ -324,40 +600,5 @@
         return;
       }
 
-      if (user) {
-        const userDoc = await getDoc(doc(db, "usuarios", user.uid));
-        const data = userDoc.exists() ? userDoc.data() : {};
-        const displayName = data.nombre || user.displayName || user.email;
-        const photoURL = data.photoURL || "https://cdn-icons-png.flaticon.com/512/149/149071.png";
-
-        const container = document.createElement("div");
-        container.className = "d-flex align-items-center gap-2 text-light";
-
-        const img = document.createElement("img");
-        img.src = photoURL;
-        img.width = 32;
-        img.height = 32;
-        img.className = "rounded-circle";
-
-        const span = document.createElement("span");
-        span.textContent = displayName;
-
-        const btn = document.createElement("button");
-        btn.className = "btn btn-danger btn-sm";
-        btn.textContent = "Cerrar sesión";
-        btn.onclick = async () => { await signOut(auth); alert("👋 Sesión cerrada."); };
-
-        container.append(img, span, btn);
-        authButtons.appendChild(container);
-      } else {
-        const btn = document.createElement("button");
-        btn.className = "btn border border-light text-light";
-        btn.textContent = "Iniciar sesión / Registrarse";
-        btn.setAttribute("data-bs-toggle", "modal");
-        btn.setAttribute("data-bs-target", "#authmodal");
-        authButtons.appendChild(btn);
-      }
-    });
-  </script>
 </body>
 </html>
