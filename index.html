@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>E-commerce tienda online</title>
+  <title>E-commerce HandryaStore</title>
   <!-- Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
@@ -14,7 +14,7 @@
  <!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container">
-    <a class="navbar-brand fw-bold" href="#">tienda online</a>
+    <a class="navbar-brand fw-bold" href="#">HandryaStore</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu"
       aria-controls="menu" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -34,10 +34,11 @@
   </div>
 </nav>
 
+
   <!-- HEADER -->
   <header class="bg-primary text-white text-center py-5">
     <div class="container">
-      <h1 class="display-4">Bienvenido a tienda online</h1>
+      <h1 class="display-4">Bienvenido a HandryaStore</h1>
       <p class="lead">Tu tienda de confianza al mejor precio</p>
     </div>
   </header>
@@ -52,19 +53,20 @@
           <div class="card h-100 shadow-sm">
             <img src="images/descarga (41).jpeg" class="card-img-top" alt="flor1">
             <div class="card-body text-center">
-              <h5 class="card-title">ropa</h5>
+              <h5 class="card-title">Ramo de flores eternas</h5>
               <p class="card-text">Decoración natural y duradera</p>
               <p class="fw-bold">s/30.00</p>
               <button class="btn btn-primary">AGREGAR AL CARRITO</button>
             </div>
           </div>
         </div>
-        <!-- Producto 2 -->
+        <!-- Agrega más productos igual que este -->
+         <!-- Producto 2 -->
         <div class="col-md-4">
           <div class="card h-100 shadow-sm">
             <img src="images/descarga (42).jpeg" class="card-img-top" alt="flor2">
             <div class="card-body text-center">
-              <h5 class="card-title">zapatillas</h5>
+              <h5 class="card-title">variedad de ramos de flores eternas</h5>
               <p class="card-text">flores eternas</p>
               <p class="fw-bold">s/45.00</p>
               <button class="btn btn-primary">AGREGAR AL CARRITO</button>
@@ -77,7 +79,7 @@
           <div class="card h-100 shadow-sm">
             <img src="images/descarga (43).jpeg" class="card-img-top" alt="flor3">
             <div class="card-body text-center">
-             <h5 class="card-title">camisa</h5>
+             <h5 class="card-title">variedad de ramos de flores eternas</h5>
               <p class="card-text">flores eternas</p>
               <p class="fw-bold">s/45.00</p>
               <button class="btn btn-primary">AGREGAR AL CARRITO</button>
@@ -136,176 +138,217 @@
           <h5 class="modal-title">Acceder a tu cuenta</h5>
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
         </div>
+//cuerpo del modal//
         <div class="modal-body">
           <ul class="nav nav-tabs mb-3" id="authTabs">
             <li class="nav-item">
-              <button class="nav-link active" id="login-tab" data-bs-toggle="tab" data-bs-target="#loginTab">Iniciar Sesión</button>
+              <button class="nav-link active" id="login-tab" data-bs-toggle="tab" data-bs-target="#loginTab" >Iniciar Sesión</button>
             </li>
-            <li class="nav-item">
-              <button class="nav-link" id="register-tab" data-bs-toggle="tab" data-bs-target="#registerTab">Registrarse</button>
+            <li class="nav-item" >
+              <button class="nav-link" id="register-tab" data-bs-toggle="tab" data-bs-target="#registerTab" >Registrarse</button>
             </li>
           </ul>
 
           <div class="tab-content mt-3" id="authTabsContent">
             <!-- LOGIN -->
             <div class="tab-pane fade show active" id="loginTab">
-              <div class="d-grid mb-3">
+              <div class="d-grid  mb-3">
                 <button id="googleLogin" type="button" class="btn btn-danger">
                   <i class="bi bi-google"></i> Iniciar sesión con Google
                 </button>
               </div>
               <!-- formulario de inicio de sesión -->
               <form id="formlogin">
-                <div class="mb-3"><label>Email</label><input type="email" id="loginEmail" class="form-control" required></div>
-                <div class="mb-3"><label>Contraseña</label><input type="password" id="loginPassword" class="form-control" required minlength="6"></div>
-                <button class="btn btn-primary w-100">Iniciar Sesión</button>
-              </form>
-            </div>
+                <div class="mb-3"><label>Email</label><input type="email" id="loginEmail"
+                  class="form-control" required></div>
+
+                  <div class="mb-3"><label>Contraseña</label><input type="password" id="loginPassword"
+                  class="form-control" required minlength="6"></div>
+                  <button class="btn btn-primary w-100">Iniciar Sesión</button>
+              </form> </div>
+
 
             <!-- REGISTRO -->
             <div class="tab-pane fade" id="registerTab">
+              <!--formulario de registro-->
               <form id="formRegister">
-                <div class="mb-3"><label>Nombre completo</label><input type="text" id="regNombre" class="form-control" required></div>
-                <div class="mb-3"><label>Email</label><input type="email" id="regEmail" class="form-control" required></div>
-                <div class="mb-3"><label>Contraseña</label><input type="password" id="regPassword" class="form-control" required minlength="6"></div>
+                <div class="mb-3">
+                <label >Nombre completo</label>
+                  <input type="text" id="regNombre" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                  <label >Email</label>
+                  <input type="email" id="regEmail" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                  <label >Contraseña</label>
+                  <input type="password" id="regPassword" class="form-control" required minlength="6">
+                </div>
+
                 <button class="btn btn-primary w-100">Registrarse</button>
               </form>
             </div>
           </div>
         </div>
+
       </div>
     </div>
   </div>
 
   <!-- FOOTER -->
   <footer class="bg-dark text-white text-center py-3 mt-5">
-    <p class="mb-0">&copy; julio matiaz huanuiri palla - Todos los derechos reservados</p>
+    <p class="mb-0">&copy; 2025 HandryaStore - Todos los derechos reservados</p>
   </footer>
 
   <!-- BOOTSTRAP JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-  <!-- FIREBASE AUTH GOOGLE + Firestore Adaptado -->
-  <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
-  import { 
-    getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged,
-    createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile
-  } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+  <!-- FIREBASE AUTH GOOGLE -->
 
-  import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+import { 
+  getAuth, 
+  GoogleAuthProvider, 
+  signInWithPopup, 
+  signOut, 
+  onAuthStateChanged,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyA489n8aiwNL1tQ8yfMDRbW-SffpL-CIN0",
-    authDomain: "handryastore-96e39.firebaseapp.com",
-    projectId: "handryastore-96e39",
-    storageBucket: "handryastore-96e39.firebasestorage.app",
-    messagingSenderId: "406350600953",
-    appId: "1:406350600953:web:07b6862256e52d6510a028",
-    measurementId: "G-173P1KBHQZ"
-  };
+// Configuración Firebase
+const firebaseConfig = {
+  apiKey: "AIzaSyA489n8aiwNL1tQ8yfMDRbW-SffpL-CIN0",
+  authDomain: "handryastore-96e39.firebaseapp.com",
+  projectId: "handryastore-96e39",
+  storageBucket: "handryastore-96e39.firebasestorage.app",
+  messagingSenderId: "406350600953",
+  appId: "1:406350600953:web:07b6862256e52d6510a028",
+  measurementId: "G-173P1KBHQZ"
+};
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
-  const provider = new GoogleAuthProvider();
+// Inicializar Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
 
-  const googleBtn = document.getElementById("googleLogin");
-  const loginForm = document.getElementById("formlogin");
-  const registerForm = document.getElementById("formRegister");
-  const userContainer = document.getElementById("userContainer");
-  const loginItem = document.getElementById("loginItem");
+// Capturamos elementos
+const googleBtn = document.getElementById("googleLogin");
+const loginForm = document.getElementById("formlogin");
+const registerForm = document.getElementById("formRegister");
+const loginItem = document.getElementById("loginItem");
 
-  async function createUsuarioSiNoExiste(user) {
-    const userRef = doc(db, "usuarios", user.uid);
-    const userSnap = await getDoc(userRef);
-    if (!userSnap.exists()) {
-      await setDoc(userRef, {
-        nombre: user.displayName || "Sin nombre",
-        email: user.email,
-        foto: user.photoURL || null,
-        fechaRegistro: new Date()
-      });
-    }
+// --------------------
+// LOGIN CON GOOGLE
+// --------------------
+googleBtn.addEventListener("click", async () => {
+  try {
+    await signInWithPopup(auth, provider);
+    cerrarModalAuth();
+  } catch (err) {
+    alert("Error al iniciar sesión con Google");
+    console.error(err);
   }
+});
 
-  function mostrarUsuario(user) {
-    if (document.getElementById("userinfo")) return;
-    const foto = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName || user.email)}`;
-    const nombre = user.displayName || user.email;
-    userContainer.classList.remove("d-none");
-    userContainer.innerHTML = `
-      <button class="btn btn-link position-relative me-3 text-white" id="btnCarritoIcono" title="ver carrito">
-        <i class="bi bi-cart3 fs-5 text-white"></i>
-        <span id="contadorCarrito" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
-      </button>
-      <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" data-bs-toggle="dropdown">
-        <img src="${foto}" class="rounded-circle me-2" width="32" height="32">
-        <span class="text-white">${nombre}</span>
-      </a>
-      <ul class="dropdown-menu dropdown-menu-end">
-        <li><a class="dropdown-item" href="#" id="verPedidosBtn">Mis pedidos</a></li>
-        <li><hr class="dropdown-divider"></li>
-        <li><a class="dropdown-item text-danger" href="#" id="cerrarSesionBtn">Cerrar sesión</a></li>
-      </ul>
-    `;
-    document.getElementById("cerrarSesionBtn").addEventListener("click", async () => {
-      await signOut(auth);
-    });
+// --------------------
+// REGISTRO CON EMAIL/PASSWORD
+// --------------------
+registerForm.addEventListener("submit", async e => {
+  e.preventDefault();
+  const nombre = document.getElementById("regNombre").value.trim();
+  const email = document.getElementById("regEmail").value.trim();
+  const pass = document.getElementById("regPassword").value;
+
+  try {
+    await createUserWithEmailAndPassword(auth, email, pass);
+    alert("Registro exitoso");
+    cerrarModalAuth();
+  } catch (err) {
+    alert("Error en el registro: " + err.message);
+    console.error(err);
   }
+});
 
-  function cerrarSesion() {
-    userContainer.classList.add("d-none");
-    userContainer.innerHTML = "";
+// --------------------
+// LOGIN CON EMAIL/PASSWORD
+// --------------------
+loginForm.addEventListener("submit", async e => {
+  e.preventDefault();
+  const email = document.getElementById("loginEmail").value.trim();
+  const pass = document.getElementById("loginPassword").value;
+
+  try {
+    await signInWithEmailAndPassword(auth, email, pass);
+    cerrarModalAuth();
+  } catch (err) {
+    alert("Credenciales inválidas, inténtelo de nuevo");
+    console.error(err);
+  }
+});
+
+// --------------------
+// FUNCIONES GENERALES
+// --------------------
+function cerrarModalAuth(){
+  const authModal = bootstrap.Modal.getInstance(document.getElementById("authModal"));
+  if(authModal) authModal.hide();
+}
+
+function pintarusuarioennavbar(user){
+  if(document.getElementById("userinfo")) return;
+
+  const foto = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName || user.email)}`;
+  const nombre = user.displayName || user.email;
+
+  const li = document.createElement("li");
+  li.className = "nav-item dropdown ms-3 d-flex align-items-center";
+  li.id = "userinfo";
+  li.innerHTML = `
+    <button class="btn btn-link position-relative me-3 text-white" id="btnCarritoIcono" title="ver carrito">
+      <i class="bi bi-cart3 fs-5 text-white"></i>
+      <span id="contadorCarrito" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
+    </button>
+    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" data-bs-toggle="dropdown">
+      <img src="${foto}" class="rounded-circle me-2" width="32" height="32">
+      <span class="text-white"> ${nombre}</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end">
+      <li><a class="dropdown-item" href="#" id="verPedidosBtn">Mis pedidos</a></li>
+      <li><hr class="dropdown-divider"></li>
+      <li><a class="dropdown-item text-danger" href="#" id="cerrarSesionBtn">Cerrar sesión</a></li>
+    </ul>
+  `;
+  document.querySelector(".navbar-nav").appendChild(li);
+
+  document.getElementById("cerrarSesionBtn").addEventListener("click", async () => {
+    await signOut(auth);
+  });
+}
+
+function limpiarUsuarioNavbar(){
+  const info = document.getElementById("userinfo");
+  if(info) info.remove();
+}
+
+// --------------------
+// MANTENER SESIÓN ACTIVA
+// --------------------
+onAuthStateChanged(auth, (user) => {
+  if(user){
+    pintarusuarioennavbar(user);
+    loginItem.classList.add("d-none");
+  } else {
+    limpiarUsuarioNavbar();
     loginItem.classList.remove("d-none");
   }
-
-  googleBtn.addEventListener("click", async () => {
-    try {
-      const { user } = await signInWithPopup(auth, provider);
-      await createUsuarioSiNoExiste(user);
-      cerrarModalAuth();
-    } catch {
-      alert("Error al iniciar sesión con Google");
-    }
-  });
-
-  registerForm.addEventListener("submit", async e => {
-    e.preventDefault();
-    const nombre = regNombre.value.trim();
-    const email = regEmail.value.trim();
-    const pass = regPassword.value;
-    try {
-      const cred = await createUserWithEmailAndPassword(auth, email, pass);
-      await updateProfile(cred.user, { displayName: nombre });
-      await createUsuarioSiNoExiste(cred.user);
-      alert("Registro exitoso");
-      cerrarModalAuth();
-    } catch {
-      alert("Error en el registro");
-    }
-  });
-
-  loginForm.addEventListener("submit", async e => {
-    e.preventDefault();
-    try {
-      await signInWithEmailAndPassword(auth, loginEmail.value, loginPassword.value);
-      cerrarModalAuth();
-    } catch {
-      alert("Credenciales inválidas, inténtelo de nuevo");
-    }
-  });
-
-  onAuthStateChanged(auth, user => {
-    if (user) mostrarUsuario(user);
-    else cerrarSesion();
-  });
-
-  function cerrarModalAuth() {
-    const authModal = bootstrap.Modal.getInstance(document.getElementById("authModal"));
-    if (authModal) authModal.hide();
-  }
-  </script>
+});
+</script>
 
 </body>
 </html>
+
+
