@@ -40,12 +40,13 @@
   </div>
 </header>
 
-<!-- PRODUCTOS (ejemplo) -->
+<!-- PRODUCTOS -->
 <section class="py-5">
   <div class="container">
     <h2 class="text-center mb-4">NUESTROS PRODUCTOS</h2>
-    <div class="row g-4 justify-content-center">
-      <div class="col-md-4">
+    <div class="row g-4">
+      <!-- Producto ejemplo -->
+      <div class="col-12 col-sm-6 col-md-3">
         <div class="card h-100 shadow-sm">
           <img src="images/descarga (41).jpeg" class="card-img-top" alt="flor1">
           <div class="card-body text-center">
@@ -55,38 +56,45 @@
             <button class="btn btn-primary">AGREGAR AL CARRITO</button>
           </div>
         </div>
+      </div>
 
-                <div class="card h-100 shadow-sm">
-          <img src="images/descarga (41).jpeg" class="card-img-top" alt="flor1">
+      <div class="col-12 col-sm-6 col-md-3">
+        <div class="card h-100 shadow-sm">
+          <img src="images/descarga (42).jpeg" class="card-img-top" alt="flor2">
           <div class="card-body text-center">
-            <h5 class="card-title">Ramo de flores eternas</h5>
-            <p class="card-text">Decoración natural y duradera</p>
-            <p class="fw-bold">s/30.00</p>
-            <button class="btn btn-primary">AGREGAR AL CARRITO</button>
-          </div>
-        </div>
-
-                <div class="card h-100 shadow-sm">
-          <img src="images/descarga (41).jpeg" class="card-img-top" alt="flor1">
-          <div class="card-body text-center">
-            <h5 class="card-title">Ramo de flores eternas</h5>
-            <p class="card-text">Decoración natural y duradera</p>
-            <p class="fw-bold">s/30.00</p>
-            <button class="btn btn-primary">AGREGAR AL CARRITO</button>
-          </div>
-        </div>
-
-                <div class="card h-100 shadow-sm">
-          <img src="images/descarga (41).jpeg" class="card-img-top" alt="flor1">
-          <div class="card-body text-center">
-            <h5 class="card-title">Ramo de flores eternas</h5>
-            <p class="card-text">Decoración natural y duradera</p>
-            <p class="fw-bold">s/30.00</p>
+            <h5 class="card-title">Variedad de ramos de flores eternas</h5>
+            <p class="card-text">Flores eternas</p>
+            <p class="fw-bold">s/45.00</p>
             <button class="btn btn-primary">AGREGAR AL CARRITO</button>
           </div>
         </div>
       </div>
-      <!-- Repite productos según necesites -->
+
+      <div class="col-12 col-sm-6 col-md-3">
+        <div class="card h-100 shadow-sm">
+          <img src="images/descarga (43).jpeg" class="card-img-top" alt="flor3">
+          <div class="card-body text-center">
+            <h5 class="card-title">Variedad de ramos de flores eternas</h5>
+            <p class="card-text">Flores eternas</p>
+            <p class="fw-bold">s/45.00</p>
+            <button class="btn btn-primary">AGREGAR AL CARRITO</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-md-3">
+        <div class="card h-100 shadow-sm">
+          <img src="images/descarga (44).jpeg" class="card-img-top" alt="flor4">
+          <div class="card-body text-center">
+            <h5 class="card-title">Variedad de ramos de flores eternas</h5>
+            <p class="card-text">Flores eternas</p>
+            <p class="fw-bold">s/45.00</p>
+            <button class="btn btn-primary">AGREGAR AL CARRITO</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Agrega más productos repitiendo la estructura col-12 col-sm-6 col-md-3 -->
     </div>
   </div>
 </section>
@@ -175,7 +183,7 @@ import {
   signInWithEmailAndPassword
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
 
-// Configuración Firebase (la que me diste)
+// Configuración Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyArS6xpIackJu-MlN_StQ6oaftd-HIEHpI",
   authDomain: "tiendaonline-232fd.firebaseapp.com",
@@ -188,6 +196,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
+provider.setCustomParameters({ prompt: 'select_account' }); // <- Forzar selección de correo
 
 // ELEMENTOS
 const googleBtn = document.getElementById("googleLogin");
