@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tienda Online</title>
-
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>tienda online </title>
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
   <style>
     #alertaAgregado {
       position: fixed;
@@ -18,40 +17,26 @@
       padding: 10px 14px;
       border-radius: 6px;
       font-weight: 600;
+      box-shadow: 0 4px 10px rgba(0,0,0,.15);
     }
-    .pedido-item {
-      border-bottom: 1px solid #eaeaea;
-      padding: 10px 0;
-    }
+    .pedido-item { border-bottom: 1px solid #e9ecef; padding: 10px 0; }
   </style>
 </head>
 
 <body>
 
-<div id="alertaAgregado" class="alert alert-success"></div>
+<div id="alertaAgregado" class="alert alert-success">Producto agregado correctamente ✔</div>
 
 <!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container">
-    <a class="navbar-brand fw-bold" href="#">Tienda Online</a>
+    <a class="navbar-brand fw-bold" href="#">tienda online</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="menu">
       <ul class="navbar-nav ms-auto align-items-center">
-        <li class="nav-item" id="usuarioMenu" style="display:none;">
-          <div class="dropdown">
-            <button class="btn btn-outline-light dropdown-toggle" data-bs-toggle="dropdown">
-              <i class="bi bi-person-circle"></i> <span id="usuarioEmail"></span>
-            </button>
-            <ul class="dropdown-menu dropdown-menu-end">
-              <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#misPedidosModal">Mis pedidos</a></li>
-              <li><button class="dropdown-item text-danger" onclick="logout()">Cerrar sesión</button></li>
-            </ul>
-          </div>
-        </li>
-
         <li class="nav-item" id="loginItem">
           <button class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#authModal">
             Iniciar sesión / Registrarse
@@ -62,335 +47,536 @@
   </div>
 </nav>
 
+<!-- HEADER -->
+<header class="bg-primary text-white text-center py-5">
+  <div class="container">
+    <h1 class="display-4">Bienvenido a tienda online</h1>
+    <p class="lead">Tu tienda de confianza al mejor precio</p>
+  </div>
+</header>
 
 <!-- PRODUCTOS -->
-<div class="container mt-4">
-  <h2 class="text-center fw-bold mb-4">Productos Disponibles</h2>
-  <div class="row" id="productosContainer"></div>
-</div>
+<section class="py-5">
+  <div class="container">
+    <h2 class="text-center mb-4">NUESTROS PRODUCTOS</h2>
+    <div class="row g-4">
 
+      <!-- PRODUCTO 1 -->
+      <div class="col-12 col-sm-6 col-md-3">
+        <div class="card h-80 shadow-sm">
+          <img src="imagenes/camiseta.jpeg" class="card-img-top" alt="camisa">
+          <div class="card-body text-center">
+            <h5 class="card-title">camisa</h5>
+            <p class="card-text">para hombre</p>
+            <p class="fw-bold">s/30.00</p>
+            <button class="btn btn-primary addToCart">AGREGAR AL CARRITO</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRODUCTO 2 -->
+      <div class="col-12 col-sm-6 col-md-3">
+        <div class="card h-80 shadow-sm">
+          <img src="imagenes/tenis.jpeg" class="card-img-top" alt="zapatillas">
+          <div class="card-body text-center">
+            <h5 class="card-title">zapatillas</h5>
+            <p class="card-text">zapatillas deportivas</p>
+            <p class="fw-bold">s/35.00</p>
+            <button class="btn btn-primary addToCart">AGREGAR AL CARRITO</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
 
 <!-- MODAL LOGIN/REGISTRO -->
 <div class="modal fade" id="authModal" tabindex="-1">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-
       <div class="modal-header bg-dark text-white">
-        <h5 class="modal-title">Autenticación</h5>
+        <h5 class="modal-title">Acceder a tu cuenta</h5>
         <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
       </div>
 
       <div class="modal-body">
+        <ul class="nav nav-tabs mb-3">
+          <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#loginTab">Iniciar Sesión</button></li>
+          <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#registerTab">Registrarse</button></li>
+        </ul>
 
-        <div class="mb-3">
-          <label>Email:</label>
-          <input type="email" id="emailInput" class="form-control">
+        <div class="tab-content">
+
+          <!-- LOGIN -->
+          <div class="tab-pane fade show active" id="loginTab">
+            <div class="d-grid mb-3">
+              <button id="googleLogin" class="btn btn-danger">
+                <i class="bi bi-google"></i> Iniciar sesión con Google
+              </button>
+            </div>
+
+            <form id="formlogin">
+              <div class="mb-3"><label>Email</label><input type="email" id="loginEmail" class="form-control" required></div>
+              <div class="mb-3"><label>Contraseña</label><input type="password" id="loginPassword" class="form-control" required minlength="6"></div>
+              <button class="btn btn-primary w-100">Iniciar Sesión</button>
+            </form>
+          </div>
+
+          <!-- REGISTRO -->
+          <div class="tab-pane fade" id="registerTab">
+            <form id="formRegister">
+              <div class="mb-3"><label>Nombre completo</label><input type="text" id="regNombre" class="form-control" required></div>
+              <div class="mb-3"><label>Email</label><input type="email" id="regEmail" class="form-control" required></div>
+              <div class="mb-3"><label>Contraseña</label><input type="password" id="regPassword" class="form-control" required minlength="6"></div>
+              <button class="btn btn-primary w-100">Registrarse</button>
+            </form>
+          </div>
+
         </div>
-
-        <div class="mb-3">
-          <label>Contraseña:</label>
-          <input type="password" id="passwordInput" class="form-control">
-        </div>
-
-        <button class="btn btn-primary w-100 mb-2" onclick="login()">Iniciar Sesión</button>
-        <button class="btn btn-success w-100" onclick="register()">Registrarse</button>
-
       </div>
+
     </div>
   </div>
 </div>
-
 
 <!-- MODAL CARRITO -->
-<div class="modal fade" id="carritoModal" tabindex="-1">
-  <div class="modal-dialog modal-lg">
+<div class="modal fade" id="modalCarrito" tabindex="-1">
+  <div class="modal-dialog modal-dialog-scrollable">
     <div class="modal-content">
 
       <div class="modal-header bg-dark text-white">
-        <h5 class="modal-title">Mi carrito</h5>
+        <h5 class="modal-title">🛒 Tu carrito</h5>
         <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
       </div>
 
-      <div class="modal-body">
-        <div id="carritoContainer"></div>
-        <h4 class="text-end mt-3">Total: S/<span id="totalCarrito">0.00</span></h4>
+      <div class="modal-body" id="listaCarrito"></div>
+
+      <div class="modal-footer d-flex justify-content-between">
+        <h5 class="m-0">Total: <span id="totalCarrito" class="fw-bold">S/ 0.00</span></h5>
+        <button class="btn btn-success" id="btnComprar">Hacer pedido</button>
       </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODAL PEDIDOS -->
+<div class="modal fade" id="modalPedidos" tabindex="-1">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg">
+    <div class="modal-content">
+      <div class="modal-header bg-dark text-white">
+        <h5 class="modal-title">📦 Mis pedidos</h5>
+        <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body" id="listaPedidos"></div>
 
       <div class="modal-footer">
-        <button class="btn btn-success w-100" onclick="guardarPedido()">Comprar</button>
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
       </div>
 
     </div>
   </div>
 </div>
 
-
-<!-- MODAL MIS PEDIDOS -->
-<div class="modal fade" id="misPedidosModal" tabindex="-1">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-
-      <div class="modal-header bg-dark text-white">
-        <h5 class="modal-title">Mis pedidos</h5>
-        <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-      </div>
-
-      <div class="modal-body">
-        <div id="listaPedidos"></div>
-      </div>
-
-    </div>
-  </div>
-</div>
+<!-- FOOTER -->
+<footer class="bg-dark text-white text-center py-3 mt-5">
+  <p class="mb-0">&copy; 2025 matiaz - Todos los derechos reservados</p>
+</footer>
 
 
+<!-- BOOTSTRAP JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- FIREBASE -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
 import {
-  getAuth,
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  signOut
+  getAuth, GoogleAuthProvider, signInWithPopup,
+  signOut, onAuthStateChanged,
+  createUserWithEmailAndPassword, signInWithEmailAndPassword
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
 
 import {
-  getFirestore,
-  collection,
-  getDocs,
-  addDoc,
-  query,
-  where,
-  orderBy
+  getFirestore, doc, setDoc, addDoc,
+  collection, getDocs, query, where, orderBy,
+  serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "TU_API_KEY",
-  authDomain: "TU_AUTH_DOMAIN",
-  projectId: "TU_PROJECT_ID",
-  storageBucket: "TU_STORAGE",
-  messagingSenderId: "TU_SENDER",
-  appId: "TU_APP_ID"
+  apiKey: "AIzaSyArS6xpIackJu-MlN_StQ6oaftd-HIEHpI",
+  authDomain: "tiendaonline-232fd.firebaseapp.com",
+  projectId: "tiendaonline-232fd",
+  storageBucket: "tiendaonline-232fd.appspot.com",
+  messagingSenderId: "766983652415",
+  appId: "1:766983652415:web:1029784384a"
 };
 
 const app = initializeApp(firebaseConfig);
-const auth = getAuth();
+const auth = getAuth(app);
 const db = getFirestore(app);
+const provider = new GoogleAuthProvider();
+provider.setCustomParameters({ prompt: "select_account" });
 
+/* ELEMENTOS */
+const googleBtn = document.getElementById("googleLogin");
+const loginForm = document.getElementById("formlogin");
+const registerForm = document.getElementById("formRegister");
+const loginItem = document.getElementById("loginItem");
 
+/* LOGIN GOOGLE */
+googleBtn.addEventListener("click", async () => {
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
 
-/* =======================
-    PRODUCTOS
-========================= */
+    await setDoc(doc(db, "usuarios", user.uid), {
+      uid: user.uid,
+      nombre: user.displayName,
+      email: user.email,
+      foto: user.photoURL
+    }, { merge: true });
 
-async function cargarProductos() {
-  const productosContainer = document.getElementById("productosContainer");
-  productosContainer.innerHTML = "";
+    cerrarModalAuth();
+    alert("Bienvenido " + (user.displayName || user.email));
 
-  const productosSnap = await getDocs(collection(db, "Productos"));
+  } catch (err) {
+    alert("Error al iniciar sesión con Google");
+    console.error(err);
+  }
+});
 
-  productosSnap.forEach((doc) => {
-    const p = doc.data();
-    productosContainer.innerHTML += `
-      <div class="col-md-4 mb-4">
-        <div class="card shadow-sm">
-          <img src="${p.imagen}" class="card-img-top" style="height:200px; object-fit:cover;">
-          <div class="card-body">
-            <h5 class="card-title">${p.nombre}</h5>
-            <p class="card-text">S/ ${p.precio.toFixed(2)}</p>
-            <button class="btn btn-dark w-100" onclick="addCarrito('${doc.id}', '${p.nombre}', ${p.precio})">
-              Agregar al carrito
-            </button>
-          </div>
+/* REGISTRO */
+registerForm.addEventListener("submit", async e => {
+  e.preventDefault();
+  const nombre = regNombre.value.trim();
+  const email = regEmail.value.trim();
+  const pass = regPassword.value;
+
+  try {
+    const cred = await createUserWithEmailAndPassword(auth, email, pass);
+    const user = cred.user;
+
+    await setDoc(doc(db, "usuarios", user.uid), {
+      uid: user.uid,
+      nombre,
+      email,
+      foto: `https://ui-avatars.com/api/?name=${encodeURIComponent(nombre)}&background=random`
+    });
+
+    alert("Registro exitoso. Ahora inicia sesión.");
+
+  } catch (err) {
+    alert("Error en registro: " + err.message);
+  }
+});
+
+/* LOGIN EMAIL */
+loginForm.addEventListener("submit", async e => {
+  e.preventDefault();
+
+  try {
+    await signInWithEmailAndPassword(auth, loginEmail.value.trim(), loginPassword.value.trim());
+    cerrarModalAuth();
+    alert("Bienvenido " + loginEmail.value);
+
+  } catch (err) {
+    alert("Credenciales incorrectas");
+  }
+});
+
+/* NAVBAR CUENTA */
+function cerrarModalAuth(){
+  const modal = bootstrap.Modal.getInstance(document.getElementById("authModal"));
+  if(modal) modal.hide();
+}
+
+function pintarUsuarioNavbar(user){
+  if(document.getElementById("userinfo")) return;
+
+  const foto = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName || user.email)}`;
+  const nombre = user.displayName || user.email;
+
+  const li = document.createElement("li");
+  li.className = "nav-item dropdown ms-3 d-flex align-items-center";
+  li.id = "userinfo";
+
+  li.innerHTML = `
+    <button class="btn btn-link position-relative me-3 text-white" id="btnCarritoIcono">
+      <i class="bi bi-cart3 fs-5 text-white"></i>
+      <span id="contadorCarrito" class="badge rounded-pill bg-danger position-absolute top-0 start-100 translate-middle">0</span>
+    </button>
+
+    <a class="nav-link dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown">
+      <img src="${foto}" class="rounded-circle me-2" width="32" height="32">
+      <span class="text-white">${nombre}</span>
+    </a>
+
+    <ul class="dropdown-menu dropdown-menu-end">
+      <li><a class="dropdown-item" id="misPedidosBtn">Mis pedidos</a></li>
+      <li><hr class="dropdown-divider"></li>
+      <li><a class="dropdown-item text-danger" id="cerrarSesionBtn">Cerrar sesión</a></li>
+    </ul>
+  `;
+
+  document.querySelector(".navbar-nav").appendChild(li);
+
+  document.getElementById("cerrarSesionBtn").addEventListener("click", async () => {
+    await signOut(auth);
+  });
+
+  document.getElementById("misPedidosBtn").addEventListener("click", async () => {
+    await cargarPedidosUsuario();
+  });
+}
+
+function limpiarUsuarioNavbar(){
+  const info = document.getElementById("userinfo");
+  if(info) info.remove();
+}
+
+onAuthStateChanged(auth, user => {
+  if(user){
+    pintarUsuarioNavbar(user);
+    loginItem.classList.add("d-none");
+  } else {
+    limpiarUsuarioNavbar();
+    loginItem.classList.remove("d-none");
+  }
+});
+
+/* ---------------- CARRITO ---------------- */
+let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+function mostrarAlerta(){
+  const al = document.getElementById("alertaAgregado");
+  al.style.display = "block";
+  setTimeout(()=> al.style.display = "none", 1600);
+}
+
+function guardarCarrito(){
+  localStorage.setItem("carrito", JSON.stringify(carrito));
+  actualizarContador();
+}
+
+function actualizarContador(){
+  const c = document.getElementById("contadorCarrito");
+  if(!c) return;
+  c.textContent = carrito.reduce((acc, i)=> acc + i.cantidad, 0);
+}
+
+function renderCarrito(){
+  const lista = document.getElementById("listaCarrito");
+  const totalSpan = document.getElementById("totalCarrito");
+
+  lista.innerHTML = "";
+  let total = 0;
+
+  if(carrito.length === 0){
+    lista.innerHTML = '<p class="text-center">Tu carrito está vacío.</p>';
+    totalSpan.textContent = "S/ 0.00";
+    return;
+  }
+
+  carrito.forEach((item, index)=>{
+    total += item.precio * item.cantidad;
+
+    const div = document.createElement("div");
+    div.className = "d-flex align-items-center border-bottom py-2";
+
+    div.innerHTML = `
+      <img src="${item.img}" width="60" class="rounded me-3">
+
+      <div class="me-auto">
+        <h6 class="mb-0">${item.nombre}</h6>
+        <small>S/ ${item.precio.toFixed(2)}</small>
+      </div>
+
+      <div class="d-flex align-items-center">
+        <button class="btn btn-sm btn-outline-secondary me-2 btn-restar">−</button>
+        <span class="mx-2">${item.cantidad}</span>
+        <button class="btn btn-sm btn-outline-secondary ms-2 btn-sumar">+</button>
+      </div>
+
+      <button class="btn btn-sm btn-danger ms-3 btn-eliminar"><i class="bi bi-trash"></i></button>
+    `;
+
+    div.querySelector(".btn-restar").addEventListener("click", ()=> cambiarCantidad(index, -1));
+    div.querySelector(".btn-sumar").addEventListener("click", ()=> cambiarCantidad(index, 1));
+    div.querySelector(".btn-eliminar").addEventListener("click", ()=> eliminarItem(index));
+
+    lista.appendChild(div);
+  });
+
+  totalSpan.textContent = `S/ ${total.toFixed(2)}`;
+}
+
+function cambiarCantidad(index, value){
+  carrito[index].cantidad += value;
+  if(carrito[index].cantidad <= 0) carrito.splice(index, 1);
+  guardarCarrito();
+  renderCarrito();
+}
+
+function eliminarItem(index){
+  carrito.splice(index, 1);
+  guardarCarrito();
+  renderCarrito();
+}
+
+/* Abrir carrito */
+document.addEventListener("click", e=>{
+  if(e.target.closest("#btnCarritoIcono")){
+    renderCarrito();
+    new bootstrap.Modal(document.getElementById("modalCarrito")).show();
+  }
+});
+
+/* Agregar productos */
+document.querySelectorAll(".addToCart").forEach(btn=>{
+  btn.addEventListener("click", e=>{
+    if(!document.getElementById("userinfo")){
+      new bootstrap.Modal(document.getElementById("authModal")).show();
+      return;
+    }
+
+    const card = e.target.closest(".card");
+    const nombre = card.querySelector(".card-title").textContent;
+    const precio = parseFloat(card.querySelector(".fw-bold").textContent.replace("s/","").replace("S/",""));
+    const img = card.querySelector("img").src;
+
+    const existe = carrito.find(p=> p.nombre === nombre);
+
+    if(existe) existe.cantidad++;
+    else carrito.push({ nombre, precio, img, cantidad: 1 });
+
+    guardarCarrito();
+    mostrarAlerta();
+  });
+});
+
+actualizarContador();
+renderCarrito();
+
+/* ---------------- HACER PEDIDO ---------------- */
+document.getElementById("btnComprar").addEventListener("click", async ()=>{
+  if(!auth.currentUser){
+    new bootstrap.Modal(document.getElementById("authModal")).show();
+    return;
+  }
+
+  if(carrito.length === 0){
+    alert("El carrito está vacío.");
+    return;
+  }
+
+  try{
+    const uid = auth.currentUser.uid;
+
+    /* 🔥 CORREGIDO: "Pedidos" con P mayúscula */
+    await addDoc(collection(db, "Pedidos"), {
+      uid,
+      items: carrito,
+      total: carrito.reduce((acc,i)=> acc+i.precio*i.cantidad, 0),
+      createdAt: serverTimestamp()
+    });
+
+    carrito = [];
+    guardarCarrito();
+    renderCarrito();
+
+    const modal = bootstrap.Modal.getInstance(document.getElementById("modalCarrito"));
+    if(modal) modal.hide();
+
+    alert("Pedido registrado. ¡Gracias por comprar!");
+
+  } catch(err){
+    console.error(err);
+    alert("Error al guardar pedido");
+  }
+});
+
+/* ---------------- MIS PEDIDOS ---------------- */
+async function cargarPedidosUsuario(){
+  const user = auth.currentUser;
+  if(!user){
+    new bootstrap.Modal(document.getElementById("authModal")).show();
+    return;
+  }
+
+  const lista = document.getElementById("listaPedidos");
+  lista.innerHTML = `<p class="text-center">Cargando pedidos...</p>`;
+
+  try{
+    // Consulta SIN orderBy (para evitar error por documentos antiguos)
+    const q = query(
+      collection(db,"Pedidos"),
+      where("uid","==", user.uid)
+    );
+
+    const snap = await getDocs(q);
+    const pedidos = [];
+    snap.forEach(doc=> pedidos.push({ id: doc.id, ...doc.data() }));
+
+    // Ordenar manualmente por fecha creando una copia segura
+    pedidos.sort((a,b)=>{
+      const fa = a.createdAt?.toMillis ? a.createdAt.toMillis() : 0;
+      const fb = b.createdAt?.toMillis ? b.createdAt.toMillis() : 0;
+      return fb - fa;
+    });
+
+    lista.innerHTML = "";
+
+    if(pedidos.length === 0){
+      lista.innerHTML = `<p class="text-center">No tienes pedidos.</p>`;
+    } else {
+      pedidos.forEach(p=>{
+        lista.innerHTML += renderPedidoHtml(p);
+      });
+    }
+
+    // Mostrar modal
+    new bootstrap.Modal(document.getElementById("modalPedidos")).show();
+
+  } catch(err){
+    console.error(err);
+    lista.innerHTML = `<p class="text-center text-danger">Error al cargar pedidos</p>`;
+  }
+}
+
+/* RENDER DE CADA PEDIDO */
+function renderPedidoHtml(p){
+  const fecha = p.createdAt?.toDate
+    ? p.createdAt.toDate().toLocaleString()
+    : "Sin fecha";
+
+  let itemsHtml = "";
+  p.items.forEach(i=>{
+    itemsHtml += `
+      <div class="d-flex align-items-center pedido-item">
+        <img src="${i.img}" width="50" class="rounded me-3">
+        <div>
+          <strong>${i.nombre}</strong><br>
+          Cant: ${i.cantidad} | S/ ${i.precio.toFixed(2)}
         </div>
       </div>
     `;
   });
+
+  return `
+    <div class="border rounded p-3 mb-3 shadow-sm">
+      <h5 class="mb-2">Pedido: ${p.id}</h5>
+      <p><strong>Fecha:</strong> ${fecha}</p>
+      <p><strong>Total:</strong> S/ ${p.total.toFixed(2)}</p>
+      <h6>Productos:</h6>
+      ${itemsHtml}
+    </div>
+  `;
 }
-cargarProductos();
-
-
-
-/* =======================
-    CARRITO
-========================= */
-
-let carrito = [];
-
-window.addCarrito = function(id, nombre, precio) {
-  carrito.push({ id, nombre, precio });
-
-  document.getElementById("alertaAgregado").innerHTML = "Producto agregado ✔";
-  document.getElementById("alertaAgregado").style.display = "block";
-
-  setTimeout(() => {
-    document.getElementById("alertaAgregado").style.display = "none";
-  }, 1500);
-
-  actualizarCarrito();
-  new bootstrap.Modal("#carritoModal").show();
-};
-
-function actualizarCarrito() {
-  let html = "";
-  let total = 0;
-
-  carrito.forEach((item, i) => {
-    total += item.precio;
-    html += `
-      <div class="pedido-item">
-        ${item.nombre} - S/${item.precio.toFixed(2)}
-        <button class="btn btn-sm btn-danger float-end" onclick="quitarItem(${i})">
-          <i class="bi bi-x"></i>
-        </button>
-      </div>
-    `;
-  });
-
-  document.getElementById("carritoContainer").innerHTML = html || "<p class='text-center'>Carrito vacío</p>";
-  document.getElementById("totalCarrito").innerText = total.toFixed(2);
-}
-
-window.quitarItem = function(i) {
-  carrito.splice(i, 1);
-  actualizarCarrito();
-};
-
-
-
-/* =======================
-    GUARDAR PEDIDO
-========================= */
-
-window.guardarPedido = async function() {
-  const user = auth.currentUser;
-
-  if (!user) {
-    alert("Debes iniciar sesión");
-    return;
-  }
-
-  if (carrito.length === 0) {
-    alert("Tu carrito está vacío");
-    return;
-  }
-
-  try {
-    await addDoc(collection(db, "Pedidos"), {
-      userId: user.uid,
-      productos: carrito,
-      fecha: new Date()
-    });
-
-    carrito = [];
-    actualizarCarrito();
-
-    alert("Pedido realizado correctamente ✔");
-  } catch (e) {
-    alert("Ocurrió un error al guardar el pedido");
-  }
-};
-
-
-
-/* =======================
-     MIS PEDIDOS
-========================= */
-
-async function cargarMisPedidos() {
-  const user = auth.currentUser;
-  const lista = document.getElementById("listaPedidos");
-
-  lista.innerHTML = "<p class='text-center'>Cargando...</p>";
-
-  const q = query(
-    collection(db, "Pedidos"),
-    where("userId", "==", user.uid),
-    orderBy("fecha", "desc")
-  );
-
-  const snap = await getDocs(q);
-
-  if (snap.empty) {
-    lista.innerHTML = "<p class='text-center text-muted'>Aún no tienes pedidos</p>";
-    return;
-  }
-
-  let html = "";
-  snap.forEach((doc) => {
-    const p = doc.data();
-    html += `
-      <div class="pedido-item">
-        <strong>Fecha:</strong> ${new Date(p.fecha.toDate()).toLocaleString()}<br>
-        <strong>Productos:</strong><br>
-        ${p.productos.map(x => `- ${x.nombre} (S/${x.precio})`).join("<br>")}
-      </div>
-    `;
-  });
-
-  lista.innerHTML = html;
-}
-
-document.getElementById("misPedidosModal").addEventListener("show.bs.modal", cargarMisPedidos);
-
-
-
-
-/* =======================
-     LOGIN / REGISTRO
-========================= */
-
-window.login = async function() {
-  const email = emailInput.value;
-  const pass = passwordInput.value;
-
-  try {
-    await signInWithEmailAndPassword(auth, email, pass);
-    bootstrap.Modal.getInstance(authModal).hide();
-  } catch (e) {
-    alert("Error al iniciar sesión");
-  }
-};
-
-window.register = async function() {
-  const email = emailInput.value;
-  const pass = passwordInput.value;
-
-  try {
-    await createUserWithEmailAndPassword(auth, email, pass);
-    bootstrap.Modal.getInstance(authModal).hide();
-  } catch (e) {
-    alert("Error al registrarse");
-  }
-};
-
-window.logout = function() {
-  signOut(auth);
-};
-
-
-
-/* =======================
-     SESSION STATE
-========================= */
-
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    usuarioMenu.style.display = "block";
-    loginItem.style.display = "none";
-    usuarioEmail.innerText = user.email;
-  } else {
-    usuarioMenu.style.display = "none";
-    loginItem.style.display = "block";
-  }
-});
 
 </script>
 
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
