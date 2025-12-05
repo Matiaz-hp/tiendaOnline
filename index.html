@@ -230,7 +230,7 @@ import {
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 
-/* Configuración Firebase (tuya) */
+/* Configuración Firebase */
 const firebaseConfig = {
   apiKey: "AIzaSyArS6xpIackJu-MlN_StQ6oaftd-HIEHpI",
   authDomain: "tiendaonline-232fd.firebaseapp.com",
@@ -258,7 +258,6 @@ googleBtn.addEventListener("click", async () => {
     const result = await signInWithPopup(auth, provider);
     const user = result.user;
 
-    // Guardar usuario en Firestore (merge)
     await setDoc(doc(db, "usuarios", user.uid), {
       uid: user.uid,
       nombre: user.displayName,
@@ -269,7 +268,7 @@ googleBtn.addEventListener("click", async () => {
     cerrarModalAuth();
     alert(`Bienvenido a tienda online, ${user.displayName || user.email}`);
   } catch (err) {
-    alert("Error al iniciar sesión con Google. Revisa tu dominio autorizado en Firebase.");
+    alert("Error al iniciar sesión con Google.");
     console.error(err);
   }
 });
@@ -307,12 +306,10 @@ loginForm.addEventListener("submit", async e => {
   const pass = document.getElementById("loginPassword").value;
 
   try {
-    const userCredential = await signInWithEmailAndPassword(auth, email, pass);
-    const user = userCredential.user;
-
+    await signInWithEmailAndPassword(auth, email, pass);
     cerrarModalAuth();
     loginForm.reset();
-    alert(`Bienvenido a tienda online, ${user.displayName || email}`);
+    alert(`Bienvenido a tienda online, ${email}`);
   } catch (err) {
     alert("Credenciales inválidas");
     console.error(err);
@@ -327,6 +324,7 @@ function cerrarModalAuth() {
 
 function pintarUsuarioNavbar(user){
   if(document.getElementById("userinfo")) return;
+
   const foto = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName || user.email)}`;
   const nombre = user.displayName || user.email;
 
@@ -334,13 +332,13 @@ function pintarUsuarioNavbar(user){
   li.className = "nav-item dropdown ms-3 d-flex align-items-center";
   li.id = "userinfo";
   li.innerHTML = `
-    <button class="btn btn-link position-relative me-3 text-white" id="btnCarritoIcono" title="ver carrito">
+    <button class="btn btn-link position-relative me-3 text-white" id="btnCarritoIcono">
       <i class="bi bi-cart3 fs-5 text-white"></i>
-      <span id="contadorCarrito" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
+      <span id="contadorCarrito" class="badge rounded-pill bg-danger position-absolute top-0 start-100 translate-middle">0</span>
     </button>
     <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" data-bs-toggle="dropdown">
       <img src="${foto}" class="rounded-circle me-2" width="32" height="32">
-      <span class="text-white"> ${nombre}</span>
+      <span class="text-white">${nombre}</span>
     </a>
     <ul class="dropdown-menu dropdown-menu-end">
       <li><a class="dropdown-item" href="#" id="misPedidosBtn">Mis pedidos</a></li>
@@ -350,15 +348,13 @@ function pintarUsuarioNavbar(user){
   `;
   document.querySelector(".navbar-nav").appendChild(li);
 
-  // Abrir mis pedidos al hacer click
   document.getElementById("misPedidosBtn").addEventListener("click", async (ev) => {
     ev.preventDefault();
-    await cargarPedidosUsuario(); // carga y abre modal
+    await cargarPedidosUsuario();
   });
 
   document.getElementById("cerrarSesionBtn").addEventListener("click", async () => {
     await signOut(auth);
-    // al cerrar sesión limpiamos vista pedidos (si quieres)
   });
 }
 
@@ -367,7 +363,6 @@ function limpiarUsuarioNavbar(){
   if(info) info.remove();
 }
 
-/* Mantener sesión y actualizar navbar */
 onAuthStateChanged(auth, (user) => {
   if(user){
     pintarUsuarioNavbar(user);
@@ -378,31 +373,28 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
-/* ------------------ CARRITO Y PEDIDOS ------------------ */
+/* ------------------ CARRITO ------------------ */
 
 let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
-/* Mostrar alerta verde */
 function mostrarAlerta() {
   const alerta = document.getElementById("alertaAgregado");
   alerta.style.display = "block";
   setTimeout(() => alerta.style.display = "none", 1600);
 }
 
-/* Guardar carrito */
 function guardarCarrito() {
   localStorage.setItem("carrito", JSON.stringify(carrito));
   actualizarContador();
 }
 
-/* Actualizar contador del ícono */
 function actualizarContador() {
   const contador = document.getElementById("contadorCarrito");
   if (!contador) return;
   contador.textContent = carrito.reduce((acc, item) => acc + item.cantidad, 0);
 }
 
-/* Renderizar carrito en modal */
+/* Render carrito con EVENTOS reales (no onclick) */
 function renderCarrito() {
   const lista = document.getElementById("listaCarrito");
   const totalSpan = document.getElementById("totalCarrito");
@@ -423,24 +415,39 @@ function renderCarrito() {
     itemHtml.className = "d-flex align-items-center border-bottom py-2";
     itemHtml.innerHTML = `
       <img src="${item.img}" width="60" class="rounded me-3">
+
       <div class="me-auto">
         <h6 class="mb-0">${item.nombre}</h6>
         <small>S/ ${item.precio.toFixed(2)}</small>
       </div>
+
       <div class="d-flex align-items-center">
-        <button class="btn btn-sm btn-outline-secondary me-2" onclick="cambiarCantidad(${index}, -1)">−</button>
+        <button class="btn btn-sm btn-outline-secondary me-2 btn-restar">−</button>
         <span class="mx-2">${item.cantidad}</span>
-        <button class="btn btn-sm btn-outline-secondary ms-2" onclick="cambiarCantidad(${index}, 1)">+</button>
+        <button class="btn btn-sm btn-outline-secondary ms-2 btn-sumar">+</button>
       </div>
-      <button class="btn btn-sm btn-danger ms-3" onclick="eliminarItem(${index})"><i class="bi bi-trash"></i></button>
+
+      <button class="btn btn-sm btn-danger ms-3 btn-eliminar">
+        <i class="bi bi-trash"></i>
+      </button>
     `;
+
+    /* EVENTOS NUEVOS */
+    itemHtml.querySelector(".btn-restar")
+      .addEventListener("click", () => cambiarCantidad(index, -1));
+
+    itemHtml.querySelector(".btn-sumar")
+      .addEventListener("click", () => cambiarCantidad(index, 1));
+
+    itemHtml.querySelector(".btn-eliminar")
+      .addEventListener("click", () => eliminarItem(index));
+
     lista.appendChild(itemHtml);
   });
 
   totalSpan.textContent = `S/ ${total.toFixed(2)}`;
 }
 
-/* Cambiar cantidad */
 function cambiarCantidad(index, cambio) {
   carrito[index].cantidad += cambio;
   if (carrito[index].cantidad <= 0) carrito.splice(index, 1);
@@ -448,14 +455,13 @@ function cambiarCantidad(index, cambio) {
   renderCarrito();
 }
 
-/* Eliminar producto */
 function eliminarItem(index) {
   carrito.splice(index, 1);
   guardarCarrito();
   renderCarrito();
 }
 
-/* Abrir carrito desde ícono */
+/* Abrir modal carrito */
 document.addEventListener("click", (e) => {
   if (e.target.closest("#btnCarritoIcono")) {
     renderCarrito();
@@ -463,15 +469,12 @@ document.addEventListener("click", (e) => {
   }
 });
 
-/* Agregar productos: si no hay sesión abre modal auth */
+/* Agregar productos */
 document.querySelectorAll(".addToCart").forEach(btn => {
   btn.addEventListener("click", (e) => {
     const userinfo = document.getElementById("userinfo");
     if (!userinfo) {
-      // abrir modal auth
-      const authModalEl = document.getElementById("authModal");
-      const authModal = new bootstrap.Modal(authModalEl);
-      authModal.show();
+      new bootstrap.Modal(document.getElementById("authModal")).show();
       return;
     }
 
@@ -483,48 +486,41 @@ document.querySelectorAll(".addToCart").forEach(btn => {
 
     const existe = carrito.find(p => p.nombre === nombre);
 
-    if (existe) {
-      existe.cantidad++;
-    } else {
-      carrito.push({ nombre, precio, img, cantidad: 1 });
-    }
+    if (existe) existe.cantidad++;
+    else carrito.push({ nombre, precio, img, cantidad: 1 });
 
     guardarCarrito();
     mostrarAlerta();
   });
 });
 
-/* Inicializar contador al cargar */
+/* Inicializar */
 actualizarContador();
 renderCarrito();
 
-/* Guardar pedido (Hacer pedido) */
+/* ------------------ HACER PEDIDO ------------------ */
+
 document.getElementById("btnComprar").addEventListener("click", async () => {
   try {
-    const userinfo = document.getElementById("userinfo");
-    if (!userinfo) {
-      const authModal = new bootstrap.Modal(document.getElementById("authModal"));
-      authModal.show();
+    if (!document.getElementById("userinfo")) {
+      new bootstrap.Modal(document.getElementById("authModal")).show();
       return;
     }
 
-    // Evitar pedidos vacíos
     if (carrito.length === 0) {
       alert("El carrito está vacío.");
       return;
     }
 
-    // Obtener datos del pedido
     const pedido = {
       items: carrito.map(i => ({ nombre: i.nombre, precio: i.precio, cantidad: i.cantidad, img: i.img })),
       total: carrito.reduce((acc, i) => acc + i.precio * i.cantidad, 0),
       creadoEn: new Date().toISOString()
     };
 
-    // Guardar en Firestore si existe sesión
     if (auth.currentUser) {
       const uid = auth.currentUser.uid;
-      // Usamos addDoc para id automático y serverTimestamp para orden
+
       await addDoc(collection(db, "pedidos"), {
         uid,
         items: pedido.items,
@@ -533,26 +529,24 @@ document.getElementById("btnComprar").addEventListener("click", async () => {
         creadoEn: pedido.creadoEn
       });
 
-      // Limpiar carrito
       carrito = [];
       guardarCarrito();
       renderCarrito();
-      new bootstrap.Modal(document.getElementById("modalCarrito")).hide();
-      alert("Pedido guardado en Firestore. Gracias por tu compra!");
 
-      // opcional: recargar lista de pedidos si modal abierto
-      // cargarPedidosUsuario();
+      bootstrap.Modal.getInstance(document.getElementById("modalCarrito")).hide();
+      alert("Pedido guardado. Gracias por tu compra!");
 
     } else {
-      // fallback localStorage
       const pedidos = JSON.parse(localStorage.getItem("pedidos") || "[]");
       pedidos.push({ uid: null, ...pedido });
       localStorage.setItem("pedidos", JSON.stringify(pedidos));
+
       carrito = [];
       guardarCarrito();
       renderCarrito();
-      new bootstrap.Modal(document.getElementById("modalCarrito")).hide();
-      alert("Pedido guardado localmente (no hay sesión).");
+
+      bootstrap.Modal.getInstance(document.getElementById("modalCarrito")).hide();
+      alert("Pedido guardado localmente.");
     }
   } catch (err) {
     console.error(err);
@@ -560,13 +554,12 @@ document.getElementById("btnComprar").addEventListener("click", async () => {
   }
 });
 
-/* Cargar pedidos del usuario y mostrar en modal */
+/* ------------------ MIS PEDIDOS ------------------ */
+
 async function cargarPedidosUsuario() {
   const user = auth.currentUser;
   if (!user) {
-    // si no hay sesión, abrir modal auth
-    const authModal = new bootstrap.Modal(document.getElementById("authModal"));
-    authModal.show();
+    new bootstrap.Modal(document.getElementById("authModal")).show();
     return;
   }
 
@@ -574,43 +567,28 @@ async function cargarPedidosUsuario() {
   lista.innerHTML = `<p class="text-center">Cargando pedidos...</p>`;
 
   try {
-    // Consulta Firestore por uid ordenado por fecha descendente
-    const q = query(collection(db, "pedidos"), where("uid", "==", user.uid), orderBy("createdAt", "desc"));
+    const q = query(
+      collection(db, "pedidos"),
+      where("uid", "==", user.uid),
+      orderBy("createdAt", "desc")
+    );
     const snapshot = await getDocs(q);
 
     const pedidos = [];
-    snapshot.forEach(docSnap => {
-      const data = docSnap.data();
-      pedidos.push({ id: docSnap.id, ...data });
-    });
+    snapshot.forEach(docSnap => pedidos.push({ id: docSnap.id, ...docSnap.data() }));
 
-    // Si no hay pedidos en Firestore, validar fallback localStorage
+    lista.innerHTML = "";
+
     if (pedidos.length === 0) {
-      // fallback localStorage
-      const local = JSON.parse(localStorage.getItem("pedidos") || "[]");
-      const mios = local.filter(p => !p.uid || p.uid === user.uid);
-      if (mios.length === 0) {
-        lista.innerHTML = `<p class="text-center">No tienes pedidos aún.</p>`;
-        new bootstrap.Modal(document.getElementById("modalPedidos")).show();
-        return;
-      } else {
-        // mostrar los pedidos locales
-        lista.innerHTML = "";
-        mios.reverse().forEach((p, idx) => {
-          lista.innerHTML += renderPedidoHtml(p, `local_${idx}`);
-        });
-        new bootstrap.Modal(document.getElementById("modalPedidos")).show();
-        return;
-      }
+      lista.innerHTML = `<p class="text-center">No tienes pedidos aún.</p>`;
+    } else {
+      pedidos.forEach(p => {
+        lista.innerHTML += renderPedidoHtml(p, p.id);
+      });
     }
 
-    // Mostrar pedidos de Firestore
-    lista.innerHTML = "";
-    pedidos.forEach(p => {
-      lista.innerHTML += renderPedidoHtml(p, p.id);
-    });
-
     new bootstrap.Modal(document.getElementById("modalPedidos")).show();
+
   } catch (err) {
     console.error(err);
     lista.innerHTML = `<p class="text-center text-danger">Error al cargar pedidos.</p>`;
@@ -618,10 +596,11 @@ async function cargarPedidosUsuario() {
   }
 }
 
-/* HTML helper para pedido */
 function renderPedidoHtml(pedido, id) {
-  const fecha = pedido.creadoEn || (pedido.createdAt ? (pedido.createdAt.toDate ? pedido.createdAt.toDate().toLocaleString() : '') : '');
-  let html = `<div class="pedido-item" id="pedido_${id}">
+  const fecha = pedido.creadoEn || (pedido.createdAt?.toDate?.().toLocaleString() || "");
+
+  let html = `
+  <div class="pedido-item" id="pedido_${id}">
     <div class="d-flex justify-content-between align-items-start">
       <div>
         <strong>Pedido:</strong> <small>${id}</small><br>
@@ -631,21 +610,28 @@ function renderPedidoHtml(pedido, id) {
         <strong>Total: S/ ${Number(pedido.total || 0).toFixed(2)}</strong>
       </div>
     </div>
-    <div class="mt-2">`;
+    <div class="mt-2">
+  `;
+
   (pedido.items || []).forEach(it => {
-    html += `<div class="d-flex align-items-center mb-2">
-      <img src="${it.img || ''}" width="48" class="rounded me-2">
-      <div class="me-auto">
-        <div>${it.nombre}</div>
-        <small>S/ ${Number(it.precio || 0).toFixed(2)} × ${it.cantidad}</small>
+    html += `
+      <div class="d-flex align-items-center mb-2">
+        <img src="${it.img}" width="48" class="rounded me-2">
+        <div class="me-auto">
+          <div>${it.nombre}</div>
+          <small>S/ ${it.precio} × ${it.cantidad}</small>
+        </div>
+        <div><small>S/ ${(it.precio * it.cantidad).toFixed(2)}</small></div>
       </div>
-      <div><small>S/ ${(Number(it.precio || 0) * Number(it.cantidad || 0)).toFixed(2)}</small></div>
-    </div>`;
+    `;
   });
+
   html += `</div></div>`;
   return html;
 }
+
 </script>
+
 
 </body>
 </html>
