@@ -3,20 +3,39 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>tienda online </title>
+  <title>tienda online</title>
+
   <!-- Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+    /* Alerta flotante verde */
+    #alertaAgregado {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 12px 18px;
+      background: #28a745;
+      color: white;
+      border-radius: 6px;
+      box-shadow: 0 0 10px rgba(0,0,0,.2);
+      display: none;
+      z-index: 2000;
+      font-weight: bold;
+    }
+  </style>
 </head>
 
 <body>
+
+<div id="alertaAgregado">Producto agregado correctamente ✔</div>
 
 <!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container">
     <a class="navbar-brand fw-bold" href="#">tienda online</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu"
-      aria-controls="menu" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
       <span class="navbar-toggler-icon"></span>
     </button>
 
@@ -44,98 +63,89 @@
 <section class="py-5">
   <div class="container">
     <h2 class="text-center mb-4">NUESTROS PRODUCTOS</h2>
+
     <div class="row g-4">
+
+      <!-- PRODUCTO -->
       <div class="col-12 col-sm-6 col-md-3">
         <div class="card h-80 shadow-sm">
-          <img src="imagenes/camiseta.jpeg" class="card-img-top" alt="blanco">
+          <img src="imagenes/camiseta.jpeg" class="card-img-top">
           <div class="card-body text-center">
             <h5 class="card-title">camisa</h5>
             <p class="card-text">para hombre</p>
             <p class="fw-bold">s/30.00</p>
-            <button class="btn btn-primary">AGREGAR AL CARRITO</button>
+            <button class="btn btn-primary addToCart">AGREGAR AL CARRITO</button>
           </div>
         </div>
       </div>
+
+      <!-- PRODUCTO -->
       <div class="col-12 col-sm-6 col-md-3">
         <div class="card h-80 shadow-sm">
-          <img src="imagenes/tenis.jpeg" class="card-img-top" alt="azul">
+          <img src="imagenes/tenis.jpeg" class="card-img-top">
           <div class="card-body text-center">
             <h5 class="card-title">zapatillas</h5>
             <p class="card-text">zapatillas</p>
             <p class="fw-bold">s/35.00</p>
-            <button class="btn btn-primary">AGREGAR AL CARRITO</button>
+            <button class="btn btn-primary addToCart">AGREGAR AL CARRITO</button>
           </div>
         </div>
       </div>
+
+      <!-- PRODUCTO -->
       <div class="col-12 col-sm-6 col-md-3">
         <div class="card h-80 shadow-sm">
-          <img src="imagenes/tenispuma.jpeg" class="card-img-top" alt="azul">
+          <img src="imagenes/tenispuma.jpeg" class="card-img-top">
           <div class="card-body text-center">
             <h5 class="card-title">zapatillas</h5>
             <p class="card-text">sap</p>
             <p class="fw-bold">s/35.00</p>
-            <button class="btn btn-primary">AGREGAR AL CARRITO</button>
+            <button class="btn btn-primary addToCart">AGREGAR AL CARRITO</button>
           </div>
         </div>
       </div>
+
+      <!-- PRODUCTO -->
       <div class="col-12 col-sm-6 col-md-3">
         <div class="card h-80 shadow-sm">
-          <img src="imagenes/tenispuma.jpeg" class="card-img-top" alt="azul">
-          <div class="card-body text-center">
-            <h5 class="card-title">zapatillas</h5>
-            <p class="card-text">sap</p>
-            <p class="fw-bold">s/35.00</p>
-            <button class="btn btn-primary">AGREGAR AL CARRITO</button>
-          </div>
-        </div>
-      </div>
-      <div class="col-12 col-sm-6 col-md-3">
-        <div class="card h-80 shadow-sm">
-          <img src="imagenes/telefono.jpeg" class="card-img-top" alt="blanco">
+          <img src="imagenes/telefono.jpeg" class="card-img-top">
           <div class="card-body text-center">
             <h5 class="card-title">telefono</h5>
             <p class="card-text">samsumg</p>
             <p class="fw-bold">s/25.00</p>
-            <button class="btn btn-primary">AGREGAR AL CARRITO</button>
+            <button class="btn btn-primary addToCart">AGREGAR AL CARRITO</button>
           </div>
         </div>
       </div>
-      <div class="col-12 col-sm-6 col-md-3">
-        <div class="card h-80 shadow-sm">
-          <img src="imagenes/tenispuma.jpeg" class="card-img-top" alt="azul">
-          <div class="card-body text-center">
-            <h5 class="card-title">zapatillas</h5>
-            <p class="card-text">sap</p>
-            <p class="fw-bold">s/35.00</p>
-            <button class="btn btn-primary">AGREGAR AL CARRITO</button>
-          </div>
-        </div>
-      </div>
-      <div class="col-12 col-sm-6 col-md-3">
-        <div class="card h-80 shadow-sm">
-          <img src="imagenes/tenispuma.jpeg" class="card-img-top" alt="azul">
-          <div class="card-body text-center">
-            <h5 class="card-title">zapatillas</h5>
-            <p class="card-text">sap</p>
-            <p class="fw-bold">s/35.00</p>
-            <button class="btn btn-primary">AGREGAR AL CARRITO</button>
-          </div>
-        </div>
-      </div>
-      <div class="col-12 col-sm-6 col-md-3">
-        <div class="card h-80 shadow-sm">
-          <img src="imagenes/telefono.jpeg" class="card-img-top" alt="blanco">
-          <div class="card-body text-center">
-            <h5 class="card-title">telefono</h5>
-            <p class="card-text">samsumg</p>
-            <p class="fw-bold">s/25.00</p>
-            <button class="btn btn-primary">AGREGAR AL CARRITO</button>
-          </div>
-        </div>
-      </div>
+
     </div>
   </div>
 </section>
+
+
+<!-- MODAL CARRITO -->
+<div class="modal fade" id="carritoModal" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+
+      <div class="modal-header bg-dark text-white">
+        <h5 class="modal-title">Tu carrito</h5>
+        <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body" id="carritoLista"></div>
+
+      <div class="modal-footer">
+        <h5 class="me-auto mb-0">Total: <span id="totalCarrito">s/0.00</span></h5>
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button class="btn btn-success">Ir a pagar</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
 
 <!-- MODAL LOGIN/REGISTRO -->
 <div class="modal fade" id="authModal" tabindex="-1">
@@ -143,9 +153,11 @@
     <div class="modal-content">
       <div class="modal-header bg-dark text-white">
         <h5 class="modal-title">Acceder a tu cuenta</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
       </div>
+
       <div class="modal-body">
+
         <ul class="nav nav-tabs mb-3">
           <li class="nav-item">
             <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#loginTab">Iniciar Sesión</button>
@@ -156,13 +168,9 @@
         </ul>
 
         <div class="tab-content">
+
           <!-- LOGIN -->
           <div class="tab-pane fade show active" id="loginTab">
-            <div class="d-grid mb-3">
-              <button id="googleLogin" type="button" class="btn btn-danger">
-                <i class="bi bi-google"></i> Iniciar sesión con Google
-              </button>
-            </div>
             <form id="formlogin">
               <div class="mb-3">
                 <label>Email</label>
@@ -194,36 +202,149 @@
               <button class="btn btn-primary w-100">Registrarse</button>
             </form>
           </div>
+
         </div>
       </div>
+
     </div>
   </div>
 </div>
 
+
 <!-- FOOTER -->
 <footer class="bg-dark text-white text-center py-3 mt-5">
-  <p class="mb-0">&copy; 2025 matiaz  - Todos los derechos reservados</p>
+  <p class="mb-0">&copy; 2025 matiaz - Todos los derechos reservados</p>
 </footer>
 
-<!-- BOOTSTRAP JS -->
+
+<!-- JS BOOTSTRAP -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- FIREBASE -->
+
+<!-- JS DEL CARRITO -->
+<script>
+let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+/* ALERTA */
+function mostrarAlerta() {
+  const alerta = document.getElementById("alertaAgregado");
+  alerta.style.display = "block";
+  setTimeout(() => alerta.style.display = "none", 2000);
+}
+
+/* GUARDAR */
+function guardarCarrito() {
+  localStorage.setItem("carrito", JSON.stringify(carrito));
+}
+
+/* CONTADOR */
+function actualizarContador() {
+  const contador = document.getElementById("contadorCarrito");
+  if (!contador) return;
+  contador.textContent = carrito.reduce((acc, item) => acc + item.cantidad, 0);
+}
+
+/* MOSTRAR CARRITO */
+function mostrarCarrito() {
+  const lista = document.getElementById("carritoLista");
+  const total = document.getElementById("totalCarrito");
+
+  let html = "";
+  let totalFinal = 0;
+
+  carrito.forEach((item, index) => {
+    const subtotal = item.precio * item.cantidad;
+    totalFinal += subtotal;
+
+    html += `
+      <div class="d-flex align-items-center border-bottom py-2">
+        <img src="${item.img}" width="60" class="rounded me-3">
+        <div class="me-auto">
+          <h6 class="mb-0">${item.nombre}</h6>
+          <small>s/${item.precio.toFixed(2)}</small>
+        </div>
+
+        <div class="d-flex align-items-center">
+          <button class="btn btn-sm btn-outline-danger me-2" onclick="eliminarProducto(${index})">
+            <i class="bi bi-trash"></i>
+          </button>
+
+          <button class="btn btn-sm btn-outline-secondary" onclick="cambiarCantidad(${index}, -1)">−</button>
+          <span class="mx-2">${item.cantidad}</span>
+          <button class="btn btn-sm btn-outline-secondary" onclick="cambiarCantidad(${index}, 1)">+</button>
+        </div>
+      </div>
+    `;
+  });
+
+  lista.innerHTML = html || "<p class='text-center'>Tu carrito está vacío.</p>";
+  total.textContent = "s/" + totalFinal.toFixed(2);
+}
+
+/* CAMBIAR CANTIDAD */
+function cambiarCantidad(i, c) {
+  carrito[i].cantidad += c;
+  if (carrito[i].cantidad <= 0) carrito.splice(i, 1);
+  guardarCarrito();
+  actualizarContador();
+  mostrarCarrito();
+}
+
+/* ELIMINAR */
+function eliminarProducto(i) {
+  carrito.splice(i, 1);
+  guardarCarrito();
+  actualizarContador();
+  mostrarCarrito();
+}
+
+/* AGREGAR PRODUCTO */
+document.querySelectorAll(".addToCart").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const card = btn.closest(".card");
+    const nombre = card.querySelector(".card-title").textContent;
+    const precio = parseFloat(card.querySelector(".fw-bold").textContent.replace("s/", ""));
+    const img = card.querySelector("img").src;
+
+    const existe = carrito.find(p => p.nombre === nombre);
+    if (existe) {
+      existe.cantidad++;
+    } else {
+      carrito.push({ nombre, precio, img, cantidad: 1 });
+    }
+
+    mostrarAlerta();
+    guardarCarrito();
+    actualizarContador();
+  });
+});
+
+
+// ABRIR CARRITO AL PRESIONAR ÍCONO
+document.addEventListener("click", e => {
+  if (e.target.id === "btnCarritoIcono" || e.target.closest("#btnCarritoIcono")) {
+    mostrarCarrito();
+    const modal = new bootstrap.Modal(document.getElementById("carritoModal"));
+    modal.show();
+  }
+});
+
+actualizarContador();
+</script>
+
+
+<!-- FIREBASE AUTH -->
 <script type="module">
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
 import { 
-  getAuth, 
-  GoogleAuthProvider, 
-  signInWithPopup, 
-  signOut, 
-  onAuthStateChanged,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword
+  getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged,
+  createUserWithEmailAndPassword, signInWithEmailAndPassword
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
 
 import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 
-// Configuración Firebase
+// CONFIG FIREBASE
 const firebaseConfig = {
   apiKey: "AIzaSyArS6xpIackJu-MlN_StQ6oaftd-HIEHpI",
   authDomain: "tiendaonline-232fd.firebaseapp.com",
@@ -236,125 +357,64 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
-const provider = new GoogleAuthProvider();
-provider.setCustomParameters({ prompt: 'select_account' }); // <- Forzar selección de correo
+
 
 // ELEMENTOS
-const googleBtn = document.getElementById("googleLogin");
 const loginForm = document.getElementById("formlogin");
 const registerForm = document.getElementById("formRegister");
 const loginItem = document.getElementById("loginItem");
 
-// LOGIN GOOGLE
-googleBtn.addEventListener("click", async () => {
-  try {
-    const result = await signInWithPopup(auth, provider);
-    const user = result.user;
 
-    // Guardar usuario en Firestore
-    await setDoc(doc(db, "usuarios", user.uid), {
-      uid: user.uid,
-      nombre: user.displayName,
-      email: user.email,
-      foto: user.photoURL
-    }, { merge: true });
-
-    cerrarModalAuth();
-    alert(`Bienvenido a tienda online, ${user.displayName || user.email}`);
-  } catch (err) {
-    alert("Error al iniciar sesión con Google. Revisa tu dominio autorizado en Firebase.");
-    console.error(err);
-  }
-});
-
-// REGISTRO EMAIL/PASS
-registerForm.addEventListener("submit", async e => {
-  e.preventDefault();
-  const nombre = document.getElementById("regNombre").value.trim();
-  const email = document.getElementById("regEmail").value.trim();
-  const pass = document.getElementById("regPassword").value;
-
-  try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
-    const user = userCredential.user;
-
-    // Guardar usuario en Firestore con uid, email y avatar por defecto
-    await setDoc(doc(db, "usuarios", user.uid), {
-      uid: user.uid,
-      nombre: nombre,
-      email: email,
-      foto: `https://ui-avatars.com/api/?name=${encodeURIComponent(nombre)}&background=random`
-    });
-
-    alert("Registro exitoso. Ahora puedes iniciar sesión.");
-    registerForm.reset(); // limpiar campos
-  } catch (err) {
-    alert("Error en el registro: " + err.message);
-    console.error(err);
-  }
-});
-
-// LOGIN EMAIL/PASS
-loginForm.addEventListener("submit", async e => {
-  e.preventDefault();
-  const email = document.getElementById("loginEmail").value.trim();
-  const pass = document.getElementById("loginPassword").value;
-
-  try {
-    const userCredential = await signInWithEmailAndPassword(auth, email, pass);
-    const user = userCredential.user;
-
-    cerrarModalAuth();
-    loginForm.reset(); // limpiar campos
-    alert(`Bienvenido a tienda online, ${user.displayName || email}`);
-  } catch (err) {
-    alert("Credenciales inválidas");
-    console.error(err);
-  }
-});
-
-
-// FUNCIONES
+// FUNCIÓN CERRAR MODAL
 function cerrarModalAuth() {
   const authModal = bootstrap.Modal.getInstance(document.getElementById("authModal"));
-  if(authModal) authModal.hide();
+  if (authModal) authModal.hide();
 }
 
+/* PINTAR USUARIO */
 function pintarUsuarioNavbar(user){
   if(document.getElementById("userinfo")) return;
-  const foto = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName || user.email)}`;
-  const nombre = user.displayName || user.email;
+
+  const foto = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.email)}`;
+  const nombre = user.email;
 
   const li = document.createElement("li");
   li.className = "nav-item dropdown ms-3 d-flex align-items-center";
   li.id = "userinfo";
   li.innerHTML = `
-    <button class="btn btn-link position-relative me-3 text-white" id="btnCarritoIcono" title="ver carrito">
+    <button class="btn btn-link position-relative me-3" id="btnCarritoIcono">
       <i class="bi bi-cart3 fs-5 text-white"></i>
       <span id="contadorCarrito" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
     </button>
+
     <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" data-bs-toggle="dropdown">
       <img src="${foto}" class="rounded-circle me-2" width="32" height="32">
-      <span class="text-white"> ${nombre}</span>
+      <span class="text-white">${nombre}</span>
     </a>
+
     <ul class="dropdown-menu dropdown-menu-end">
       <li><a class="dropdown-item" href="#">Mis pedidos</a></li>
       <li><hr class="dropdown-divider"></li>
       <li><a class="dropdown-item text-danger" href="#" id="cerrarSesionBtn">Cerrar sesión</a></li>
     </ul>
   `;
+
   document.querySelector(".navbar-nav").appendChild(li);
+
   document.getElementById("cerrarSesionBtn").addEventListener("click", async () => {
     await signOut(auth);
   });
+
+  actualizarContador();
 }
 
+/* LIMPIAR */
 function limpiarUsuarioNavbar(){
   const info = document.getElementById("userinfo");
   if(info) info.remove();
 }
 
-// MANTENER SESIÓN
+/* SESIÓN */
 onAuthStateChanged(auth, (user) => {
   if(user){
     pintarUsuarioNavbar(user);
@@ -364,7 +424,48 @@ onAuthStateChanged(auth, (user) => {
     loginItem.classList.remove("d-none");
   }
 });
+
+
+/* LOGIN */
+loginForm.addEventListener("submit", async e => {
+  e.preventDefault();
+  const email = loginEmail.value;
+  const pass = loginPassword.value;
+
+  try {
+    await signInWithEmailAndPassword(auth, email, pass);
+    cerrarModalAuth();
+    loginForm.reset();
+  } catch (err) {
+    alert("Credenciales incorrectas");
+  }
+});
+
+
+/* REGISTRO */
+registerForm.addEventListener("submit", async e => {
+  e.preventDefault();
+
+  const nombre = regNombre.value;
+  const email = regEmail.value;
+  const pass = regPassword.value;
+
+  try {
+    const userCred = await createUserWithEmailAndPassword(auth, email, pass);
+    await setDoc(doc(db, "usuarios", userCred.user.uid), {
+      nombre, email
+    });
+
+    alert("Registro exitoso");
+    registerForm.reset();
+
+  } catch (err) {
+    alert("Error: " + err.message);
+  }
+});
+
 </script>
 
 </body>
 </html>
+
