@@ -474,7 +474,8 @@ document.getElementById("btnComprar").addEventListener("click", async ()=>{
   try{
     const uid = auth.currentUser.uid;
 
-    await addDoc(collection(db, "pedidos"), {
+    /* 🔥 CORREGIDO: "Pedidos" con P mayúscula */
+    await addDoc(collection(db, "Pedidos"), {
       uid,
       items: carrito,
       total: carrito.reduce((acc,i)=> acc+i.precio*i.cantidad, 0),
@@ -485,7 +486,9 @@ document.getElementById("btnComprar").addEventListener("click", async ()=>{
     guardarCarrito();
     renderCarrito();
 
-    bootstrap.Modal.getInstance(document.getElementById("modalCarrito")).hide();
+    const modal = bootstrap.Modal.getInstance(document.getElementById("modalCarrito"));
+    if(modal) modal.hide();
+
     alert("Pedido registrado. ¡Gracias por comprar!");
 
   } catch(err){
@@ -506,8 +509,9 @@ async function cargarPedidosUsuario(){
   lista.innerHTML = `<p class="text-center">Cargando pedidos...</p>`;
 
   try{
+    /* 🔥 CORREGIDO: "Pedidos" con P mayúscula */
     const q = query(
-      collection(db,"pedidos"),
+      collection(db,"Pedidos"),
       where("uid","==", user.uid),
       orderBy("createdAt","desc")
     );
@@ -564,6 +568,7 @@ function renderPedidoHtml(p){
   `;
 }
 </script>
+
 
 </body>
 </html>
