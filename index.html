@@ -8,7 +8,6 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
   <style>
-    /* alerta verde flotante */
     #alertaAgregado {
       position: fixed;
       top: 20px;
@@ -20,7 +19,6 @@
       font-weight: 600;
       box-shadow: 0 4px 10px rgba(0,0,0,.15);
     }
-    /* estilos pequeño para lista de pedidos */
     .pedido-item { border-bottom: 1px solid #e9ecef; padding: 10px 0; }
   </style>
 </head>
@@ -33,8 +31,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container">
     <a class="navbar-brand fw-bold" href="#">tienda online</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu"
-      aria-controls="menu" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
       <span class="navbar-toggler-icon"></span>
     </button>
 
@@ -63,10 +60,11 @@
   <div class="container">
     <h2 class="text-center mb-4">NUESTROS PRODUCTOS</h2>
     <div class="row g-4">
-      <!-- Repite los productos según tu HTML original -->
+
+      <!-- PRODUCTO 1 -->
       <div class="col-12 col-sm-6 col-md-3">
         <div class="card h-80 shadow-sm">
-          <img src="imagenes/camiseta.jpeg" class="card-img-top" alt="blanco">
+          <img src="imagenes/camiseta.jpeg" class="card-img-top" alt="camisa">
           <div class="card-body text-center">
             <h5 class="card-title">camisa</h5>
             <p class="card-text">para hombre</p>
@@ -75,19 +73,20 @@
           </div>
         </div>
       </div>
-      <!-- ... (mantén todos los productos que ya tienes) -->
+
+      <!-- PRODUCTO 2 -->
       <div class="col-12 col-sm-6 col-md-3">
         <div class="card h-80 shadow-sm">
-          <img src="imagenes/tenis.jpeg" class="card-img-top" alt="azul">
+          <img src="imagenes/tenis.jpeg" class="card-img-top" alt="zapatillas">
           <div class="card-body text-center">
             <h5 class="card-title">zapatillas</h5>
-            <p class="card-text">zapatillas</p>
+            <p class="card-text">zapatillas deportivas</p>
             <p class="fw-bold">s/35.00</p>
             <button class="btn btn-primary addToCart">AGREGAR AL CARRITO</button>
           </div>
         </div>
       </div>
-      <!-- Añade el resto de productos tal como en tu archivo original -->
+
     </div>
   </div>
 </section>
@@ -98,35 +97,28 @@
     <div class="modal-content">
       <div class="modal-header bg-dark text-white">
         <h5 class="modal-title">Acceder a tu cuenta</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
       </div>
+
       <div class="modal-body">
         <ul class="nav nav-tabs mb-3">
-          <li class="nav-item">
-            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#loginTab">Iniciar Sesión</button>
-          </li>
-          <li class="nav-item">
-            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#registerTab">Registrarse</button>
-          </li>
+          <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#loginTab">Iniciar Sesión</button></li>
+          <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#registerTab">Registrarse</button></li>
         </ul>
 
         <div class="tab-content">
+
           <!-- LOGIN -->
           <div class="tab-pane fade show active" id="loginTab">
             <div class="d-grid mb-3">
-              <button id="googleLogin" type="button" class="btn btn-danger">
+              <button id="googleLogin" class="btn btn-danger">
                 <i class="bi bi-google"></i> Iniciar sesión con Google
               </button>
             </div>
+
             <form id="formlogin">
-              <div class="mb-3">
-                <label>Email</label>
-                <input type="email" id="loginEmail" class="form-control" required>
-              </div>
-              <div class="mb-3">
-                <label>Contraseña</label>
-                <input type="password" id="loginPassword" class="form-control" required minlength="6">
-              </div>
+              <div class="mb-3"><label>Email</label><input type="email" id="loginEmail" class="form-control" required></div>
+              <div class="mb-3"><label>Contraseña</label><input type="password" id="loginPassword" class="form-control" required minlength="6"></div>
               <button class="btn btn-primary w-100">Iniciar Sesión</button>
             </form>
           </div>
@@ -134,23 +126,16 @@
           <!-- REGISTRO -->
           <div class="tab-pane fade" id="registerTab">
             <form id="formRegister">
-              <div class="mb-3">
-                <label>Nombre completo</label>
-                <input type="text" id="regNombre" class="form-control" required>
-              </div>
-              <div class="mb-3">
-                <label>Email</label>
-                <input type="email" id="regEmail" class="form-control" required>
-              </div>
-              <div class="mb-3">
-                <label>Contraseña</label>
-                <input type="password" id="regPassword" class="form-control" required minlength="6">
-              </div>
+              <div class="mb-3"><label>Nombre completo</label><input type="text" id="regNombre" class="form-control" required></div>
+              <div class="mb-3"><label>Email</label><input type="email" id="regEmail" class="form-control" required></div>
+              <div class="mb-3"><label>Contraseña</label><input type="password" id="regPassword" class="form-control" required minlength="6"></div>
               <button class="btn btn-primary w-100">Registrarse</button>
             </form>
           </div>
+
         </div>
       </div>
+
     </div>
   </div>
 </div>
@@ -169,7 +154,6 @@
 
       <div class="modal-footer d-flex justify-content-between">
         <h5 class="m-0">Total: <span id="totalCarrito" class="fw-bold">S/ 0.00</span></h5>
-        <!-- Cambiado el texto a "Hacer pedido" -->
         <button class="btn btn-success" id="btnComprar">Hacer pedido</button>
       </div>
 
@@ -177,7 +161,7 @@
   </div>
 </div>
 
-<!-- MODAL PEDIDOS (MIS PEDIDOS) -->
+<!-- MODAL PEDIDOS -->
 <div class="modal fade" id="modalPedidos" tabindex="-1">
   <div class="modal-dialog modal-dialog-scrollable modal-lg">
     <div class="modal-content">
@@ -185,52 +169,41 @@
         <h5 class="modal-title">📦 Mis pedidos</h5>
         <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
       </div>
-      <div class="modal-body" id="listaPedidos">
-        <!-- pedidos cargados dinámicamente -->
-      </div>
+
+      <div class="modal-body" id="listaPedidos"></div>
+
       <div class="modal-footer">
         <button class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
       </div>
+
     </div>
   </div>
 </div>
 
 <!-- FOOTER -->
 <footer class="bg-dark text-white text-center py-3 mt-5">
-  <p class="mb-0">&copy; 2025 matiaz  - Todos los derechos reservados</p>
+  <p class="mb-0">&copy; 2025 matiaz - Todos los derechos reservados</p>
 </footer>
+
 
 <!-- BOOTSTRAP JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- FIREBASE -->
 <script type="module">
-/* Firebase imports */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
 import {
-  getAuth,
-  GoogleAuthProvider,
-  signInWithPopup,
-  signOut,
-  onAuthStateChanged,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword
+  getAuth, GoogleAuthProvider, signInWithPopup,
+  signOut, onAuthStateChanged,
+  createUserWithEmailAndPassword, signInWithEmailAndPassword
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
 
 import {
-  getFirestore,
-  doc,
-  setDoc,
-  addDoc,
-  collection,
-  getDocs,
-  query,
-  where,
-  orderBy,
+  getFirestore, doc, setDoc, addDoc,
+  collection, getDocs, query, where, orderBy,
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 
-/* Configuración Firebase */
 const firebaseConfig = {
   apiKey: "AIzaSyArS6xpIackJu-MlN_StQ6oaftd-HIEHpI",
   authDomain: "tiendaonline-232fd.firebaseapp.com",
@@ -244,7 +217,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const provider = new GoogleAuthProvider();
-provider.setCustomParameters({ prompt: 'select_account' });
+provider.setCustomParameters({ prompt: "select_account" });
 
 /* ELEMENTOS */
 const googleBtn = document.getElementById("googleLogin");
@@ -266,60 +239,57 @@ googleBtn.addEventListener("click", async () => {
     }, { merge: true });
 
     cerrarModalAuth();
-    alert(`Bienvenido a tienda online, ${user.displayName || user.email}`);
+    alert("Bienvenido " + (user.displayName || user.email));
+
   } catch (err) {
-    alert("Error al iniciar sesión con Google.");
+    alert("Error al iniciar sesión con Google");
     console.error(err);
   }
 });
 
-/* REGISTRO EMAIL/PASS */
+/* REGISTRO */
 registerForm.addEventListener("submit", async e => {
   e.preventDefault();
-  const nombre = document.getElementById("regNombre").value.trim();
-  const email = document.getElementById("regEmail").value.trim();
-  const pass = document.getElementById("regPassword").value;
+  const nombre = regNombre.value.trim();
+  const email = regEmail.value.trim();
+  const pass = regPassword.value;
 
   try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
-    const user = userCredential.user;
+    const cred = await createUserWithEmailAndPassword(auth, email, pass);
+    const user = cred.user;
 
     await setDoc(doc(db, "usuarios", user.uid), {
       uid: user.uid,
-      nombre: nombre,
-      email: email,
+      nombre,
+      email,
       foto: `https://ui-avatars.com/api/?name=${encodeURIComponent(nombre)}&background=random`
     });
 
-    alert("Registro exitoso. Ahora puedes iniciar sesión.");
-    registerForm.reset();
+    alert("Registro exitoso. Ahora inicia sesión.");
+
   } catch (err) {
-    alert("Error en el registro: " + err.message);
-    console.error(err);
+    alert("Error en registro: " + err.message);
   }
 });
 
-/* LOGIN EMAIL/PASS */
+/* LOGIN EMAIL */
 loginForm.addEventListener("submit", async e => {
   e.preventDefault();
-  const email = document.getElementById("loginEmail").value.trim();
-  const pass = document.getElementById("loginPassword").value;
 
   try {
-    await signInWithEmailAndPassword(auth, email, pass);
+    await signInWithEmailAndPassword(auth, loginEmail.value.trim(), loginPassword.value.trim());
     cerrarModalAuth();
-    loginForm.reset();
-    alert(`Bienvenido a tienda online, ${email}`);
+    alert("Bienvenido " + loginEmail.value);
+
   } catch (err) {
-    alert("Credenciales inválidas");
-    console.error(err);
+    alert("Credenciales incorrectas");
   }
 });
 
-/* FUNCIONES AUTH / NAVBAR */
-function cerrarModalAuth() {
-  const authModal = bootstrap.Modal.getInstance(document.getElementById("authModal"));
-  if (authModal) authModal.hide();
+/* NAVBAR CUENTA */
+function cerrarModalAuth(){
+  const modal = bootstrap.Modal.getInstance(document.getElementById("authModal"));
+  if(modal) modal.hide();
 }
 
 function pintarUsuarioNavbar(user){
@@ -331,30 +301,33 @@ function pintarUsuarioNavbar(user){
   const li = document.createElement("li");
   li.className = "nav-item dropdown ms-3 d-flex align-items-center";
   li.id = "userinfo";
+
   li.innerHTML = `
     <button class="btn btn-link position-relative me-3 text-white" id="btnCarritoIcono">
       <i class="bi bi-cart3 fs-5 text-white"></i>
       <span id="contadorCarrito" class="badge rounded-pill bg-danger position-absolute top-0 start-100 translate-middle">0</span>
     </button>
-    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" data-bs-toggle="dropdown">
+
+    <a class="nav-link dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown">
       <img src="${foto}" class="rounded-circle me-2" width="32" height="32">
       <span class="text-white">${nombre}</span>
     </a>
+
     <ul class="dropdown-menu dropdown-menu-end">
-      <li><a class="dropdown-item" href="#" id="misPedidosBtn">Mis pedidos</a></li>
+      <li><a class="dropdown-item" id="misPedidosBtn">Mis pedidos</a></li>
       <li><hr class="dropdown-divider"></li>
-      <li><a class="dropdown-item text-danger" href="#" id="cerrarSesionBtn">Cerrar sesión</a></li>
+      <li><a class="dropdown-item text-danger" id="cerrarSesionBtn">Cerrar sesión</a></li>
     </ul>
   `;
-  document.querySelector(".navbar-nav").appendChild(li);
 
-  document.getElementById("misPedidosBtn").addEventListener("click", async (ev) => {
-    ev.preventDefault();
-    await cargarPedidosUsuario();
-  });
+  document.querySelector(".navbar-nav").appendChild(li);
 
   document.getElementById("cerrarSesionBtn").addEventListener("click", async () => {
     await signOut(auth);
+  });
+
+  document.getElementById("misPedidosBtn").addEventListener("click", async () => {
+    await cargarPedidosUsuario();
   });
 }
 
@@ -363,7 +336,7 @@ function limpiarUsuarioNavbar(){
   if(info) info.remove();
 }
 
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, user => {
   if(user){
     pintarUsuarioNavbar(user);
     loginItem.classList.add("d-none");
@@ -373,47 +346,46 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
-/* ------------------ CARRITO ------------------ */
-
+/* ---------------- CARRITO ---------------- */
 let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
-function mostrarAlerta() {
-  const alerta = document.getElementById("alertaAgregado");
-  alerta.style.display = "block";
-  setTimeout(() => alerta.style.display = "none", 1600);
+function mostrarAlerta(){
+  const al = document.getElementById("alertaAgregado");
+  al.style.display = "block";
+  setTimeout(()=> al.style.display = "none", 1600);
 }
 
-function guardarCarrito() {
+function guardarCarrito(){
   localStorage.setItem("carrito", JSON.stringify(carrito));
   actualizarContador();
 }
 
-function actualizarContador() {
-  const contador = document.getElementById("contadorCarrito");
-  if (!contador) return;
-  contador.textContent = carrito.reduce((acc, item) => acc + item.cantidad, 0);
+function actualizarContador(){
+  const c = document.getElementById("contadorCarrito");
+  if(!c) return;
+  c.textContent = carrito.reduce((acc, i)=> acc + i.cantidad, 0);
 }
 
-/* Render carrito con EVENTOS reales (no onclick) */
-function renderCarrito() {
+function renderCarrito(){
   const lista = document.getElementById("listaCarrito");
   const totalSpan = document.getElementById("totalCarrito");
 
   lista.innerHTML = "";
   let total = 0;
 
-  if (carrito.length === 0) {
+  if(carrito.length === 0){
     lista.innerHTML = '<p class="text-center">Tu carrito está vacío.</p>';
     totalSpan.textContent = "S/ 0.00";
     return;
   }
 
-  carrito.forEach((item, index) => {
+  carrito.forEach((item, index)=>{
     total += item.precio * item.cantidad;
 
-    const itemHtml = document.createElement("div");
-    itemHtml.className = "d-flex align-items-center border-bottom py-2";
-    itemHtml.innerHTML = `
+    const div = document.createElement("div");
+    div.className = "d-flex align-items-center border-bottom py-2";
+
+    div.innerHTML = `
       <img src="${item.img}" width="60" class="rounded me-3">
 
       <div class="me-auto">
@@ -427,66 +399,56 @@ function renderCarrito() {
         <button class="btn btn-sm btn-outline-secondary ms-2 btn-sumar">+</button>
       </div>
 
-      <button class="btn btn-sm btn-danger ms-3 btn-eliminar">
-        <i class="bi bi-trash"></i>
-      </button>
+      <button class="btn btn-sm btn-danger ms-3 btn-eliminar"><i class="bi bi-trash"></i></button>
     `;
 
-    /* EVENTOS NUEVOS */
-    itemHtml.querySelector(".btn-restar")
-      .addEventListener("click", () => cambiarCantidad(index, -1));
+    div.querySelector(".btn-restar").addEventListener("click", ()=> cambiarCantidad(index, -1));
+    div.querySelector(".btn-sumar").addEventListener("click", ()=> cambiarCantidad(index, 1));
+    div.querySelector(".btn-eliminar").addEventListener("click", ()=> eliminarItem(index));
 
-    itemHtml.querySelector(".btn-sumar")
-      .addEventListener("click", () => cambiarCantidad(index, 1));
-
-    itemHtml.querySelector(".btn-eliminar")
-      .addEventListener("click", () => eliminarItem(index));
-
-    lista.appendChild(itemHtml);
+    lista.appendChild(div);
   });
 
   totalSpan.textContent = `S/ ${total.toFixed(2)}`;
 }
 
-function cambiarCantidad(index, cambio) {
-  carrito[index].cantidad += cambio;
-  if (carrito[index].cantidad <= 0) carrito.splice(index, 1);
+function cambiarCantidad(index, value){
+  carrito[index].cantidad += value;
+  if(carrito[index].cantidad <= 0) carrito.splice(index, 1);
   guardarCarrito();
   renderCarrito();
 }
 
-function eliminarItem(index) {
+function eliminarItem(index){
   carrito.splice(index, 1);
   guardarCarrito();
   renderCarrito();
 }
 
-/* Abrir modal carrito */
-document.addEventListener("click", (e) => {
-  if (e.target.closest("#btnCarritoIcono")) {
+/* Abrir carrito */
+document.addEventListener("click", e=>{
+  if(e.target.closest("#btnCarritoIcono")){
     renderCarrito();
     new bootstrap.Modal(document.getElementById("modalCarrito")).show();
   }
 });
 
 /* Agregar productos */
-document.querySelectorAll(".addToCart").forEach(btn => {
-  btn.addEventListener("click", (e) => {
-    const userinfo = document.getElementById("userinfo");
-    if (!userinfo) {
+document.querySelectorAll(".addToCart").forEach(btn=>{
+  btn.addEventListener("click", e=>{
+    if(!document.getElementById("userinfo")){
       new bootstrap.Modal(document.getElementById("authModal")).show();
       return;
     }
 
     const card = e.target.closest(".card");
     const nombre = card.querySelector(".card-title").textContent;
-    const precioText = card.querySelector(".fw-bold").textContent.replace("s/","").replace("S/","").trim();
-    const precio = parseFloat(precioText) || 0;
+    const precio = parseFloat(card.querySelector(".fw-bold").textContent.replace("s/","").replace("S/",""));
     const img = card.querySelector("img").src;
 
-    const existe = carrito.find(p => p.nombre === nombre);
+    const existe = carrito.find(p=> p.nombre === nombre);
 
-    if (existe) existe.cantidad++;
+    if(existe) existe.cantidad++;
     else carrito.push({ nombre, precio, img, cantidad: 1 });
 
     guardarCarrito();
@@ -494,71 +456,48 @@ document.querySelectorAll(".addToCart").forEach(btn => {
   });
 });
 
-/* Inicializar */
 actualizarContador();
 renderCarrito();
 
-/* ------------------ HACER PEDIDO ------------------ */
+/* ---------------- HACER PEDIDO ---------------- */
+document.getElementById("btnComprar").addEventListener("click", async ()=>{
+  if(!auth.currentUser){
+    new bootstrap.Modal(document.getElementById("authModal")).show();
+    return;
+  }
 
-document.getElementById("btnComprar").addEventListener("click", async () => {
-  try {
-    if (!document.getElementById("userinfo")) {
-      new bootstrap.Modal(document.getElementById("authModal")).show();
-      return;
-    }
+  if(carrito.length === 0){
+    alert("El carrito está vacío.");
+    return;
+  }
 
-    if (carrito.length === 0) {
-      alert("El carrito está vacío.");
-      return;
-    }
+  try{
+    const uid = auth.currentUser.uid;
 
-    const pedido = {
-      items: carrito.map(i => ({ nombre: i.nombre, precio: i.precio, cantidad: i.cantidad, img: i.img })),
-      total: carrito.reduce((acc, i) => acc + i.precio * i.cantidad, 0),
-      creadoEn: new Date().toISOString()
-    };
+    await addDoc(collection(db, "pedidos"), {
+      uid,
+      items: carrito,
+      total: carrito.reduce((acc,i)=> acc+i.precio*i.cantidad, 0),
+      createdAt: serverTimestamp()
+    });
 
-    if (auth.currentUser) {
-      const uid = auth.currentUser.uid;
+    carrito = [];
+    guardarCarrito();
+    renderCarrito();
 
-      await addDoc(collection(db, "pedidos"), {
-        uid,
-        items: pedido.items,
-        total: pedido.total,
-        createdAt: serverTimestamp(),
-        creadoEn: pedido.creadoEn
-      });
+    bootstrap.Modal.getInstance(document.getElementById("modalCarrito")).hide();
+    alert("Pedido registrado. ¡Gracias por comprar!");
 
-      carrito = [];
-      guardarCarrito();
-      renderCarrito();
-
-      bootstrap.Modal.getInstance(document.getElementById("modalCarrito")).hide();
-      alert("Pedido guardado. Gracias por tu compra!");
-
-    } else {
-      const pedidos = JSON.parse(localStorage.getItem("pedidos") || "[]");
-      pedidos.push({ uid: null, ...pedido });
-      localStorage.setItem("pedidos", JSON.stringify(pedidos));
-
-      carrito = [];
-      guardarCarrito();
-      renderCarrito();
-
-      bootstrap.Modal.getInstance(document.getElementById("modalCarrito")).hide();
-      alert("Pedido guardado localmente.");
-    }
-  } catch (err) {
+  } catch(err){
     console.error(err);
-    alert("Ocurrió un error al guardar el pedido.");
+    alert("Error al guardar pedido");
   }
 });
 
-/* ------------------ MIS PEDIDOS ------------------ */
-
-async function cargarPedidosUsuario() {
+/* ---------------- MIS PEDIDOS ---------------- */
+async function cargarPedidosUsuario(){
   const user = auth.currentUser;
-  if (!user) {
+  if(!user){
     new bootstrap.Modal(document.getElementById("authModal")).show();
     return;
   }
@@ -566,74 +505,65 @@ async function cargarPedidosUsuario() {
   const lista = document.getElementById("listaPedidos");
   lista.innerHTML = `<p class="text-center">Cargando pedidos...</p>`;
 
-  try {
+  try{
     const q = query(
-      collection(db, "pedidos"),
-      where("uid", "==", user.uid),
-      orderBy("createdAt", "desc")
+      collection(db,"pedidos"),
+      where("uid","==", user.uid),
+      orderBy("createdAt","desc")
     );
-    const snapshot = await getDocs(q);
 
+    const snap = await getDocs(q);
     const pedidos = [];
-    snapshot.forEach(docSnap => pedidos.push({ id: docSnap.id, ...docSnap.data() }));
+    snap.forEach(doc=> pedidos.push({ id: doc.id, ...doc.data() }));
 
     lista.innerHTML = "";
 
-    if (pedidos.length === 0) {
-      lista.innerHTML = `<p class="text-center">No tienes pedidos aún.</p>`;
+    if(pedidos.length === 0){
+      lista.innerHTML = `<p class="text-center">No tienes pedidos.</p>`;
     } else {
-      pedidos.forEach(p => {
-        lista.innerHTML += renderPedidoHtml(p, p.id);
+      pedidos.forEach(p=>{
+        lista.innerHTML += renderPedidoHtml(p);
       });
     }
 
     new bootstrap.Modal(document.getElementById("modalPedidos")).show();
 
-  } catch (err) {
+  } catch(err){
     console.error(err);
-    lista.innerHTML = `<p class="text-center text-danger">Error al cargar pedidos.</p>`;
-    new bootstrap.Modal(document.getElementById("modalPedidos")).show();
+    lista.innerHTML = `<p class="text-center text-danger">Error al cargar pedidos</p>`;
   }
 }
 
-function renderPedidoHtml(pedido, id) {
-  const fecha = pedido.creadoEn || (pedido.createdAt?.toDate?.().toLocaleString() || "");
+/* RENDER DE CADA PEDIDO */
+function renderPedidoHtml(p){
+  const fecha = p.createdAt?.toDate
+    ? p.createdAt.toDate().toLocaleString()
+    : "Sin fecha";
 
-  let html = `
-  <div class="pedido-item" id="pedido_${id}">
-    <div class="d-flex justify-content-between align-items-start">
-      <div>
-        <strong>Pedido:</strong> <small>${id}</small><br>
-        <small class="text-muted">${fecha}</small>
-      </div>
-      <div class="text-end">
-        <strong>Total: S/ ${Number(pedido.total || 0).toFixed(2)}</strong>
-      </div>
-    </div>
-    <div class="mt-2">
-  `;
-
-  (pedido.items || []).forEach(it => {
-    html += `
-      <div class="d-flex align-items-center mb-2">
-        <img src="${it.img}" width="48" class="rounded me-2">
-        <div class="me-auto">
-          <div>${it.nombre}</div>
-          <small>S/ ${it.precio} × ${it.cantidad}</small>
+  let itemsHtml = "";
+  p.items.forEach(i=>{
+    itemsHtml += `
+      <div class="d-flex align-items-center pedido-item">
+        <img src="${i.img}" width="50" class="rounded me-3">
+        <div>
+          <strong>${i.nombre}</strong><br>
+          Cant: ${i.cantidad} | S/ ${i.precio.toFixed(2)}
         </div>
-        <div><small>S/ ${(it.precio * it.cantidad).toFixed(2)}</small></div>
       </div>
     `;
   });
 
-  html += `</div></div>`;
-  return html;
+  return `
+    <div class="border rounded p-3 mb-3 shadow-sm">
+      <h5 class="mb-2">Pedido: ${p.id}</h5>
+      <p><strong>Fecha:</strong> ${fecha}</p>
+      <p><strong>Total:</strong> S/ ${p.total.toFixed(2)}</p>
+      <h6>Productos:</h6>
+      ${itemsHtml}
+    </div>
+  `;
 }
-
 </script>
-
 
 </body>
 </html>
-
-
