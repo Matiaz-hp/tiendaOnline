@@ -18,6 +18,8 @@
       border-radius: 6px;
       font-weight: 600;
       box-shadow: 0 4px 10px rgba(0,0,0,.15);
+      background-color: green;
+      color: white;
     }
     .pedido-item { border-bottom: 1px solid #e9ecef; padding: 10px 0; }
   </style>
@@ -323,7 +325,7 @@ googleBtn.addEventListener("click", async () => {
     }, { merge: true });
 
     cerrarModalAuth();
-    alert("Bienvenido " + (user.displayName || user.email));
+    alert("Hola Bienvenido " + (user.displayName || user.email));
 
   } catch (err) {
     alert("Error al iniciar sesión con Google");
@@ -363,10 +365,10 @@ loginForm.addEventListener("submit", async e => {
   try {
     await signInWithEmailAndPassword(auth, loginEmail.value.trim(), loginPassword.value.trim());
     cerrarModalAuth();
-    alert("Bienvenido " + loginEmail.value);
+    alert("Hola Bienvenido " + loginEmail.value);
 
   } catch (err) {
-    alert("Credenciales incorrectas");
+    alert("Usuario o contraseña inconrrecta");
   }
 });
 
@@ -573,11 +575,11 @@ document.getElementById("btnComprar").addEventListener("click", async ()=>{
     const modal = bootstrap.Modal.getInstance(document.getElementById("modalCarrito"));
     if(modal) modal.hide();
 
-    alert("Pedido registrado. ¡Gracias por comprar!");
+    alert("Pedido Registrado correctamente¡ Revisa tus pedidos!");
 
   } catch(err){
     console.error(err);
-    alert("Error al guardar pedido");
+    alert("Error al guardar pedido tu pedido");
   }
 });
 
