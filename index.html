@@ -457,6 +457,73 @@ function renderCarrito(){
     return;
   }
 
+  // Encabezado estilo tabla (como en tu imagen)
+  lista.innerHTML = `
+    <div class="row fw-bold border-bottom pb-2 mb-2">
+      <div class="col-4">Producto</div>
+      <div class="col-2">Precio</div>
+      <div class="col-3">Cantidad</div>
+      <div class="col-3">Subtotal</div>
+    </div>
+  `;
+
+  carrito.forEach((item, index)=>{
+    const subtotal = item.precio * item.cantidad;
+    total += subtotal;
+
+    const row = document.createElement("div");
+    row.className = "row align-items-center border-bottom py-2";
+
+    row.innerHTML = `
+      <div class="col-4 d-flex align-items-center">
+        <img src="${item.img}" width="50" class="rounded me-2">
+        <div>${item.nombre}</div>
+      </div>
+
+      <div class="col-2">
+        S/ ${item.precio.toFixed(2)}
+      </div>
+
+      <div class="col-3 d-flex align-items-center">
+        <button class="btn btn-sm btn-outline-secondary me-2 btn-restar">-</button>
+        <span>${item.cantidad}</span>
+        <button class="btn btn-sm btn-outline-secondary ms-2 btn-sumar">+</button>
+      </div>
+
+      <div class="col-3 fw-bold">
+        S/ ${subtotal.toFixed(2)}
+      </div>
+
+      <div class="col-12 text-end mt-2">
+        <button class="btn btn-sm btn-danger btn-eliminar"><i class="bi bi-trash"></i></button>
+      </div>
+    `;
+
+    row.querySelector(".btn-restar").addEventListener("click", ()=> cambiarCantidad(index, -1));
+    row.querySelector(".btn-sumar").addEventListener("click", ()=> cambiarCantidad(index, 1));
+    row.querySelector(".btn-eliminar").addEventListener("click", ()=> eliminarItem(index));
+
+    lista.appendChild(row);
+  });
+
+  totalSpan.textContent = `S/ ${total.toFixed(2)}`;
+  }
+  
+/*
+  
+function renderCarrito(){
+  const lista = document.getElementById("listaCarrito");
+  const totalSpan = document.getElementById("totalCarrito");
+
+  lista.innerHTML = "";
+  let total = 0;
+
+  if(carrito.length === 0){
+    lista.innerHTML = '<p class="text-center">Tu carrito está vacío.</p>';
+    totalSpan.textContent = "S/ 0.00";
+    return;
+  }
+
   carrito.forEach((item, index)=>{
     total += item.precio * item.cantidad;
 
@@ -488,7 +555,7 @@ function renderCarrito(){
   });
 
   totalSpan.textContent = `S/ ${total.toFixed(2)}`;
-}
+}*/
 
 function cambiarCantidad(index, value){
   carrito[index].cantidad += value;
