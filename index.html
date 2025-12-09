@@ -229,50 +229,11 @@
 </div>
 
 
-  <!-- MODAL CARRITO -->
-<div class="modal fade" id="modalCarrito" tabindex="-1">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-
-      <div class="modal-header">
-        <h5 class="modal-title">
-          🛒 Tu carrito
-        </h5>
-        <button class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-
-      <div class="modal-body">
-        
-        <!-- ENCABEZADOS -->
-        <div class="row fw-bold border-bottom pb-2 mb-3 text-center">
-          <div class="col-4 text-start">Producto</div>
-          <div class="col-2">Precio</div>
-          <div class="col-3">Cantidad</div>
-          <div class="col-3">Subtotal</div>
-        </div>
-
-        <!-- LISTA -->
-        <div id="listaCarrito"></div>
-
-        <!-- TOTAL -->
-        <div class="text-end mt-3">
-          <h4>Total: <span id="totalCarrito">S/ 0.00</span></h4>
-        </div>
-
-      </div>
-
-      <div class="modal-footer">
-        <button class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button class="btn btn-primary" id="btnComprar">Pagar</button>
-      </div>
-
-    </div>
-  </div>
-</div>
   
   
   
-<!-- MODAL CARRITO --
+  
+<!-- MODAL CARRITO -->
 <div class="modal fade" id="modalCarrito" tabindex="-1">
   <div class="modal-dialog modal-dialog-scrollable">
     <div class="modal-content">
@@ -291,7 +252,7 @@
 
     </div>
   </div>
-</div> -->
+</div> 
 
 
 <!-- FOOTER -->
@@ -460,73 +421,10 @@ onAuthStateChanged(auth, user => {
   }
 });
 
-  function renderCarrito(){
-  const lista = document.getElementById("listaCarrito");
-  const totalSpan = document.getElementById("totalCarrito");
-
-  lista.innerHTML = "";
-  let total = 0;
-
-  if(carrito.length === 0){
-    lista.innerHTML = '<p class="text-center">Tu carrito está vacío.</p>';
-    totalSpan.textContent = "S/ 0.00";
-    return;
-  }
-
-  // Encabezado estilo tabla (como en tu imagen)
-  lista.innerHTML = `
-    <div class="row fw-bold border-bottom pb-2 mb-2">
-      <div class="col-4">Producto</div>
-      <div class="col-2">Precio</div>
-      <div class="col-3">Cantidad</div>
-      <div class="col-3">Subtotal</div>
-    </div>
-  `;
-
-  carrito.forEach((item, index)=>{
-    const subtotal = item.precio * item.cantidad;
-    total += subtotal;
-
-    const row = document.createElement("div");
-    row.className = "row align-items-center border-bottom py-2";
-
-    row.innerHTML = `
-      <div class="col-4 d-flex align-items-center">
-        <img src="${item.img}" width="50" class="rounded me-2">
-        <div>${item.nombre}</div>
-      </div>
-
-      <div class="col-2">
-        S/ ${item.precio.toFixed(2)}
-      </div>
-
-      <div class="col-3 d-flex align-items-center">
-        <button class="btn btn-sm btn-outline-secondary me-2 btn-restar">-</button>
-        <span>${item.cantidad}</span>
-        <button class="btn btn-sm btn-outline-secondary ms-2 btn-sumar">+</button>
-      </div>
-
-      <div class="col-3 fw-bold">
-        S/ ${subtotal.toFixed(2)}
-      </div>
-
-      <div class="col-12 text-end mt-2">
-        <button class="btn btn-sm btn-danger btn-eliminar"><i class="bi bi-trash"></i></button>
-      </div>
-    `;
-
-    row.querySelector(".btn-restar").addEventListener("click", ()=> cambiarCantidad(index, -1));
-    row.querySelector(".btn-sumar").addEventListener("click", ()=> cambiarCantidad(index, 1));
-    row.querySelector(".btn-eliminar").addEventListener("click", ()=> eliminarItem(index));
-
-    lista.appendChild(row);
-  });
-
-  totalSpan.textContent = `S/ ${total.toFixed(2)}`;
-  }
+  
   
 
-/* ---------------- CARRITO ---------------- 
+/* ---------------- CARRITO ---------------- */
 let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
 function mostrarAlerta(){
@@ -589,7 +487,7 @@ function renderCarrito(){
     lista.appendChild(div);
   });
 
-  totalSpan.textContent = `S/ ${total.toFixed(2)}`;*/
+  totalSpan.textContent = `S/ ${total.toFixed(2)}`;
 }
 
 function cambiarCantidad(index, value){
