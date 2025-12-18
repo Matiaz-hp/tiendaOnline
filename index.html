@@ -37,11 +37,19 @@ footer { background-color: #212529; color: #f8f9fa; padding: 15px 0; }
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="menu">
+
       <ul class="navbar-nav ms-auto align-items-center">
-        <li class="nav-item" id="loginItem">
-          <button class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#authModal">Iniciar sesión / Registrarse</button>
-        </li>
-      </ul>
+  <li class="nav-item"><a class="nav-link" href="#inicio">Inicio</a></li>
+  <li class="nav-item"><a class="nav-link" href="#productos">Calzados</a></li>
+  <li class="nav-item"><a class="nav-link" href="#ofertas">Ofertas</a></li>
+  <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
+
+  <li class="nav-item ms-3" id="loginItem">
+    <button class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#authModal">
+      Iniciar sesión
+    </button>
+  </li>
+</ul>
     </div>
   </div>
 </nav>
@@ -197,6 +205,13 @@ footer { background-color: #212529; color: #f8f9fa; padding: 15px 0; }
   </div>
 </div>
 
+
+<a href="https://wa.me/51999999999?text=Hola%20quiero%20comprar%20calzados"
+   target="_blank"
+   class="btn btn-success position-fixed bottom-0 end-0 m-4 rounded-circle shadow"
+   style="width:60px;height:60px;display:flex;align-items:center;justify-content:center;z-index:3000;">
+  <i class="bi bi-whatsapp fs-2 text-white"></i>
+</a>
 <!-- FOOTER -->
 <footer class="bg-dark text-white text-center py-3 mt-5">
   <p class="mb-0">&copy; 2025 Matiaz - Todos los derechos reservados</p>
