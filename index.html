@@ -8,39 +8,9 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
   <style>
-    .pedido-card {
-      border: 1px solid #ddd;
-      background: #fff;
-      border-radius: 10px;
-      padding: 15px;
-      margin-bottom: 20px;
-    }
-
-    .pedido-header {
-      font-size: 18px;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-
-    .pedido-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 8px 0;
-      border-bottom: 1px solid #eee;
-    }
-
-    .pedido-item:last-child {
-      border: none;
-    }
-
-    .pedido-item img {
-      width: 60px;
-      height: 60px;
-      border-radius: 8px;
-      margin-right: 12px;
-    }
-
+    body { font-family: 'Segoe UI', sans-serif; background-color: #f8f9fa; }
+    .btn-primary { background: #0062ff; border: none; transition: 0.3s; }
+    .btn-primary:hover { background: #0050c8; }
     #alertaAgregado {
       position: fixed;
       top: 20px;
@@ -51,20 +21,28 @@
       border-radius: 6px;
       font-weight: 600;
       box-shadow: 0 4px 10px rgba(0,0,0,.15);
-      background-color: green;
+      background-color: #28a745;
       color: white;
+      transition: 0.4s;
     }
-
-    .pedido-item { border-bottom: 1px solid #e9ecef; padding: 10px 0; }
+    .card { transition: transform 0.3s, box-shadow 0.3s; border-radius: 12px; }
+    .card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,.15); }
+    .pedido-card { border: 1px solid #ddd; background: #fff; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,.05); }
+    .pedido-header { font-size: 18px; font-weight: bold; margin-bottom: 10px; color: #0062ff; }
+    .pedido-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #eee; transition: 0.3s; }
+    .pedido-item:last-child { border-bottom: none; }
+    .pedido-item img { width: 60px; height: 60px; border-radius: 8px; margin-right: 12px; }
+    .fade-in { animation: fadeIn 0.6s ease-in; }
+    @keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
+    footer { background-color: #212529; color: #f8f9fa; padding: 15px 0; }
   </style>
 </head>
-
 <body>
 
-<div id="alertaAgregado" class="alert alert-success">El PRODUCTO SE HA AGREGADO CORRECTAMENTE</div>
+<div id="alertaAgregado">El PRODUCTO SE HA AGREGADO CORRECTAMENTE</div>
 
 <!-- NAVBAR -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
   <div class="container">
     <a class="navbar-brand fw-bold" href="#">Tienda Online Matiaz</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
@@ -73,9 +51,7 @@
     <div class="collapse navbar-collapse" id="menu">
       <ul class="navbar-nav ms-auto align-items-center">
         <li class="nav-item" id="loginItem">
-          <button class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#authModal">
-            Iniciar sesión / Registrarse
-          </button>
+          <button class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#authModal">Iniciar sesión / Registrarse</button>
         </li>
       </ul>
     </div>
@@ -86,29 +62,65 @@
 <header class="bg-primary text-white text-center py-5">
   <div class="container">
     <h1 class="display-4">Bienvenido a Tienda Online Matiaz</h1>
-    <p class="lead">TU tienda donde encuentras diferentes tipos de productos en general</p>
+    <p class="lead">Encuentra los mejores productos en un solo lugar</p>
   </div>
 </header>
 
 <!-- PRODUCTOS -->
 <section class="py-5">
   <div class="container">
-    <h2 class="text-center mb-4">NUESTROS PRODUCTOS MÁS COMPRADOS</h2>
+    <h2 class="text-center mb-4">Nuestros Productos Más Comprados</h2>
     <div class="row g-4">
-      <!-- PRODUCTOS: REPETIR CARDS COMO ANTES -->
-      <!-- Ejemplo de Producto -->
+
+      <!-- Productos -->
       <div class="col-12 col-sm-6 col-md-3">
-        <div class="card h-80 shadow-sm">
-          <img src="imagenes/camiseta.jpeg" height="200" class="card-img-top" alt="camisa">
+        <div class="card h-100 shadow-sm fade-in">
+          <img src="imagenes/camiseta.jpeg" class="card-img-top" alt="Camiseta">
           <div class="card-body text-center">
-            <h5 class="card-title">camisa</h5>
-            <p class="card-text">para hombre</p>
+            <h5 class="card-title">Camiseta</h5>
+            <p class="card-text">Para hombre</p>
             <p class="fw-bold">S/30.00</p>
-            <button class="btn btn-primary addToCart">AGREGAR AL CARRITO</button>
+            <button class="btn btn-primary addToCart">Agregar al carrito</button>
           </div>
         </div>
       </div>
-      <!-- Repetir productos según tu lista -->
+
+      <div class="col-12 col-sm-6 col-md-3">
+        <div class="card h-100 shadow-sm fade-in">
+          <img src="imagenes/audifono.jpg" class="card-img-top" alt="Audífono">
+          <div class="card-body text-center">
+            <h5 class="card-title">Audífono</h5>
+            <p class="card-text">Gamer</p>
+            <p class="fw-bold">S/900.00</p>
+            <button class="btn btn-primary addToCart">Agregar al carrito</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-md-3">
+        <div class="card h-100 shadow-sm fade-in">
+          <img src="imagenes/azul.jpeg" class="card-img-top" alt="Camisa Azul">
+          <div class="card-body text-center">
+            <h5 class="card-title">Camisa Azul</h5>
+            <p class="card-text">Mejor en tela</p>
+            <p class="fw-bold">S/25.00</p>
+            <button class="btn btn-primary addToCart">Agregar al carrito</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-md-3">
+        <div class="card h-100 shadow-sm fade-in">
+          <img src="imagenes/tenispuma.jpeg" class="card-img-top" alt="Zapatillas">
+          <div class="card-body text-center">
+            <h5 class="card-title">Zapatillas</h5>
+            <p class="card-text">Deportivas</p>
+            <p class="fw-bold">S/35.00</p>
+            <button class="btn btn-primary addToCart">Agregar al carrito</button>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
@@ -129,9 +141,7 @@
         <div class="tab-content">
           <div class="tab-pane fade show active" id="loginTab">
             <div class="d-grid mb-3">
-              <button id="googleLogin" class="btn btn-danger">
-                <i class="bi bi-google"></i> Iniciar sesión con Google
-              </button>
+              <button id="googleLogin" class="btn btn-danger"><i class="bi bi-google"></i> Iniciar sesión con Google</button>
             </div>
             <form id="formlogin">
               <div class="mb-3"><label>Email</label><input type="email" id="loginEmail" class="form-control" required></div>
@@ -170,7 +180,7 @@
   </div>
 </div>
 
-<!-- MODAL MIS PEDIDOS -->
+<!-- MODAL PEDIDOS -->
 <div class="modal fade" id="modalPedidos" tabindex="-1">
   <div class="modal-dialog modal-lg modal-dialog-scrollable">
     <div class="modal-content">
@@ -178,9 +188,7 @@
         <h5 class="modal-title">📦 Mis pedidos</h5>
         <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
       </div>
-      <div class="modal-body">
-        <div id="listaPedidos"></div>
-      </div>
+      <div class="modal-body" id="listaPedidos"></div>
     </div>
   </div>
 </div>
@@ -193,331 +201,423 @@
 <!-- BOOTSTRAP JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- FIREBASE Y JS -->
+
+
+<!-- FIREBASE -->
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
-  import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
-  import { getFirestore, doc, setDoc, addDoc, collection, getDocs, query, where, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+import {
+  getAuth, GoogleAuthProvider, signInWithPopup,
+  signOut, onAuthStateChanged,
+  createUserWithEmailAndPassword, signInWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyArS6xpIackJu-MlN_StQ6oaftd-HIEHpI",
-    authDomain: "tiendaonline-232fd.firebaseapp.com",
-    projectId: "tiendaonline-232fd",
-    storageBucket: "tiendaonline-232fd.appspot.com",
-    messagingSenderId: "766983652415",
-    appId: "1:766983652415:web:1029784384a"
-  };
+import {
+  getFirestore, doc, setDoc, addDoc,
+  collection, getDocs, query, where, orderBy,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
-  const provider = new GoogleAuthProvider();
-  provider.setCustomParameters({ prompt: "select_account" });
+const firebaseConfig = {
+  apiKey: "AIzaSyArS6xpIackJu-MlN_StQ6oaftd-HIEHpI",
+  authDomain: "tiendaonline-232fd.firebaseapp.com",
+  projectId: "tiendaonline-232fd",
+  storageBucket: "tiendaonline-232fd.appspot.com",
+  messagingSenderId: "766983652415",
+  appId: "1:766983652415:web:1029784384a"
+};
 
-  const googleBtn = document.getElementById("googleLogin");
-  const loginForm = document.getElementById("formlogin");
-  const registerForm = document.getElementById("formRegister");
-  const loginItem = document.getElementById("loginItem");
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const provider = new GoogleAuthProvider();
+provider.setCustomParameters({ prompt: "select_account" });
 
-  googleBtn.addEventListener("click", async () => {
-    try {
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
-      await setDoc(doc(db, "usuarios", user.uid), {
-        uid: user.uid,
-        nombre: user.displayName,
-        email: user.email,
-        foto: user.photoURL
-      }, { merge: true });
-      cerrarModalAuth();
-      alert("Hola Bienvenido " + (user.displayName || user.email));
-    } catch (err) {
-      alert("Error al iniciar sesión con Google");
-      console.error(err);
-    }
+/* ELEMENTOS */
+const googleBtn = document.getElementById("googleLogin");
+const loginForm = document.getElementById("formlogin");
+const registerForm = document.getElementById("formRegister");
+const loginItem = document.getElementById("loginItem");
+
+/* LOGIN GOOGLE */
+googleBtn.addEventListener("click", async () => {
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+
+    await setDoc(doc(db, "usuarios", user.uid), {
+      uid: user.uid,
+      nombre: user.displayName,
+      email: user.email,
+      foto: user.photoURL
+    }, { merge: true });
+
+    cerrarModalAuth();
+    alert("Hola Bienvenido " + (user.displayName || user.email));
+
+  } catch (err) {
+    alert("Error al iniciar sesión con Google");
+    console.error(err);
+  }
+});
+
+/* REGISTRO */
+registerForm.addEventListener("submit", async e => {
+  e.preventDefault();
+  const nombre = regNombre.value.trim();
+  const email = regEmail.value.trim();
+  const pass = regPassword.value;
+
+  try {
+    const cred = await createUserWithEmailAndPassword(auth, email, pass);
+    const user = cred.user;
+
+    await setDoc(doc(db, "usuarios", user.uid), {
+      uid: user.uid,
+      nombre,
+      email,
+      foto: `https://ui-avatars.com/api/?name=${encodeURIComponent(nombre)}&background=random`
+    });
+
+    alert("Registro exitoso. Ahora inicia sesión.");
+
+  } catch (err) {
+    alert("Error en registro: " + err.message);
+  }
+});
+
+/* LOGIN EMAIL */
+loginForm.addEventListener("submit", async e => {
+  e.preventDefault();
+
+  try {
+    await signInWithEmailAndPassword(auth, loginEmail.value.trim(), loginPassword.value.trim());
+    cerrarModalAuth();
+    alert("Hola Bienvenido " + loginEmail.value);
+
+  } catch (err) {
+    alert("Usuario o contraseña inconrrecta");
+  }
+});
+
+/* NAVBAR CUENTA */
+function cerrarModalAuth(){
+  const modal = bootstrap.Modal.getInstance(document.getElementById("authModal"));
+  if(modal) modal.hide();
+}
+
+function pintarUsuarioNavbar(user){
+  if(document.getElementById("userinfo")) return;
+
+  const foto = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName || user.email)}`;
+  const nombre = user.displayName || user.email;
+
+  const li = document.createElement("li");
+  li.className = "nav-item dropdown ms-3 d-flex align-items-center";
+  li.id = "userinfo";
+
+  li.innerHTML = `
+    <button class="btn btn-link position-relative me-3 text-white" id="btnCarritoIcono">
+      <i class="bi bi-cart3 fs-5 text-white"></i>
+      <span id="contadorCarrito" class="badge rounded-pill bg-danger position-absolute top-0 start-100 translate-middle">0</span>
+    </button>
+
+    <a class="nav-link dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown">
+      <img src="${foto}" class="rounded-circle me-2" width="32" height="32">
+      <span class="text-white">${nombre}</span>
+    </a>
+
+    <ul class="dropdown-menu dropdown-menu-end">
+      <li><a class="dropdown-item" id="misPedidosBtn">Mis pedidos</a></li>
+      <li><hr class="dropdown-divider"></li>
+      <li><a class="dropdown-item text-danger" id="cerrarSesionBtn">Cerrar sesión</a></li>
+    </ul>
+  `;
+
+  document.querySelector(".navbar-nav").appendChild(li);
+
+  document.getElementById("cerrarSesionBtn").addEventListener("click", async () => {
+    await signOut(auth);
   });
 
-  registerForm.addEventListener("submit", async e => {
-    e.preventDefault();
-    const nombre = regNombre.value.trim();
-    const email = regEmail.value.trim();
-    const pass = regPassword.value;
-    try {
-      const cred = await createUserWithEmailAndPassword(auth, email, pass);
-      const user = cred.user;
-      await setDoc(doc(db, "usuarios", user.uid), {
-        uid: user.uid,
-        nombre,
-        email,
-        foto: `https://ui-avatars.com/api/?name=${encodeURIComponent(nombre)}&background=random`
-      });
-      alert("Registro exitoso. Ahora inicia sesión.");
-    } catch (err) {
-      alert("Error en registro: " + err.message);
-    }
+  document.getElementById("misPedidosBtn").addEventListener("click", async () => {
+    await cargarPedidosUsuario();
   });
+}
 
-  loginForm.addEventListener("submit", async e => {
-    e.preventDefault();
-    try {
-      await signInWithEmailAndPassword(auth, loginEmail.value.trim(), loginPassword.value.trim());
-      cerrarModalAuth();
-      alert("Hola Bienvenido " + loginEmail.value);
-    } catch (err) {
-      alert("Usuario o contraseña incorrecta");
-    }
-  });
+function limpiarUsuarioNavbar(){
+  const info = document.getElementById("userinfo");
+  if(info) info.remove();
+}
 
-  function cerrarModalAuth(){
-    const modal = bootstrap.Modal.getInstance(document.getElementById("authModal"));
-    if(modal) modal.hide();
+onAuthStateChanged(auth, user => {
+  if(user){
+    pintarUsuarioNavbar(user);
+    loginItem.classList.add("d-none");
+  } else {
+    limpiarUsuarioNavbar();
+    loginItem.classList.remove("d-none");
+  }
+});
+
+  
+  
+
+/* ---------------- CARRITO ---------------- */
+let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+function mostrarAlerta(){
+  const al = document.getElementById("alertaAgregado");
+  al.style.display = "block";
+  setTimeout(()=> al.style.display = "none", 1600);
+}
+
+function guardarCarrito(){
+  localStorage.setItem("carrito", JSON.stringify(carrito));
+  actualizarContador();
+}
+
+function actualizarContador(){
+  const c = document.getElementById("contadorCarrito");
+  if(!c) return;
+  c.textContent = carrito.reduce((acc, i)=> acc + i.cantidad, 0);
+}
+
+function renderCarrito(){
+  const lista = document.getElementById("listaCarrito");
+  const totalSpan = document.getElementById("totalCarrito");
+
+  lista.innerHTML = "";
+  let total = 0;
+
+  if(carrito.length === 0){
+    lista.innerHTML = '<p class="text-center">Tu carrito está vacío.</p>';
+    totalSpan.textContent = "S/ 0.00";
+    return;
   }
 
-  function pintarUsuarioNavbar(user){
-    if(document.getElementById("userinfo")) return;
-    const foto = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName || user.email)}`;
-    const nombre = user.displayName || user.email;
-    const li = document.createElement("li");
-    li.className = "nav-item dropdown ms-3 d-flex align-items-center";
-    li.id = "userinfo";
-    li.innerHTML = `
-      <button class="btn btn-link position-relative me-3 text-white" id="btnCarritoIcono">
-        <i class="bi bi-cart3 fs-5 text-white"></i>
-        <span id="contadorCarrito" class="badge rounded-pill bg-danger position-absolute top-0 start-100 translate-middle">0</span>
-      </button>
-      <a class="nav-link dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown">
-        <img src="${foto}" class="rounded-circle me-2" width="32" height="32">
-        <span class="text-white">${nombre}</span>
-      </a>
-      <ul class="dropdown-menu dropdown-menu-end">
-        <li><a class="dropdown-item" id="misPedidosBtn">Mis pedidos</a></li>
-        <li><hr class="dropdown-divider"></li>
-        <li><a class="dropdown-item text-danger" id="cerrarSesionBtn">Cerrar sesión</a></li>
-      </ul>
-    `;
-    document.querySelector(".navbar-nav").appendChild(li);
-    document.getElementById("cerrarSesionBtn").addEventListener("click", async () => await signOut(auth));
-    document.getElementById("misPedidosBtn").addEventListener("click", async () => await cargarPedidosUsuario());
-  }
+  // Encabezado estilo tabla (como en tu imagen)
+  lista.innerHTML = `
+    <div class="row fw-bold border-bottom pb-2 mb-2">
+      <div class="col-4">Producto</div>
+      <div class="col-2">Precio</div>
+      <div class="col-3">Cantidad</div>
+      <div class="col-3">Subtotal</div>
+    </div>
+  `;
 
-  function limpiarUsuarioNavbar(){
-    const info = document.getElementById("userinfo");
-    if(info) info.remove();
-  }
+  carrito.forEach((item, index)=>{
+    const subtotal = item.precio * item.cantidad;
+    total += subtotal;
 
-  onAuthStateChanged(auth, user => {
-    if(user){
-      pintarUsuarioNavbar(user);
-      loginItem.classList.add("d-none");
-    } else {
-      limpiarUsuarioNavbar();
-      loginItem.classList.remove("d-none");
-    }
-  });
+    const row = document.createElement("div");
+    row.className = "row align-items-center border-bottom py-2";
 
-  /* ---------------- CARRITO ---------------- */
-  let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+    row.innerHTML = `
+      <div class="col-4 d-flex align-items-center">
+        <img src="${item.img}" width="50" class="rounded me-2">
+        <div>${item.nombre}</div>
+      </div>
 
-  function mostrarAlerta(){
-    const al = document.getElementById("alertaAgregado");
-    al.style.display = "block";
-    setTimeout(()=> al.style.display = "none", 1600);
-  }
+      <div class="col-2">
+        S/ ${item.precio.toFixed(2)}
+      </div>
 
-  function guardarCarrito(){
-    localStorage.setItem("carrito", JSON.stringify(carrito));
-    actualizarContador();
-  }
+      <div class="col-3 d-flex align-items-center">
+        <button class="btn btn-sm btn-outline-secondary me-2 btn-restar">-</button>
+        <span>${item.cantidad}</span>
+        <button class="btn btn-sm btn-outline-secondary ms-2 btn-sumar">+</button>
+      </div>
 
-  function actualizarContador(){
-    const c = document.getElementById("contadorCarrito");
-    if(!c) return;
-    c.textContent = carrito.reduce((acc, i)=> acc + i.cantidad, 0);
-  }
+      <div class="col-3 fw-bold">
+        S/ ${subtotal.toFixed(2)}
+      </div>
 
-  function renderCarrito(){
-    const lista = document.getElementById("listaCarrito");
-    const totalSpan = document.getElementById("totalCarrito");
-    lista.innerHTML = "";
-    let total = 0;
-
-    if(carrito.length === 0){
-      lista.innerHTML = '<p class="text-center">Tu carrito está vacío.</p>';
-      totalSpan.textContent = "S/ 0.00";
-      return;
-    }
-
-    lista.innerHTML = `
-      <div class="row fw-bold border-bottom pb-2 mb-2">
-        <div class="col-4">Producto</div>
-        <div class="col-2">Precio</div>
-        <div class="col-3">Cantidad</div>
-        <div class="col-3">Subtotal</div>
+      <div class="col-12 text-end mt-2">
+        <button class="btn btn-sm btn-danger btn-eliminar"><i class="bi bi-trash"></i></button>
       </div>
     `;
 
-    carrito.forEach((item, index)=>{
-      const subtotal = item.precio * item.cantidad;
-      total += subtotal;
-      const row = document.createElement("div");
-      row.className = "row align-items-center border-bottom py-2";
-      row.innerHTML = `
-        <div class="col-4 d-flex align-items-center">
-          <img src="${item.img}" width="50" class="rounded me-2">
-          <div>${item.nombre}</div>
-        </div>
-        <div class="col-2">S/ ${item.precio.toFixed(2)}</div>
-        <div class="col-3 d-flex align-items-center">
-          <button class="btn btn-sm btn-outline-secondary me-2 btn-restar">-</button>
-          <span>${item.cantidad}</span>
-          <button class="btn btn-sm btn-outline-secondary ms-2 btn-sumar">+</button>
-        </div>
-        <div class="col-3 fw-bold">S/ ${subtotal.toFixed(2)}</div>
-        <div class="col-12 text-end mt-2">
-          <button class="btn btn-sm btn-danger btn-eliminar"><i class="bi bi-trash"></i></button>
-        </div>
-      `;
-      row.querySelector(".btn-restar").addEventListener("click", ()=> cambiarCantidad(index, -1));
-      row.querySelector(".btn-sumar").addEventListener("click", ()=> cambiarCantidad(index, 1));
-      row.querySelector(".btn-eliminar").addEventListener("click", ()=> eliminarItem(index));
-      lista.appendChild(row);
-    });
-    totalSpan.textContent = `S/ ${total.toFixed(2)}`;
-  }
+    row.querySelector(".btn-restar").addEventListener("click", ()=> cambiarCantidad(index, -1));
+    row.querySelector(".btn-sumar").addEventListener("click", ()=> cambiarCantidad(index, 1));
+    row.querySelector(".btn-eliminar").addEventListener("click", ()=> eliminarItem(index));
 
-  function cambiarCantidad(index, value){
-    carrito[index].cantidad += value;
-    if(carrito[index].cantidad <= 0) carrito.splice(index, 1);
-    guardarCarrito();
-    renderCarrito();
-  }
-
-  function eliminarItem(index){
-    carrito.splice(index, 1);
-    guardarCarrito();
-    renderCarrito();
-  }
-
-  document.addEventListener("click", e=>{
-    if(e.target.closest("#btnCarritoIcono")){
-      renderCarrito();
-      new bootstrap.Modal(document.getElementById("modalCarrito")).show();
-    }
+    lista.appendChild(row);
   });
 
-  document.querySelectorAll(".addToCart").forEach(btn=>{
-    btn.addEventListener("click", e=>{
-      if(!document.getElementById("userinfo")){
-        new bootstrap.Modal(document.getElementById("authModal")).show();
-        return;
-      }
-      const card = e.target.closest(".card");
-      const nombre = card.querySelector(".card-title").textContent;
-      const precio = parseFloat(card.querySelector(".fw-bold").textContent.replace("s/","").replace("S/",""));
-      const img = card.querySelector("img").src;
-      const existe = carrito.find(p=> p.nombre === nombre);
-      if(existe) existe.cantidad++;
-      else carrito.push({ nombre, precio, img, cantidad: 1 });
-      guardarCarrito();
-      mostrarAlerta();
-    });
-  });
+  totalSpan.textContent = `S/ ${total.toFixed(2)}`;
+  }
+  
 
-  actualizarContador();
+
+function cambiarCantidad(index, value){
+  carrito[index].cantidad += value;
+  if(carrito[index].cantidad <= 0) carrito.splice(index, 1);
+  guardarCarrito();
   renderCarrito();
+}
 
-  /* ---------------- HACER PEDIDO ---------------- */
-  document.getElementById("btnComprar").addEventListener("click", async ()=>{
-    if(!auth.currentUser){
+function eliminarItem(index){
+  carrito.splice(index, 1);
+  guardarCarrito();
+  renderCarrito();
+}
+
+/* Abrir carrito */
+document.addEventListener("click", e=>{
+  if(e.target.closest("#btnCarritoIcono")){
+    renderCarrito();
+    new bootstrap.Modal(document.getElementById("modalCarrito")).show();
+  }
+});
+
+/* Agregar productos */
+document.querySelectorAll(".addToCart").forEach(btn=>{
+  btn.addEventListener("click", e=>{
+    if(!document.getElementById("userinfo")){
       new bootstrap.Modal(document.getElementById("authModal")).show();
       return;
     }
-    if(carrito.length === 0){
-      alert("El carrito está vacío.");
-      return;
-    }
-    try{
-      const uid = auth.currentUser.uid;
-      await addDoc(collection(db, "Pedidos"), {
-        uid,
-        items: carrito,
-        total: carrito.reduce((acc,i)=> acc+i.precio*i.cantidad, 0),
-        createdAt: serverTimestamp()
-      });
-      carrito = [];
-      guardarCarrito();
-      renderCarrito();
-      const modal = bootstrap.Modal.getInstance(document.getElementById("modalCarrito"));
-      if(modal) modal.hide();
-      alert("Pedido registrado correctamente. ¡Revisa tus pedidos!");
-    } catch(err){
-      console.error(err);
-      alert("Error al guardar tu pedido");
-    }
+
+    const card = e.target.closest(".card");
+    const nombre = card.querySelector(".card-title").textContent;
+    const precio = parseFloat(card.querySelector(".fw-bold").textContent.replace("s/","").replace("S/",""));
+    const img = card.querySelector("img").src;
+
+    const existe = carrito.find(p=> p.nombre === nombre);
+
+    if(existe) existe.cantidad++;
+    else carrito.push({ nombre, precio, img, cantidad: 1 });
+
+    guardarCarrito();
+    mostrarAlerta();
   });
+});
+
+actualizarContador();
+renderCarrito();
+
+/* ---------------- HACER PEDIDO ---------------- */
+document.getElementById("btnComprar").addEventListener("click", async ()=>{
+  if(!auth.currentUser){
+    new bootstrap.Modal(document.getElementById("authModal")).show();
+    return;
+  }
+
+  if(carrito.length === 0){
+    alert("El carrito está vacío.");
+    return;
+  }
+
+  try{
+    const uid = auth.currentUser.uid;
+
+    /* 🔥 CORREGIDO: "Pedidos" con P mayúscula */
+    await addDoc(collection(db, "Pedidos"), {
+      uid,
+      items: carrito,
+      total: carrito.reduce((acc,i)=> acc+i.precio*i.cantidad, 0),
+      createdAt: serverTimestamp()
+    });
+
+    carrito = [];
+    guardarCarrito();
+    renderCarrito();
+
+    const modal = bootstrap.Modal.getInstance(document.getElementById("modalCarrito"));
+    if(modal) modal.hide();
+
+    alert("Pedido Registrado correctamente¡ Revisa tus pedidos!");
+
+  } catch(err){
+    console.error(err);
+    alert("Error al guardar pedido tu pedido");
+  }
+});
 
   /* ---------------- MIS PEDIDOS ---------------- */
-  async function cargarPedidosUsuario(){
-    const user = auth.currentUser;
-    if(!user){
-      new bootstrap.Modal(document.getElementById("authModal")).show();
-      return;
-    }
-    const lista = document.getElementById("listaPedidos");
-    lista.innerHTML = `<p class="text-center">Cargando pedidos...</p>`;
-    try{
-      const q = query(collection(db,"Pedidos"), where("uid","==", user.uid));
-      const snap = await getDocs(q);
-      const pedidos = [];
-      snap.forEach(doc => pedidos.push({ id: doc.id, ...doc.data() }));
-      pedidos.sort((a,b)=>{
-        const fa = a.createdAt?.toMillis ? a.createdAt.toMillis() : 0;
-        const fb = b.createdAt?.toMillis ? b.createdAt.toMillis() : 0;
-        return fb - fa;
-      });
-      if(pedidos.length === 0){
-        lista.innerHTML = `<p class="text-center">No tienes pedidos.</p>`;
-      } else {
-        lista.innerHTML = pedidos.map((p,index) => renderPedidoHtml(p, index+1)).join("");
-      }
-      new bootstrap.Modal(document.getElementById("modalPedidos")).show();
-    } catch(err){
-      console.error(err);
-      lista.innerHTML = `<p class="text-center text-danger">Error al cargar pedidos</p>`;
-    }
+async function cargarPedidosUsuario(){
+  const user = auth.currentUser;
+  if(!user){
+    new bootstrap.Modal(document.getElementById("authModal")).show();
+    return;
   }
 
-  function renderPedidoHtml(p, numero){
-    const fecha = p.createdAt?.toDate ? p.createdAt.toDate().toLocaleString() : "Sin fecha";
-    let itemsHtml = "";
-    (p.items || []).forEach(i=>{
-      itemsHtml += `
-        <div class="pedido-item">
-          <div class="d-flex align-items-center">
-            <img src="${i.img}">
-            <div>
-              <strong>${i.nombre}</strong><br>
-              <small>Cantidad: ${i.cantidad}</small>
-            </div>
-          </div>
+  const lista = document.getElementById("listaPedidos");
+  lista.innerHTML = `<p class="text-center">Cargando pedidos...</p>`;
+
+  try{
+    const q = query(
+      collection(db,"Pedidos"),
+      where("uid","==", user.uid)
+    );
+
+    const snap = await getDocs(q);
+    const pedidos = [];
+    snap.forEach(doc => pedidos.push({ id: doc.id, ...doc.data() }));
+
+    // Ordenar por fecha
+    pedidos.sort((a,b)=>{
+      const fa = a.createdAt?.toMillis ? a.createdAt.toMillis() : 0;
+      const fb = b.createdAt?.toMillis ? b.createdAt.toMillis() : 0;
+      return fb - fa;
+    });
+
+    if(pedidos.length === 0){
+      lista.innerHTML = `<p class="text-center">No tienes pedidos.</p>`;
+    } else {
+      lista.innerHTML = pedidos
+        .map((p,index) => renderPedidoHtml(p, index+1))
+        .join("");
+    }
+
+    new bootstrap.Modal(document.getElementById("modalPedidos")).show();
+
+  } catch(err){
+    console.error(err);
+    lista.innerHTML = `<p class="text-center text-danger">Error al cargar pedidos</p>`;
+  }
+}
+
+
+/* ---------------- RENDER PEDIDO ---------------- */
+function renderPedidoHtml(p, numero){
+  const fecha = p.createdAt?.toDate
+    ? p.createdAt.toDate().toLocaleString()
+    : "Sin fecha";
+
+  let itemsHtml = "";
+  (p.items || []).forEach(i=>{
+    itemsHtml += `
+      <div class="pedido-item">
+        <div class="d-flex align-items-center">
+          <img src="${i.img}">
           <div>
-            <strong>S/ ${(i.precio * i.cantidad).toFixed(2)}</strong>
+            <strong>${i.nombre}</strong><br>
+            <small>Cantidad: ${i.cantidad}</small>
           </div>
         </div>
-      `;
-    });
-    return `
-      <div class="pedido-card">
-        <div class="pedido-header">Pedido #${numero}</div>
-        <div><strong>Fecha:</strong> ${fecha}</div>
-        <hr>
-        ${itemsHtml}
-        <div class="text-end mt-2">
-          <h5>Total: S/ ${p.total?.toFixed(2) || "0.00"}</h5>
+
+        <div>
+          <strong>S/ ${(i.precio * i.cantidad).toFixed(2)}</strong>
         </div>
       </div>
     `;
-  }
+  });
+
+  return `
+    <div class="pedido-card">
+      <div class="pedido-header">Pedido #${numero}</div>
+      <div><strong>Fecha:</strong> ${fecha}</div>
+      <hr>
+      ${itemsHtml}
+      <div class="text-end mt-2">
+        <h5>Total: S/ ${p.total?.toFixed(2) || "0.00"}</h5>
+      </div>
+    </div>
+  `;
+}
+  
 </script>
 
 </body>
